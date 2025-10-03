@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="lv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Custom GPTs — Dashboard</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 24px; }
+    h1 { margin: 0 0 12px; }
+    .bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    input, select { padding: 8px; font-size: 14px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border-bottom: 1px solid #ddd; padding: 8px; vertical-align: top; }
+    th { text-align: left; background: #f7f7f7; position: sticky; top: 0; }
+    .muted { color: #666; font-size: 12px; }
+    .tag { display:inline-block; padding:2px 6px; border-radius:12px; background:#eee; font-size:12px; margin-right:6px;}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+  <h1>Custom GPTs — Dashboard</h1>
+  <div class="bar">
+    <input id="q" type="search" placeholder="Meklēt (slug, nosaukums, purpose, notes)..." />
+    <select id="status">
+      <option value="">Statuss — visi</option>
+      <option>active</option>
+      <option>draft</option>
+      <option>archived</option>
+    </select>
+  </div>
+  <div class="muted" id="meta"></div>
+  <table id="tbl">
+    <thead>
+      <tr>
+        <th>Slug</th>
+        <th>Nosaukums</th>
+        <th>Mērķis</th>
+        <th>Statuss</th>
+        <th>Links</th>
+        <th>Piezīmes</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+<script>
+(function(){
+  // Atvasinām user/repo no GitHub Pages URL (https://USER.github.io/REPO/)
+  const host = location.hostname; // piem. italozeps.github.io
+  const path = location.pathname.replace(/^\/+/, ""); // piem. REPO/...
+  const user = host.split(".")[0];
+  const repo = path.split("/")[0] || ""; // repo vārds
+  // Vietā no kuras vilkt CSV — raw no main branch
+  const csvUrl = `https://raw.githubusercontent.com/${user}/${repo}/main/gpts.csv`;
+
+  const qEl = document.getElementById("q");
+  const stEl = document.getElementById("status");
+  const metaEl = document.getElementById("meta");
+  const tbody = document.querySelector("#tbl tbody");
+
+  let rows = [];
+
+  function render(){
+    const q = (qEl.value || "").toLowerCase();
+    const st = (stEl.value || "").toLowerCase();
+    const filtered = rows.filter(r => {
+      const hay = [r.slug, r.name, r.purpose, r.notes].join(" ").toLowerCase();
+      const okQ = !q || hay.includes(q);
+      const okS = !st || (r.status||"").toLowerCase() === st;
+      return okQ && okS;
+    });
+    tbody.innerHTML = "";
+    for (const r of filtered){
+      const tr = document.createElement("tr");
+      const link = r.openai_link ? `<a href="${r.openai_link}" target="_blank" rel="noopener">GPT</a>` : "";
+      const data = r.dataset_link ? `<a href="${r.dataset_link}" target="_blank" rel="noopener">dati</a>` : "";
+      const links = [link, data].filter(Boolean).join(" · ");
+      tr.innerHTML = `
+        <td><span class="tag">${r.slug||""}</span></td>
+        <td>${r.name||""}</td>
+        <td>${r.purpose||""}</td>
+        <td>${r.status||""}</td>
+        <td>${links}</td>
+        <td>${r.notes||""}</td>
+      `;
+      tbody.appendChild(tr);
+    }
+    metaEl.textContent = `Rindas: ${filtered.length} / ${rows.length}`;
+  }
+
+  function load(){
+    Papa.parse(csvUrl, {
+      download: true,
+      header: true,
+      skipEmptyLines: true,
+      complete: (res) => {
+        rows = res.data || [];
+        render();
+      },
+      error: (err) => {
+        metaEl.textContent = "Neizdodas ielādēt gpts.csv: " + err;
+      }
+    });
+  }
+
+  qEl.addEventListener("input", render);
+  stEl.addEventListener("change", render);
+  load();
+})();
+</script>
+</body>
+</html>
