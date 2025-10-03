@@ -10,26 +10,25 @@
     h2 { margin-top: 28px; }
     .bar { display:flex; gap:8px; flex-wrap:wrap; margin:12px 0; }
     input, select { padding:8px; font-size:14px; }
-    table { width:100%; border-collapse:collapse; margin-top: 8px;}
+    table { width:100%; border-collapse:collapse; margin-top:8px; }
     th, td { border-bottom:1px solid #ddd; padding:8px; vertical-align:top; }
     th { text-align:left; background:#f7f7f7; position:sticky; top:0; cursor:pointer; }
     .muted { color:#666; font-size:12px; }
     .tag { display:inline-block; padding:2px 6px; border-radius:12px; background:#eee; font-size:12px; margin:0 6px 6px 0;}
-    .flex { display:flex; gap:8px; flex-wrap:wrap; }
     .nowrap { white-space:nowrap; }
-    .hit { background: #fff7cc; }
     .pill { display:inline-block; padding:2px 8px; font-size:12px; background:#f3f3f3; border-radius:999px; margin-right:6px; }
     .res { border:1px solid #eee; padding:8px; border-radius:8px; margin-top:8px; }
     .res h3 { margin:0 0 6px;}
     .item { margin:4px 0; }
   </style>
+  <!-- Bibliotēkas tabulai/config YAML nolasīšanai -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
 </head>
 <body>
-  <h1>Custom GPTs — Dashboard</h1>
+  <h1>Custom GPTs — Dashboard <span class="muted">v2</span></h1>
 
-  <!-- Tabulas filtri -->
+  <!-- TABULA (paliek tāda pati kā iepriekš, strādā pat bez meklēšanas indeksiem) -->
   <div class="bar">
     <input id="q" type="search" placeholder="Meklēt tabulā (slug/nosaukums/purpose/notes)..." />
     <select id="status">
@@ -60,30 +59,28 @@
     <tbody></tbody>
   </table>
 
-  <!-- Globālā meklēšana -->
+  <!-- GLOBĀLĀ MEKLĒŠANA (papildfunkcija; ja indeksi nav, rāda mierīgu paziņojumu) -->
   <h2>Globāla meklēšana (moduļi · termini · raksti · promptu pilnteksts)</h2>
   <div class="bar">
     <input id="gq" type="search" placeholder="Raksti meklējamo vārdu/frasu..." />
-    <span class="muted">Meklē nosaukumos, piezīmēs, terminos, rakstos un promptos.</span>
+    <span class="muted" id="gstatus">Indeksi nav ielādēti.</span>
   </div>
-  <div id="gout" class="res muted">Indeksi vēl nav ielādēti…</div>
+  <div id="gout" class="res muted">—</div>
 
 <script>
 (function(){
-  // === Tabulas daļa (B+) ===
+  // ====== TABULA ======
   const qEl = document.getElementById("q");
   const stEl = document.getElementById("status");
   const langEl = document.getElementById("lang");
-  const domEl = document.getElementById("dom");
+  const domEl  = document.getElementById("dom");
   const metaEl = document.getElementById("meta");
-  const tbody = document.querySelector("#tbl tbody");
+  const tbody  = document.querySelector("#tbl tbody");
 
-  const csvUrl = './gpts.csv';
-
-  let rows = [];        // CSV moduļu “katalogs”
-  let cfgBySlug = {};   // { slug: {languages:[], domains:[]} }
-  let sortK = "slug";
-  let sortDir = 1;
+  const csvUrl = './gpts.csv';  // no /docs
+  let rows = [];
+  let cfgBySlug = {};
+  let sortK = "slug", sortDir = 1;
 
   function uniqueSorted(arr){ return Array.from(new Set(arr.filter(Boolean))).sort((a,b)=>a.localeCompare(b)); }
 
@@ -100,9 +97,14 @@
     const lsel = langEl.value||"";
     const dsel = domEl.value||"";
 
-    const enriched = rows.map(r => ({...r, languages:(cfgBySlug[r.slug]?.languages)||[], domains:(cfgBySlug[r.slug]?.domains)||[] }));
+    const enriched = rows.map(r => ({
+      ...r,
+      languages: (cfgBySlug[r.slug]?.languages)||[],
+      domains:   (cfgBySlug[r.slug]?.domains)||[]
+    }));
+
     const filtered = enriched.filter(r=>{
-      const hay = [r.slug, r.name, r.purpose, r.notes].join(" ").toLowerCase();
+      const hay = [r.slug,r.name,r.purpose,r.notes].join(" ").toLowerCase();
       const okQ = !q || hay.includes(q);
       const okS = !st || (r.status||"").toLowerCase()===st;
       const okL = !lsel || (r.languages||[]).includes(lsel);
@@ -118,10 +120,12 @@
 
     tbody.innerHTML="";
     for(const r of filtered){
+      const user = location.hostname.split(".")[0];
+      const repo = location.pathname.replace(/^\/+/,'').split('/')[0];
       const linkGPT = r.openai_link ? `<a href="${r.openai_link}" target="_blank" rel="noopener">GPT</a>` : "";
-      const linkData = r.dataset_link ? `<a href="${r.dataset_link}" target="_blank" rel="noopener">dati</a>` : "";
-      const repo = `<a href="https://github.com/${location.hostname.split('.')[0]}/${location.pathname.replace(/^\\//,'').split('/')[0]}/tree/main/gpts/${r.slug}" target="_blank" rel="noopener">repo</a>`;
-      const links=[linkGPT, linkData, repo].filter(Boolean).join(" · ");
+      const linkData= r.dataset_link ? `<a href="${r.dataset_link}" target="_blank" rel="noopener">dati</a>` : "";
+      const repoLnk = `<a href="https://github.com/${user}/${repo}/tree/main/gpts/${r.slug}" target="_blank" rel="noopener">repo</a>`;
+      const links=[linkGPT,linkData,repoLnk].filter(Boolean).join(" · ");
 
       const langs=(r.languages||[]).map(x=>`<span class="tag">${x}</span>`).join("");
       const doms =(r.domains||[]).map(x=>`<span class="tag">${x}</span>`).join("");
@@ -154,8 +158,8 @@
 
   async function fetchConfig(slug){
     const user = location.hostname.split(".")[0];
-    const repo = location.pathname.replace(/^\\//,'').split('/')[0];
-    const url = `https://raw.githubusercontent.com/${user}/${repo}/main/gpts/${slug}/config.yaml`;
+    const repo = location.pathname.replace(/^\/+/,'').split('/')[0];
+    const url  = `https://raw.githubusercontent.com/${user}/${repo}/main/gpts/${slug}/config.yaml`;
     try{
       const res = await fetch(url);
       if(!res.ok) return;
@@ -163,9 +167,11 @@
       const obj = jsyaml.load(txt);
       cfgBySlug[slug] = {
         languages: Array.isArray(obj?.languages) ? obj.languages : [],
-        domains: Array.isArray(obj?.domains) ? obj.domains : []
+        domains:   Array.isArray(obj?.domains)   ? obj.domains   : []
       };
-    }catch(e){}
+    }catch(e){
+      // ja YAML vai fetch salūst – ignorējam, tabula turpina strādāt
+    }
   }
 
   function loadAllConfigs(){
@@ -176,7 +182,8 @@
   }
 
   function loadCSV(){
-    Papa.parse(csvUrl, { download:true, header:true, skipEmptyLines:true,
+    Papa.parse(csvUrl, {
+      download:true, header:true, skipEmptyLines:true,
       complete: (res)=>{
         rows = (res.data||[]).map(r=>({
           slug:r.slug||"", name:r.name||"", purpose:r.purpose||"", status:r.status||"",
@@ -193,82 +200,74 @@
   qEl.addEventListener("input", renderTable);
   stEl.addEventListener("change", renderTable);
   langEl.addEventListener("change", renderTable);
-  domEl.addEventListener("change", renderTable);
+  domEl .addEventListener("change", renderTable);
   headerSortSetup();
   loadCSV();
 
-  // === Globālā meklēšana (C) ===
+  // ====== GLOBĀLĀ MEKLĒŠANA ======
   const gq = document.getElementById("gq");
   const gout = document.getElementById("gout");
-  let gMods = [], gTerms = [], gArts = [];
-  let idxLoaded = false;
+  const gstatus = document.getElementById("gstatus");
+  let idxLoaded = false, gMods=[], gTerms=[], gArts=[];
 
   async function safeFetchJSON(path){
-    try{
-      const res = await fetch(path);
-      if(!res.ok) return null;
-      return await res.json();
-    }catch(e){ return null; }
+    try{ const res = await fetch(path); if(!res.ok) return null; return await res.json(); }
+    catch(_){ return null; }
   }
 
   async function loadIndexes(){
-    const [mods, terms, arts] = await Promise.all([
+    const [mods,terms,arts] = await Promise.all([
       safeFetchJSON('./index.json'),
       safeFetchJSON('./terms.json'),
       safeFetchJSON('./articles.json')
     ]);
-    gMods = (mods && Array.isArray(mods.modules)) ? mods.modules : [];
-    gTerms= (terms&& Array.isArray(terms.terms))   ? terms.terms   : [];
-    gArts = (arts && Array.isArray(arts.articles)) ? arts.articles : [];
-    idxLoaded = true;
-    gout.classList.remove("muted");
-    gout.textContent = `Indeksi ielādēti: moduļi ${gMods.length}, termini ${gTerms.length}, raksti ${gArts.length}. Ievadi vaicājumu.`;
+    gMods  = (mods && Array.isArray(mods.modules))   ? mods.modules   : [];
+    gTerms = (terms&& Array.isArray(terms.terms))     ? terms.terms    : [];
+    gArts  = (arts && Array.isArray(arts.articles))   ? arts.articles  : [];
+    idxLoaded = (gMods.length+gTerms.length+gArts.length) > 0;
+    gstatus.textContent = idxLoaded
+      ? `Indeksi ielādēti: moduļi ${gMods.length}, termini ${gTerms.length}, raksti ${gArts.length}`
+      : 'Indeksi nav ielādēti (palaid “Build search indexes”).';
   }
 
-  function includes(hay, q){ return (hay||"").toLowerCase().includes(q); }
+  function esc(s){ return (s||"").replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
 
   function doGlobalSearch(){
     const q = (gq.value||"").trim().toLowerCase();
-    if(!idxLoaded){ gout.textContent = "Indeksi vēl nav ielādēti…"; return; }
-    if(q.length < 2){ gout.innerHTML = '<span class="muted">Ievadi vismaz 2 rakstzīmes.</span>'; return; }
+    if(!idxLoaded){ gout.classList.add("muted"); gout.textContent = "Indeksi nav ielādēti."; return; }
+    if(q.length<2){ gout.classList.add("muted"); gout.textContent = "Ievadi vismaz 2 rakstzīmes."; return; }
+    gout.classList.remove("muted");
 
     const modHits = gMods.filter(m=>{
       const hay = [m.slug,m.name,m.purpose,m.notes,m.prompt].join(" ").toLowerCase();
       return hay.includes(q);
     }).slice(0,50);
-
     const termHits = gTerms.filter(t=>{
       const hay = [t.term,t.definition_lv,t.definition_en,t.source,t.slug].join(" ").toLowerCase();
       return hay.includes(q);
     }).slice(0,50);
-
     const artHits = gArts.filter(a=>{
       const hay = [a.key,a.title,a.authors,a.year,a.venue,a.tags,a.slug].join(" ").toLowerCase();
       return hay.includes(q);
     }).slice(0,50);
 
-    function repoLink(slug){
-      const user = location.hostname.split(".")[0];
-      const repo = location.pathname.replace(/^\\//,'').split('/')[0];
-      return `https://github.com/${user}/${repo}/tree/main/gpts/${slug}`;
-    }
-
-    function esc(s){ return (s||"").replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+    const user = location.hostname.split(".")[0];
+    const repo = location.pathname.replace(/^\/+/,'').split('/')[0];
+    const repoLink = slug => `https://github.com/${user}/${repo}/tree/main/gpts/${slug}`;
 
     let html = "";
     html += `<div class="pill">Vaicājums: “${esc(gq.value)}”</div>`;
+
     html += `<div class="res"><h3>Moduļi (${modHits.length})</h3>` +
-            (modHits.map(m=>`<div class="item"><b>${esc(m.slug)}</b> — ${esc(m.name)} · <a href="${repoLink(m.slug)}" target="_blank">repo</a>${m.openai_link?` · <a href="${m.openai_link}" target="_blank">GPT</a>`:""}<br><span class="muted">${esc((m.prompt||"").slice(0,160))}${m.prompt&&m.prompt.length>160?"…":""}</span></div>`).join("") || '<span class="muted">—</span>') + `</div>`;
+      (modHits.map(m=>`<div class="item"><b>${esc(m.slug)}</b> — ${esc(m.name)} · <a target="_blank" href="${repoLink(m.slug)}">repo</a>${m.openai_link?` · <a target="_blank" href="${m.openai_link}">GPT</a>`:""}<br><span class="muted">${esc((m.prompt||"").slice(0,160))}${m.prompt&&m.prompt.length>160?"…":""}</span></div>`).join("") || '<span class="muted">—</span>') + `</div>`;
+
     html += `<div class="res"><h3>Termini (${termHits.length})</h3>` +
-            (termHits.map(t=>`<div class="item"><b>${esc(t.term)}</b> — ${esc(t.definition_lv||t.definition_en||"")} <span class="muted">[${esc(t.slug)}]</span> · <a href="${repoLink(t.slug)}" target="_blank">repo</a></div>`).join("") || '<span class="muted">—</span>') + `</div>`;
+      (termHits.map(t=>`<div class="item"><b>${esc(t.term)}</b> — ${esc(t.definition_lv||t.definition_en||"")} <span class="muted">[${esc(t.slug)}]</span> · <a target="_blank" href="${repoLink(t.slug)}">repo</a></div>`).join("") || '<span class="muted">—</span>') + `</div>`;
+
     html += `<div class="res"><h3>Raksti (${artHits.length})</h3>` +
-            (artHits.map(a=>`<div class="item"><b>${esc(a.title||a.key||"")}</b> — ${esc(a.authors||"")}${a.year?`, ${esc(a.year)}`:""} <span class="muted">[${esc(a.slug)}]</span>${a.url?` · <a href="${a.url}" target="_blank">saite</a>`:""} · <a href="${repoLink(a.slug)}" target="_blank">repo</a></div>`).join("") || '<span class="muted">—</span>') + `</div>`;
+      (artHits.map(a=>`<div class="item"><b>${esc(a.title||a.key||"")}</b> — ${esc(a.authors||"")}${a.year?`, ${esc(a.year)}`:""} <span class="muted">[${esc(a.slug)}]</span>${a.url?` · <a target="_blank" href="${a.url}">saite</a>`:""} · <a target="_blank" href="${repoLink(a.slug)}">repo</a></div>`).join("") || '<span class="muted">—</span>') + `</div>`;
+
     gout.innerHTML = html;
   }
 
-  gq.addEventListener("input", doGlobalSearch);
-  loadIndexes();
-})();
-</script>
-</body>
-</html>
+  /
