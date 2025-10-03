@@ -51,7 +51,7 @@
   const user = host.split(".")[0];
   const repo = path.split("/")[0] || ""; // repo vārds
   // Vietā no kuras vilkt CSV — raw no main branch
-  const csvUrl = `https://raw.githubusercontent.com/${user}/${repo}/main/gpts.csv`;
+  const csvUrl = './gpts.csv';
 
   const qEl = document.getElementById("q");
   const stEl = document.getElementById("status");
