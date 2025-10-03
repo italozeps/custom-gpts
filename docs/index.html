@@ -270,4 +270,10 @@
     gout.innerHTML = html;
   }
 
-  /
+  // ielādējam meklēšanas indeksus fonā; tabula strādā neatkarīgi
+  loadIndexes();
+  document.getElementById("gq").addEventListener("input", doGlobalSearch);
+})();
+</script>
+</body>
+</html>
