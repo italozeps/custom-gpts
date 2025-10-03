@@ -1,0 +1,7 @@
+name: "Clemens Alexandrinus GPT"
+slug: "clement"
+languages: ["el", "lv", "en"]
+domains: ["patristics", "greek-philology"]
+dataset:
+  type: "external"
+notes: "Stromata VI — paralēlteksti"
