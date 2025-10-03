@@ -23,6 +23,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyyaml
 
+      - name: Debug workspace (tree)
+        run: |
+          sudo apt-get update >/dev/null 2>&1 || true
+          sudo apt-get install -y tree >/dev/null 2>&1 || true
+          echo "== FAILU KOKS =="
+          tree -a -L 4 || true
+
       - name: Validate structure
         run: |
           python scripts/validate.py
