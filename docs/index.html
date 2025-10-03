@@ -7,15 +7,18 @@
   <style>
     body { font-family: system-ui, sans-serif; margin: 24px; }
     h1 { margin: 0 0 12px; }
-    .bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
-    input, select { padding: 8px; font-size: 14px; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { border-bottom: 1px solid #ddd; padding: 8px; vertical-align: top; }
-    th { text-align: left; background: #f7f7f7; position: sticky; top: 0; }
-    .muted { color: #666; font-size: 12px; }
-    .tag { display:inline-block; padding:2px 6px; border-radius:12px; background:#eee; font-size:12px; margin-right:6px;}
+    .bar { display:flex; gap:8px; flex-wrap:wrap; margin:12px 0; }
+    input, select { padding:8px; font-size:14px; }
+    table { width:100%; border-collapse:collapse; }
+    th, td { border-bottom:1px solid #ddd; padding:8px; vertical-align:top; }
+    th { text-align:left; background:#f7f7f7; position:sticky; top:0; cursor:pointer; }
+    .muted { color:#666; font-size:12px; }
+    .tag { display:inline-block; padding:2px 6px; border-radius:12px; background:#eee; font-size:12px; margin:0 6px 6px 0;}
+    .flex { display:flex; gap:8px; flex-wrap:wrap; }
+    .nowrap { white-space:nowrap; }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
 </head>
 <body>
   <h1>Custom GPTs — Dashboard</h1>
@@ -27,16 +30,22 @@
       <option>draft</option>
       <option>archived</option>
     </select>
+    <select id="lang"><option value="">Valoda — visas</option></select>
+    <select id="dom"><option value="">Domēns — visi</option></select>
   </div>
-  <div class="muted" id="meta"></div>
+  <div class="muted" id="meta">Ielāde…</div>
+
   <table id="tbl">
     <thead>
       <tr>
-        <th>Slug</th>
-        <th>Nosaukums</th>
-        <th>Mērķis</th>
-        <th>Statuss</th>
-        <th>Links</th>
+        <th data-k="slug">Slug</th>
+        <th data-k="name">Nosaukums</th>
+        <th data-k="purpose">Mērķis</th>
+        <th data-k="status">Statuss</th>
+        <th>Valodas</th>
+        <th>Domēni</th>
+        <th class="nowrap">Links</th>
+        <th class="nowrap" data-k="last_edit">Pēd. lab.</th>
         <th>Piezīmes</th>
       </tr>
     </thead>
@@ -45,42 +54,84 @@
 
 <script>
 (function(){
-  // Atvasinām user/repo no GitHub Pages URL (https://USER.github.io/REPO/)
-  const host = location.hostname; // piem. italozeps.github.io
-  const path = location.pathname.replace(/^\/+/, ""); // piem. REPO/...
-  const user = host.split(".")[0];
-  const repo = path.split("/")[0] || ""; // repo vārds
-  // Vietā no kuras vilkt CSV — raw no main branch
-  const csvUrl = './gpts.csv';
-
   const qEl = document.getElementById("q");
   const stEl = document.getElementById("status");
+  const langEl = document.getElementById("lang");
+  const domEl = document.getElementById("dom");
   const metaEl = document.getElementById("meta");
   const tbody = document.querySelector("#tbl tbody");
 
-  let rows = [];
+  // CSV lasām no /docs
+  const csvUrl = './gpts.csv';
+
+  let rows = [];        // no CSV
+  let cfgBySlug = {};   // { slug: {languages:[], domains:[] } }
+  let sortK = "slug";   // kārtošanas kolonna
+  let sortDir = 1;      // 1↑, -1↓
+
+  function uniqueSorted(arr){
+    return Array.from(new Set(arr.filter(Boolean))).sort((a,b) => a.localeCompare(b));
+  }
+
+  function buildFilters(){
+    const langs = uniqueSorted(rows.flatMap(r => (cfgBySlug[r.slug]?.languages) || []));
+    const doms  = uniqueSorted(rows.flatMap(r => (cfgBySlug[r.slug]?.domains) || []));
+    langEl.innerHTML = '<option value="">Valoda — visas</option>' +
+      langs.map(x => `<option value="${x}">${x}</option>`).join("");
+    domEl.innerHTML = '<option value="">Domēns — visi</option>' +
+      doms.map(x => `<option value="${x}">${x}</option>`).join("");
+  }
 
   function render(){
     const q = (qEl.value || "").toLowerCase();
     const st = (stEl.value || "").toLowerCase();
-    const filtered = rows.filter(r => {
+    const lsel = langEl.value || "";
+    const dsel = domEl.value || "";
+
+    const enriched = rows.map(r => {
+      const cfg = cfgBySlug[r.slug] || {};
+      return {
+        ...r,
+        languages: cfg.languages || [],
+        domains: cfg.domains || []
+      };
+    });
+
+    const filtered = enriched.filter(r => {
       const hay = [r.slug, r.name, r.purpose, r.notes].join(" ").toLowerCase();
       const okQ = !q || hay.includes(q);
       const okS = !st || (r.status||"").toLowerCase() === st;
-      return okQ && okS;
+      const okL = !lsel || (r.languages||[]).includes(lsel);
+      const okD = !dsel || (r.domains||[]).includes(dsel);
+      return okQ && okS && okL && okD;
     });
+
+    filtered.sort((a,b)=>{
+      const av = (a[sortK]||"").toString().toLowerCase();
+      const bv = (b[sortK]||"").toString().toLowerCase();
+      return av.localeCompare(bv) * sortDir;
+    });
+
     tbody.innerHTML = "";
     for (const r of filtered){
+      const linkGPT = r.openai_link ? `<a href="${r.openai_link}" target="_blank" rel="noopener">GPT</a>` : "";
+      const linkData = r.dataset_link ? `<a href="${r.dataset_link}" target="_blank" rel="noopener">dati</a>` : "";
+      const repoPath = r.slug ? `<a href="https://github.com/${location.hostname.split('.')[0]}/${location.pathname.split('/').filter(Boolean)[0]}/tree/main/gpts/${r.slug}" target="_blank" rel="noopener">repo</a>` : "";
+      const links = [linkGPT, linkData, repoPath].filter(Boolean).join(" · ");
+
+      const langTags = (r.languages||[]).map(x=>`<span class="tag">${x}</span>`).join("");
+      const domTags  = (r.domains||[]).map(x=>`<span class="tag">${x}</span>`).join("");
+
       const tr = document.createElement("tr");
-      const link = r.openai_link ? `<a href="${r.openai_link}" target="_blank" rel="noopener">GPT</a>` : "";
-      const data = r.dataset_link ? `<a href="${r.dataset_link}" target="_blank" rel="noopener">dati</a>` : "";
-      const links = [link, data].filter(Boolean).join(" · ");
       tr.innerHTML = `
-        <td><span class="tag">${r.slug||""}</span></td>
+        <td class="nowrap"><span class="tag">${r.slug||""}</span></td>
         <td>${r.name||""}</td>
         <td>${r.purpose||""}</td>
         <td>${r.status||""}</td>
-        <td>${links}</td>
+        <td>${langTags}</td>
+        <td>${domTags}</td>
+        <td class="nowrap">${links}</td>
+        <td class="nowrap">${r.last_edit||""}</td>
         <td>${r.notes||""}</td>
       `;
       tbody.appendChild(tr);
@@ -88,14 +139,62 @@
     metaEl.textContent = `Rindas: ${filtered.length} / ${rows.length}`;
   }
 
-  function load(){
+  function headerSortSetup(){
+    document.querySelectorAll("th[data-k]").forEach(th=>{
+      th.addEventListener("click", ()=>{
+        const k = th.getAttribute("data-k");
+        if (sortK === k) sortDir *= -1; else { sortK = k; sortDir = 1; }
+        render();
+      });
+    });
+  }
+
+  async function fetchConfig(slug){
+    // raw URL uz config.yaml repo iekšienē
+    const user = location.hostname.split(".")[0];
+    const repo = location.pathname.replace(/^\/+/, "").split("/")[0];
+    const url = `https://raw.githubusercontent.com/${user}/${repo}/main/gpts/${slug}/config.yaml`;
+    try {
+      const res = await fetch(url);
+      if (!res.ok) return;
+      const txt = await res.text();
+      const obj = jsyaml.load(txt);
+      if (obj && typeof obj === 'object'){
+        cfgBySlug[slug] = {
+          languages: Array.isArray(obj.languages) ? obj.languages : [],
+          domains: Array.isArray(obj.domains) ? obj.domains : []
+        };
+      }
+    } catch(e){ /* klusējam – nekas traks */ }
+  }
+
+  function loadAllConfigs(){
+    const tasks = rows.map(r => fetchConfig(r.slug));
+    Promise.allSettled(tasks).then(()=>{
+      buildFilters();
+      render();
+    });
+  }
+
+  function loadCSV(){
     Papa.parse(csvUrl, {
       download: true,
       header: true,
       skipEmptyLines: true,
       complete: (res) => {
-        rows = res.data || [];
-        render();
+        rows = (res.data || []).map(r => ({
+          slug: r.slug || "",
+          name: r.name || "",
+          purpose: r.purpose || "",
+          status: r.status || "",
+          owner: r.owner || "",
+          last_edit: r.last_edit || "",
+          openai_link: r.openai_link || "",
+          dataset_link: r.dataset_link || "",
+          notes: r.notes || ""
+        }));
+        metaEl.textContent = `Ielādēti ${rows.length} ieraksti. Lādēju metadatus…`;
+        loadAllConfigs();
       },
       error: (err) => {
         metaEl.textContent = "Neizdodas ielādēt gpts.csv: " + err;
@@ -105,7 +204,10 @@
 
   qEl.addEventListener("input", render);
   stEl.addEventListener("change", render);
-  load();
+  langEl.addEventListener("change", render);
+  domEl.addEventListener("change", render);
+  headerSortSetup();
+  loadCSV();
 })();
 </script>
 </body>
