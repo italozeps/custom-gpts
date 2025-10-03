@@ -1,0 +1,35 @@
+name: Sync gpts.csv to docs/
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [ main ]        # ja tavs noklusējuma branch ir cits, nomaini
+    paths:
+      - gpts.csv              # palaist tikai tad, kad mainās gpts.csv saknē
+
+permissions:
+  contents: write              # ļauj veikt commit ar GITHUB_TOKEN
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Copy CSV to docs/
+        run: |
+          mkdir -p docs
+          cp gpts.csv docs/gpts.csv
+
+      - name: Commit if changed
+        run: |
+          if ! git diff --quiet -- docs/gpts.csv; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add docs/gpts.csv
+            git commit -m "Sync gpts.csv to docs/ [skip ci]"
+            git push
+          else
+            echo "No changes to docs/gpts.csv"
+          fi
