@@ -52,7 +52,7 @@
   <div id="gout" class="res muted">—</div>
 
   <!-- Diagnoze (izslēdzama) -->
-  <details id="debugWrap" open>
+  <details id="debugWrap">
     <summary>Diagnoze</summary>
     <pre id="debug">—</pre>
   </details>
@@ -60,7 +60,7 @@
 <script>
 (function(){
   // ====== KONFIGS / PALĪGFUNCTIONS ======
-  const showDebug = false; // nomaini uz false, kad viss OK
+  const showDebug = false; // ja vajag redzēt “Diagnozi”, nomaini uz true
   const statusEl = document.getElementById('status');
   const tableWrap = document.getElementById('table');
   const debugEl = document.getElementById('debug');
@@ -76,11 +76,10 @@
   const csvUrl = './gpts.csv'; // publicētais CSV docs/ mapē
   const user = location.hostname.split('.')[0];
   const repo = location.pathname.replace(/^\/+/, '').split('/')[0];
+
   function repoLink(slug){ return `https://github.com/${user}/${repo}/tree/main/gpts/${slug}`; }
-  function rawPrompt(slug){
-  return `https://raw.githubusercontent.com/${user}/${repo}/main/gpts/${slug}/prompt.md`;
-}
   function rawConfigUrl(slug){ return `https://raw.githubusercontent.com/${user}/${repo}/main/gpts/${slug}/config.yaml`; }
+  function rawPrompt(slug){ return `https://raw.githubusercontent.com/${user}/${repo}/main/gpts/${slug}/prompt.md`; }
 
   let rows = [];            // no CSV
   let metaBySlug = {};      // { slug: {languages:[], domains:[]} }
@@ -167,6 +166,7 @@
       if (r.openai_link)  linkParts.push(`<a href="${r.openai_link}" target="_blank" rel="noopener">GPT</a>`);
       if (r.dataset_link) linkParts.push(`<a href="${r.dataset_link}" target="_blank" rel="noopener">dati</a>`);
       if (r.slug)         linkParts.push(`<a href="${repoLink(r.slug)}" target="_blank" rel="noopener">repo</a>`);
+      if (r.slug)         linkParts.push(`<a href="${rawPrompt(r.slug)}" target="_blank" rel="noopener">prompt</a>`);
 
       tr.innerHTML = `
         <td><span class="tag">${esc(r.slug||'')}</span></td>
@@ -319,27 +319,6 @@
     const html = [
       `<div><b>Moduļi (${modHits.length})</b></div>`,
       modHits.length
-        ? modHits.map(m=>`<div class="item"><b>${esc(m.slug)}</b> — ${esc(m.name)} · <a target="_blank" href="${repoLink(m.slug)}">repo</a>${m.openai_link?` · <a target="_blank" href="${m.openai_link}">GPT</a>`:''}</div>`).join('')
-        : '<div class="muted">—</div>',
-      `<div style="margin-top:8px;"><b>Termini (${termHits.length})</b></div>`,
-      termHits.length
-        ? termHits.map(t=>`<div class="item"><b>${esc(t.term)}</b> — ${esc(t.definition_lv||t.definition_en||'')} <span class="muted">[${esc(t.slug)}]</span> · <a target="_blank" href="${repoLink(t.slug)}">repo</a></div>`).join('')
-        : '<div class="muted">—</div>',
-      `<div style="margin-top:8px;"><b>Raksti (${artHits.length})</b></div>`,
-      artHits.length
-        ? artHits.map(a=>`<div class="item"><b>${esc(a.title||a.key||'')}</b> — ${esc(a.authors||'')}${a.year?`, ${esc(a.year)}`:''} <span class="muted">[${esc(a.slug)}]</span>${a.url?` · <a target="_blank" href="${a.url}">saite</a>`:''} · <a target="_blank" href="${repoLink(a.slug)}">repo</a></div>`).join('')
-        : '<div class="muted">—</div>'
-    ].join('\n');
-
-    gout.innerHTML = html;
-  }
-
-  document.getElementById("gq").addEventListener('input', doGlobalSearch);
-
-  // ====== START ======
-  loadCSV();
-  loadIndexes();
-})();
-</script>
-</body>
-</html>
+        ? modHits.map(m=>`<div class="item"><b>${esc(m.slug)}</b> — ${esc(m.name)}
+          · <a target="_blank" href="${repoL
+::contentReference[oaicite:0]{index=0}
