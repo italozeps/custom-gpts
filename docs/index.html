@@ -252,6 +252,42 @@
   // start
   loadCSV();
 })();
+  // ==== Vienkāršā globālā meklēšana (moduļi no docs/index.json) ====
+const gq = document.getElementById("gq");
+const gout = document.getElementById("gout");
+const gstatus = document.getElementById("gstatus");
+let gMods = [];
+
+async function loadModuleIndex(){
+  try{
+    const res = await fetch('./index.json');
+    if(!res.ok){ gstatus.textContent = 'Nav index.json (palaid “Build search indexes”).'; return; }
+    const data = await res.json();
+    gMods = Array.isArray(data.modules) ? data.modules : [];
+    gstatus.textContent = `Ielādēti moduļi: ${gMods.length}`;
+  }catch(e){
+    gstatus.textContent = 'Indeksa ielādes kļūda';
+  }
+}
+function doGlobalSearch(){
+  const q = (gq.value||'').trim().toLowerCase();
+  if(!gMods.length){ gout.classList.add('muted'); gout.textContent = 'Nav moduļu indeksa.'; return; }
+  if(q.length<2){ gout.classList.add('muted'); gout.textContent = 'Ievadi vismaz 2 rakstzīmes.'; return; }
+  gout.classList.remove('muted');
+  const hits = gMods.filter(m=>{
+    const hay = [m.slug,m.name,m.purpose,m.notes,m.prompt].join(' ').toLowerCase();
+    return hay.includes(q);
+  }).slice(0,50);
+  const user = location.hostname.split('.')[0];
+  const repo = location.pathname.replace(/^\/+/, '').split('/')[0];
+  const repoLink = slug => `https://github.com/${user}/${repo}/tree/main/gpts/${slug}`;
+  gout.innerHTML = hits.length
+    ? hits.map(m=>`<div><b>${m.slug}</b> — ${m.name} · <a target="_blank" href="${repoLink(m.slug)}">repo</a>${m.openai_link?` · <a target="_blank" href="${m.openai_link}">GPT</a>`:''}<br><span class="muted">${(m.prompt||'').slice(0,160)}${(m.prompt||'').length>160?'…':''}</span></div>`).join('')
+    : '<span class="muted">— Nav atbilstību —</span>';
+}
+gq?.addEventListener('input', doGlobalSearch);
+loadModuleIndex();
+
 </script>
 </body>
 </html>
