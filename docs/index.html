@@ -1,42 +1,97 @@
+<!doctype html>
+<html lang="lv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Custom GPTs — Dashboard (safe)</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 24px; }
+    h1 { margin: 0 0 12px; }
+    .muted { color:#666; font-size:12px; }
+    table { width:100%; border-collapse:collapse; margin-top:12px; }
+    th, td { border-bottom:1px solid #ddd; padding:8px; vertical-align:top; text-align:left; }
+    th { background:#f7f7f7; position:sticky; top:0; }
+    .tag { display:inline-block; padding:2px 6px; border-radius:12px; background:#eee; font-size:12px; margin-right:6px; }
+    pre { background:#fafafa; border:1px solid #eee; padding:8px; border-radius:8px; overflow:auto; }
+  </style>
+  <!-- Tikai viena bibliotēka CSV nolasīšanai -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+  <h1>Custom GPTs — Dashboard <span class="muted">safe mode</span></h1>
+  <div id="status" class="muted">Ielāde…</div>
+  <div id="table"></div>
+  <h3 class="muted">Diagnoze</h3>
+  <pre id="debug" class="muted">—</pre>
 
 <script>
-  // ... (tavs pārējais kods virs šīs vietas)
+(function(){
+  const statusEl = document.getElementById('status');
+  const tableWrap = document.getElementById('table');
+  const debugEl = document.getElementById('debug');
 
-  const gq = document.getElementById("gq");
-  const gout = document.getElementById("gout");
-  const gstatus = document.getElementById("gstatus");
-  let idxLoaded = false, gMods = [], gTerms = [], gArts = [];
-
-  async function safeFetchJSON(path){
-    try { const res = await fetch(path); if(!res.ok) return null; return await res.json(); }
-    catch(_) { return null; }
+  function log(msg){
+    debugEl.textContent = (debugEl.textContent === '—' ? '' : debugEl.textContent + '\n') + msg;
   }
 
-  async function loadIndexes(){
-    const [mods, terms, arts] = await Promise.all([
-      safeFetchJSON('./index.json'),
-      safeFetchJSON('./terms.json'),
-      safeFetchJSON('./articles.json')
-    ]);
+  function renderTable(rows){
+    if (!rows || !rows.length){
+      statusEl.textContent = 'CSV ielādēts, bet nav rindu.';
+      tableWrap.innerHTML = '';
+      return;
+    }
+    // Kolonnas no virsrindas
+    const cols = Object.keys(rows[0]);
+    const tbl = document.createElement('table');
+    const thead = document.createElement('thead');
+    const trh = document.createElement('tr');
+    cols.forEach(c => {
+      const th = document.createElement('th');
+      th.textContent = c;
+      trh.appendChild(th);
+    });
+    thead.appendChild(trh);
+    tbl.appendChild(thead);
 
-    gMods  = (mods  && Array.isArray(mods.modules))   ? mods.modules   : [];
-    gTerms = (terms && Array.isArray(terms.terms))     ? terms.terms    : [];
-    gArts  = (arts  && Array.isArray(arts.articles))   ? arts.articles  : [];
-
-    // ✅ jāuzskata par ielādētiem arī tad, ja skaits ir 0
-    idxLoaded = (Array.isArray(gMods) && Array.isArray(gTerms) && Array.isArray(gArts));
-    gstatus.textContent = `Indeksi ielādēti: moduļi ${gMods.length||0}, termini ${gTerms.length||0}, raksti ${gArts.length||0}`;
+    const tbody = document.createElement('tbody');
+    rows.forEach(r => {
+      const tr = document.createElement('tr');
+      cols.forEach(c => {
+        const td = document.createElement('td');
+        td.textContent = (r[c] ?? '');
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+    tbl.appendChild(tbody);
+    tableWrap.innerHTML = '';
+    tableWrap.appendChild(tbl);
+    statusEl.textContent = `Rindas: ${rows.length}`;
   }
 
-  function doGlobalSearch(){
-    const q = (gq.value||"").trim().toLowerCase();
-    if(!idxLoaded){ gout.classList.add("muted"); gout.textContent = "Indeksi nav ielādēti."; return; }
-    if(q.length<2){ gout.classList.add("muted"); gout.textContent = "Ievadi vismaz 2 rakstzīmes."; return; }
-    // ... (tavs pārējais meklēšanas kods)
-  }
-
-  loadIndexes();
-  gq.addEventListener("input", doGlobalSearch);
-
-  // ... (tavs pārējais kods zem šīs vietas)
+  window.addEventListener('load', function(){
+    try{
+      const csvUrl = './gpts.csv'; // no docs/
+      log('Sāk lasīt: ' + csvUrl);
+      Papa.parse(csvUrl, {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: (res) => {
+          log('CSV ielādēts. Kolonnas: ' + (res.meta && res.meta.fields ? res.meta.fields.join(', ') : 'nav'));
+          renderTable(res.data || []);
+        },
+        error: (err) => {
+          statusEl.textContent = 'Kļūda ielādējot CSV: ' + err;
+          log('CSV kļūda: ' + JSON.stringify(err));
+        }
+      });
+    } catch(e){
+      statusEl.textContent = 'JS kļūda: ' + (e && e.message ? e.message : e);
+      log((e && e.stack) ? e.stack : String(e));
+    }
+  });
+})();
 </script>
+</body>
+</html>
