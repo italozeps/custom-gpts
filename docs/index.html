@@ -34,7 +34,7 @@
     debugEl.textContent = (debugEl.textContent === '—' ? '' : debugEl.textContent + '\n') + msg;
   }
 
- function renderTable(rows){
+function renderTable(rows){
   if (!rows || !rows.length){
     statusEl.textContent = 'CSV ielādēts, bet nav rindu.';
     tableWrap.innerHTML = '';
@@ -46,7 +46,6 @@
   // galvene
   const thead = document.createElement('thead');
   const trh = document.createElement('tr');
-  // sākumā parādīsim tās pašas kolonnas
   cols.forEach(c => {
     const th = document.createElement('th');
     th.textContent = c;
@@ -56,7 +55,6 @@
   const thLinks = document.createElement('th');
   thLinks.textContent = 'Links';
   trh.appendChild(thLinks);
-
   thead.appendChild(trh);
   tbl.appendChild(thead);
 
@@ -72,8 +70,6 @@
       td.textContent = (r[c] ?? '');
       tr.appendChild(td);
     });
-
-    // Links kolonna (GPT · dati · repo)
     const tdL = document.createElement('td');
     const parts = [];
     if (r.openai_link)  parts.push(`<a href="${r.openai_link}" target="_blank" rel="noopener">GPT</a>`);
