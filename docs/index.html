@@ -3,93 +3,203 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Custom GPTs — Dashboard (safe)</title>
+  <title>Custom GPTs — Dashboard</title>
   <style>
     body { font-family: system-ui, sans-serif; margin: 24px; }
-    h1 { margin: 0 0 12px; }
+    h1 { margin: 0 0 8px; }
     .muted { color:#666; font-size:12px; }
+    .bar { display:flex; gap:8px; flex-wrap:wrap; margin:12px 0; }
+    input, select { padding:8px; font-size:14px; }
     table { width:100%; border-collapse:collapse; margin-top:12px; }
     th, td { border-bottom:1px solid #ddd; padding:8px; vertical-align:top; text-align:left; }
-    th { background:#f7f7f7; position:sticky; top:0; }
+    th { background:#f7f7f7; position:sticky; top:0; cursor:pointer; }
     .tag { display:inline-block; padding:2px 6px; border-radius:12px; background:#eee; font-size:12px; margin-right:6px; }
+    details { margin-top:16px; }
     pre { background:#fafafa; border:1px solid #eee; padding:8px; border-radius:8px; overflow:auto; }
   </style>
-  <!-- Tikai viena bibliotēka CSV nolasīšanai -->
+  <!-- CSV + YAML bibliotēkas -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
 </head>
 <body>
-  <h1>Custom GPTs — Dashboard <span class="muted">safe mode</span></h1>
+  <h1>Custom GPTs — Dashboard <span class="muted">v-safe+</span></h1>
   <div id="status" class="muted">Ielāde…</div>
+
+  <!-- Filtri (strādā pēc YAML ielādes; bez YAML tabula tāpat rādas) -->
+  <div class="bar">
+    <input id="q" type="search" placeholder="Meklēt tabulā (slug/nosaukums/purpose/notes)..." />
+    <select id="statusFilter">
+      <option value="">Statuss — visi</option>
+      <option>active</option>
+      <option>draft</option>
+      <option>archived</option>
+    </select>
+    <select id="langFilter"><option value="">Valoda — visas</option></select>
+    <select id="domFilter"><option value="">Domēns — visi</option></select>
+  </div>
+
   <div id="table"></div>
-  <h3 class="muted">Diagnoze</h3>
-  <pre id="debug" class="muted">—</pre>
+
+  <details id="debugWrap">
+    <summary>Diagnoze</summary>
+    <pre id="debug">—</pre>
+  </details>
 
 <script>
 (function(){
   const statusEl = document.getElementById('status');
   const tableWrap = document.getElementById('table');
   const debugEl = document.getElementById('debug');
+  const debugWrap = document.getElementById('debugWrap');
+
+  const qEl = document.getElementById('q');
+  const stEl = document.getElementById('statusFilter');
+  const langEl = document.getElementById('langFilter');
+  const domEl  = document.getElementById('domFilter');
+
+  // ja gribi pilnībā slēpt “Diagnozi”, nomaini uz false
+  const showDebug = true;
+  if (!showDebug) debugWrap.style.display = 'none';
 
   function log(msg){
+    if (!showDebug) return;
     debugEl.textContent = (debugEl.textContent === '—' ? '' : debugEl.textContent + '\n') + msg;
   }
 
-function renderTable(rows){
-  if (!rows || !rows.length){
-    statusEl.textContent = 'CSV ielādēts, bet nav rindu.';
-    tableWrap.innerHTML = '';
-    return;
-  }
-  const cols = Object.keys(rows[0]);
-  const tbl = document.createElement('table');
-
-  // galvene
-  const thead = document.createElement('thead');
-  const trh = document.createElement('tr');
-  cols.forEach(c => {
-    const th = document.createElement('th');
-    th.textContent = c;
-    trh.appendChild(th);
-  });
-  // + jauna kolonna Links
-  const thLinks = document.createElement('th');
-  thLinks.textContent = 'Links';
-  trh.appendChild(thLinks);
-  thead.appendChild(trh);
-  tbl.appendChild(thead);
-
-  // saturs
-  const tbody = document.createElement('tbody');
+  const csvUrl = './gpts.csv'; // publicētais CSV docs/ mapē
   const user = location.hostname.split('.')[0];
   const repo = location.pathname.replace(/^\/+/, '').split('/')[0];
 
-  rows.forEach(r => {
-    const tr = document.createElement('tr');
-    cols.forEach(c => {
-      const td = document.createElement('td');
-      td.textContent = (r[c] ?? '');
-      tr.appendChild(td);
+  let rows = [];            // no CSV
+  let metaBySlug = {};      // { slug: {languages:[], domains:[]} }
+  let sortK = 'slug';
+  let sortDir = 1;
+
+  function uniqueSorted(arr){
+    return Array.from(new Set(arr.filter(Boolean))).sort((a,b)=>a.localeCompare(b));
+  }
+
+  function buildFilters(){
+    const langs = uniqueSorted(rows.flatMap(r => (metaBySlug[r.slug]?.languages)||[]));
+    const doms  = uniqueSorted(rows.flatMap(r => (metaBySlug[r.slug]?.domains)||[]));
+    langEl.innerHTML = '<option value="">Valoda — visas</option>' + langs.map(x=>`<option>${x}</option>`).join('');
+    domEl.innerHTML  = '<option value="">Domēns — visi</option>' + doms.map(x=>`<option>${x}</option>`).join('');
+  }
+
+  function renderTable(){
+    // enrich ar YAML meta (ja nav, atgriezīsies tukšas kolonnas)
+    const enriched = rows.map(r => ({
+      ...r,
+      languages: (metaBySlug[r.slug]?.languages)||[],
+      domains:   (metaBySlug[r.slug]?.domains)||[]
+    }));
+
+    // filtri
+    const q = (qEl.value||'').toLowerCase();
+    const st= (stEl.value||'').toLowerCase();
+    const lsel = langEl.value||'';
+    const dsel = domEl.value||'';
+
+    const filtered = enriched.filter(r=>{
+      const hay = [r.slug,r.name,r.purpose,r.notes].join(' ').toLowerCase();
+      const okQ = !q || hay.includes(q);
+      const okS = !st || (r.status||'').toLowerCase()===st;
+      const okL = !lsel || (r.languages||[]).includes(lsel);
+      const okD = !dsel || (r.domains||[]).includes(dsel);
+      return okQ && okS && okL && okD;
     });
-    const tdL = document.createElement('td');
-    const parts = [];
-    if (r.openai_link)  parts.push(`<a href="${r.openai_link}" target="_blank" rel="noopener">GPT</a>`);
-    if (r.dataset_link) parts.push(`<a href="${r.dataset_link}" target="_blank" rel="noopener">dati</a>`);
-    if (r.slug)         parts.push(`<a href="https://github.com/${user}/${repo}/tree/main/gpts/${r.slug}" target="_blank" rel="noopener">repo</a>`);
-    tdL.innerHTML = parts.join(' · ');
-    tr.appendChild(tdL);
 
-    tbody.appendChild(tr);
-  });
+    // kārtošana
+    filtered.sort((a,b)=>{
+      const av=(a[sortK]||'').toString().toLowerCase();
+      const bv=(b[sortK]||'').toString().toLowerCase();
+      return av.localeCompare(bv)*sortDir;
+    });
 
-  tbl.appendChild(tbody);
-  tableWrap.innerHTML = '';
-  tableWrap.appendChild(tbl);
-  statusEl.textContent = `Rindas: ${rows.length}`;
-}
+    // tabula
+    const tbl = document.createElement('table');
+    const thead = document.createElement('thead');
+    const trh = document.createElement('tr');
+    [
+      ['slug','Slug'],
+      ['name','Nosaukums'],
+      ['purpose','Mērķis'],
+      ['status','Statuss'],
+      ['languages','Valodas'],
+      ['domains','Domēni'],
+      ['links','Links'],
+      ['last_edit','Pēd. lab.'],
+      ['notes','Piezīmes']
+    ].forEach(([k,title])=>{
+      const th=document.createElement('th');
+      th.textContent=title;
+      if (k!=='links'){ th.dataset.k=k; th.style.cursor='pointer'; th.addEventListener('click', ()=>{
+        if (sortK===k) sortDir*=-1; else { sortK=k; sortDir=1; }
+        renderTable();
+      });}
+      trh.appendChild(th);
+    });
+    thead.appendChild(trh);
+    tbl.appendChild(thead);
 
-  window.addEventListener('load', function(){
+    const tbody = document.createElement('tbody');
+    filtered.forEach(r=>{
+      const tr=document.createElement('tr');
+      const repoLnk = r.slug ? `<a href="https://github.com/${user}/${repo}/tree/main/gpts/${r.slug}" target="_blank" rel="noopener">repo</a>` : '';
+      const gptLnk  = r.openai_link ? `<a href="${r.openai_link}" target="_blank" rel="noopener">GPT</a>` : '';
+      const dataLnk = r.dataset_link ? `<a href="${r.dataset_link}" target="_blank" rel="noopener">dati</a>` : '';
+      const links=[gptLnk,dataLnk,repoLnk].filter(Boolean).join(' · ');
+
+      const langTags=(r.languages||[]).map(x=>`<span class="tag">${x}</span>`).join('');
+      const domTags =(r.domains||[]).map(x=>`<span class="tag">${x}</span>`).join('');
+
+      tr.innerHTML = `
+        <td><span class="tag">${r.slug||''}</span></td>
+        <td>${r.name||''}</td>
+        <td>${r.purpose||''}</td>
+        <td>${r.status||''}</td>
+        <td>${langTags}</td>
+        <td>${domTags}</td>
+        <td>${links}</td>
+        <td>${r.last_edit||''}</td>
+        <td>${r.notes||''}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    tbl.appendChild(tbody);
+    tableWrap.innerHTML = '';
+    tableWrap.appendChild(tbl);
+    statusEl.textContent = `Rindas: ${filtered.length} / ${rows.length}`;
+  }
+
+  async function fetchConfig(slug){
+    // drošais YAML fetch no GitHub raw
+    const url = `https://raw.githubusercontent.com/${user}/${repo}/main/gpts/${slug}/config.yaml`;
     try{
-      const csvUrl = './gpts.csv'; // no docs/
+      const res = await fetch(url);
+      if (!res.ok) { log(`YAML ${slug}: ${res.status}`); return; }
+      const txt = await res.text();
+      const obj = jsyaml.load(txt);
+      metaBySlug[slug] = {
+        languages: Array.isArray(obj?.languages) ? obj.languages : [],
+        domains:   Array.isArray(obj?.domains)   ? obj.domains   : []
+      };
+      log(`YAML OK: ${slug} (${(metaBySlug[slug].languages||[]).length} lang, ${(metaBySlug[slug].domains||[]).length} dom)`);
+    } catch(e){
+      log(`YAML error ${slug}: ${e.message||e}`);
+    }
+  }
+
+  function loadAllConfigs(){
+    Promise.allSettled(rows.map(r=>fetchConfig(r.slug))).then(()=>{
+      buildFilters();
+      renderTable();
+    });
+  }
+
+  function loadCSV(){
+    try{
       log('Sāk lasīt: ' + csvUrl);
       Papa.parse(csvUrl, {
         download: true,
@@ -97,7 +207,24 @@ function renderTable(rows){
         skipEmptyLines: true,
         complete: (res) => {
           log('CSV ielādēts. Kolonnas: ' + (res.meta && res.meta.fields ? res.meta.fields.join(', ') : 'nav'));
-          renderTable(res.data || []);
+          rows = (res.data||[]).map(r => ({
+            slug: r.slug||'',
+            name: r.name||'',
+            purpose: r.purpose||'',
+            status: r.status||'',
+            owner: r.owner||'',
+            last_edit: r.last_edit||'',
+            openai_link: r.openai_link||'',
+            dataset_link: r.dataset_link||'',
+            notes: r.notes||''
+          }));
+          if (rows.length===0){
+            statusEl.textContent = 'CSV ielādēts, bet nav rindu.';
+            renderTable(); // uzzīmē tukšu, lai galvene un UI dzīvs
+          } else {
+            statusEl.textContent = `CSV ielādēts: ${rows.length} rindas. Lādēju konfigurācijas…`;
+            loadAllConfigs();
+          }
         },
         error: (err) => {
           statusEl.textContent = 'Kļūda ielādējot CSV: ' + err;
@@ -108,7 +235,16 @@ function renderTable(rows){
       statusEl.textContent = 'JS kļūda: ' + (e && e.message ? e.message : e);
       log((e && e.stack) ? e.stack : String(e));
     }
-  });
+  }
+
+  // UI klausītāji
+  qEl.addEventListener('input', renderTable);
+  stEl.addEventListener('change', renderTable);
+  langEl.addEventListener('change', renderTable);
+  domEl.addEventListener('change', renderTable);
+
+  // start
+  loadCSV();
 })();
 </script>
 </body>
