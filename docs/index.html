@@ -79,6 +79,7 @@
   function rawConfigUrl(slug){ return `https://raw.githubusercontent.com/${user}/${repo}/main/gpts/${slug}/config.yaml`; }
   function rawPrompt(slug){ return `https://raw.githubusercontent.com/${user}/${repo}/main/gpts/${slug}/prompt.md`; }
 
+  let linkBySlug = {};
   let rows = [];            // no CSV
   let metaBySlug = {};      // { slug: {languages:[], domains:[]} }
   let sortK = 'slug';
@@ -229,6 +230,10 @@
             dataset_link: r.dataset_link||'',
             notes: r.notes||''
           }));
+          linkBySlug = Object.fromEntries(
+  rows.filter(r => r.slug && r.openai_link).map(r => [r.slug, r.openai_link])
+);
+
           if (rows.length===0){
             statusEl.textContent = 'CSV ielādēts, bet nav rindu.';
             renderTable(); // zīmē karkasu
