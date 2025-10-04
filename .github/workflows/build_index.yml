@@ -28,9 +28,13 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pyyaml
-      - name: Build indexes
+      - name: Build indexes (skip if missing)
         run: |
-          python scripts/build_index.py
+          if [ -f scripts/build_index.py ]; then
+            python scripts/build_index.py
+          else
+            echo "No scripts/build_index.py — skipping"
+          fi
       - name: Commit docs/*.json if changed
         run: |
           if ! git diff --quiet -- docs/index.json docs/terms.json docs/articles.json; then
