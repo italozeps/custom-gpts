@@ -47,26 +47,25 @@
   <h2>Globāla meklēšana (moduļi · termini · raksti)</h2>
   <div class="bar">
     <input id="gq" type="search" placeholder="Raksti meklējamo vārdu/frasu..." />
-    <span class="muted" id="gstatus">Indeksi vēl nav ielādēti.</span>
+    <span class="muted" id="gstatus">Ielādēju indeksus…</span>
   </div>
   <div id="gout" class="res muted">—</div>
 
-  <!-- Diagnoze (izslēdzama) -->
-  <details id="debugWrap">
+  <!-- Diagnoze (ieslēgts, lai redzētu kļūdas; vēlāk var izslēgt) -->
+  <details id="debugWrap" open>
     <summary>Diagnoze</summary>
     <pre id="debug">—</pre>
   </details>
 
 <script>
 (function(){
-  // ====== KONFIGS / PALĪGFUNCTIONS ======
-  const showDebug = false; // ja vajag redzēt “Diagnozi”, nomaini uz true
+  // ====== LOG / PALĪGI ======
+  const showDebug = true; // vēlāk vari pārslēgt uz false
   const statusEl = document.getElementById('status');
   const tableWrap = document.getElementById('table');
   const debugEl = document.getElementById('debug');
   const debugWrap = document.getElementById('debugWrap');
   if (!showDebug) debugWrap.style.display = 'none';
-
   function log(msg){
     if (!showDebug) return;
     debugEl.textContent = (debugEl.textContent === '—' ? '' : debugEl.textContent + '\n') + msg;
@@ -76,7 +75,6 @@
   const csvUrl = './gpts.csv'; // publicētais CSV docs/ mapē
   const user = location.hostname.split('.')[0];
   const repo = location.pathname.replace(/^\/+/, '').split('/')[0];
-
   function repoLink(slug){ return `https://github.com/${user}/${repo}/tree/main/gpts/${slug}`; }
   function rawConfigUrl(slug){ return `https://raw.githubusercontent.com/${user}/${repo}/main/gpts/${slug}/config.yaml`; }
   function rawPrompt(slug){ return `https://raw.githubusercontent.com/${user}/${repo}/main/gpts/${slug}/prompt.md`; }
@@ -233,7 +231,7 @@
           }));
           if (rows.length===0){
             statusEl.textContent = 'CSV ielādēts, bet nav rindu.';
-            renderTable(); // zīmē tukšu karkasu
+            renderTable(); // zīmē karkasu
           } else {
             statusEl.textContent = `CSV ielādēts: ${rows.length} rindas. Lādēju konfigurācijas…`;
             loadAllConfigs();
@@ -259,12 +257,10 @@
   const gq = document.getElementById("gq");
   const gout = document.getElementById("gout");
   const gstatus = document.getElementById("gstatus");
-
   let gMods = [], gTerms = [], gArts = [];
 
   async function safeGet(path){
-    const ctrl = new AbortController();
-    const t = setTimeout(()=>ctrl.abort(), 6000);
+    const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), 6000);
     try{
       const res = await fetch(path + '?ts=' + Date.now(), { signal: ctrl.signal });
       if(!res.ok) return null;
@@ -272,9 +268,7 @@
     }catch(_){ return null; }
     finally{ clearTimeout(t); }
   }
-
   async function loadIndexes(){
-    gstatus.textContent = 'Ielādēju indeksus…';
     const [mods, terms, arts] = await Promise.all([
       safeGet('./index.json'),
       safeGet('./terms.json'),
@@ -284,13 +278,12 @@
     gTerms = (terms && Array.isArray(terms.terms))    ? terms.terms   : [];
     gArts  = (arts  && Array.isArray(arts.articles))  ? arts.articles : [];
     if (!mods && !terms && !arts){
-      gstatus.textContent = 'Nav indeksu failu (docs/index.json, terms.json, articles.json). Palaid “Build search indexes” vai izveido tos manuāli.';
+      gstatus.textContent = 'Nav indeksu failu (docs/index.json, terms.json, articles.json).';
     } else {
       gstatus.textContent = `Ielādēti: moduļi ${gMods.length}, termini ${gTerms.length}, raksti ${gArts.length}`;
     }
-    doGlobalSearch(); // ja jau ierakstīts vaicājums — parādīt uzreiz
+    doGlobalSearch();
   }
-
   function doGlobalSearch(){
     const q = (gq.value||'').trim().toLowerCase();
     if(!gMods.length && !gTerms.length && !gArts.length){
@@ -305,12 +298,10 @@
       const hay = [m.slug,m.name,m.purpose,m.notes,m.prompt].join(' ').toLowerCase();
       return hay.includes(q);
     }).slice(0,50);
-
     const termHits = gTerms.filter(t=>{
       const hay = [t.term,t.definition_lv,t.definition_en,t.aliases,t.tags,t.slug].join(' ').toLowerCase();
       return hay.includes(q);
     }).slice(0,50);
-
     const artHits = gArts.filter(a=>{
       const hay = [a.key,a.title,a.authors,a.year,a.venue,a.tags,a.slug].join(' ').toLowerCase();
       return hay.includes(q);
@@ -320,5 +311,40 @@
       `<div><b>Moduļi (${modHits.length})</b></div>`,
       modHits.length
         ? modHits.map(m=>`<div class="item"><b>${esc(m.slug)}</b> — ${esc(m.name)}
-          · <a target="_blank" href="${repoL
-::contentReference[oaicite:0]{index=0}
+          · <a target="_blank" href="${repoLink(m.slug)}">repo</a>
+          · <a target="_blank" href="${rawPrompt(m.slug)}">prompt</a>
+          ${m.openai_link?` · <a target="_blank" href="${m.openai_link}">GPT</a>`:''}
+        </div>`).join('')
+        : '<div class="muted">—</div>',
+      `<div style="margin-top:8px;"><b>Termini (${termHits.length})</b></div>`,
+      termHits.length
+        ? termHits.map(t=>`<div class="item"><b>${esc(t.term)}</b> — ${esc(t.definition_lv||t.definition_en||'')}
+          <span class="muted">[${esc(t.slug)}]</span>
+          · <a target="_blank" href="${repoLink(t.slug)}">repo</a>
+          · <a target="_blank" href="${rawPrompt(t.slug)}">prompt</a>
+        </div>`).join('')
+        : '<div class="muted">—</div>',
+      `<div style="margin-top:8px;"><b>Raksti (${artHits.length})</b></div>`,
+      artHits.length
+        ? artHits.map(a=>`<div class="item"><b>${esc(a.title||a.key||'')}</b> — ${esc(a.authors||'')}${a.year?`, ${esc(a.year)}`:''}
+          <span class="muted">[${esc(a.slug)}]</span>
+          ${a.url?` · <a target="_blank" href="${a.url}">saite</a>`:''}
+          · <a target="_blank" href="${repoLink(a.slug)}">repo</a>
+          · <a target="_blank" href="${rawPrompt(a.slug)}">prompt</a>
+        </div>`).join('')
+        : '<div class="muted">—</div>'
+    ].join('\n');
+
+    gout.innerHTML = html;
+  }
+
+  // klausītāji
+  document.getElementById("gq").addEventListener('input', doGlobalSearch);
+
+  // ====== START ======
+  loadCSV();
+  loadIndexes();
+})();
+</script>
+</body>
+</html>
