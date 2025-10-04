@@ -34,40 +34,62 @@
     debugEl.textContent = (debugEl.textContent === '—' ? '' : debugEl.textContent + '\n') + msg;
   }
 
-  function renderTable(rows){
-    if (!rows || !rows.length){
-      statusEl.textContent = 'CSV ielādēts, bet nav rindu.';
-      tableWrap.innerHTML = '';
-      return;
-    }
-    // Kolonnas no virsrindas
-    const cols = Object.keys(rows[0]);
-    const tbl = document.createElement('table');
-    const thead = document.createElement('thead');
-    const trh = document.createElement('tr');
-    cols.forEach(c => {
-      const th = document.createElement('th');
-      th.textContent = c;
-      trh.appendChild(th);
-    });
-    thead.appendChild(trh);
-    tbl.appendChild(thead);
-
-    const tbody = document.createElement('tbody');
-    rows.forEach(r => {
-      const tr = document.createElement('tr');
-      cols.forEach(c => {
-        const td = document.createElement('td');
-        td.textContent = (r[c] ?? '');
-        tr.appendChild(td);
-      });
-      tbody.appendChild(tr);
-    });
-    tbl.appendChild(tbody);
+ function renderTable(rows){
+  if (!rows || !rows.length){
+    statusEl.textContent = 'CSV ielādēts, bet nav rindu.';
     tableWrap.innerHTML = '';
-    tableWrap.appendChild(tbl);
-    statusEl.textContent = `Rindas: ${rows.length}`;
+    return;
   }
+  const cols = Object.keys(rows[0]);
+  const tbl = document.createElement('table');
+
+  // galvene
+  const thead = document.createElement('thead');
+  const trh = document.createElement('tr');
+  // sākumā parādīsim tās pašas kolonnas
+  cols.forEach(c => {
+    const th = document.createElement('th');
+    th.textContent = c;
+    trh.appendChild(th);
+  });
+  // + jauna kolonna Links
+  const thLinks = document.createElement('th');
+  thLinks.textContent = 'Links';
+  trh.appendChild(thLinks);
+
+  thead.appendChild(trh);
+  tbl.appendChild(thead);
+
+  // saturs
+  const tbody = document.createElement('tbody');
+  const user = location.hostname.split('.')[0];
+  const repo = location.pathname.replace(/^\/+/, '').split('/')[0];
+
+  rows.forEach(r => {
+    const tr = document.createElement('tr');
+    cols.forEach(c => {
+      const td = document.createElement('td');
+      td.textContent = (r[c] ?? '');
+      tr.appendChild(td);
+    });
+
+    // Links kolonna (GPT · dati · repo)
+    const tdL = document.createElement('td');
+    const parts = [];
+    if (r.openai_link)  parts.push(`<a href="${r.openai_link}" target="_blank" rel="noopener">GPT</a>`);
+    if (r.dataset_link) parts.push(`<a href="${r.dataset_link}" target="_blank" rel="noopener">dati</a>`);
+    if (r.slug)         parts.push(`<a href="https://github.com/${user}/${repo}/tree/main/gpts/${r.slug}" target="_blank" rel="noopener">repo</a>`);
+    tdL.innerHTML = parts.join(' · ');
+    tr.appendChild(tdL);
+
+    tbody.appendChild(tr);
+  });
+
+  tbl.appendChild(tbody);
+  tableWrap.innerHTML = '';
+  tableWrap.appendChild(tbl);
+  statusEl.textContent = `Rindas: ${rows.length}`;
+}
 
   window.addEventListener('load', function(){
     try{
