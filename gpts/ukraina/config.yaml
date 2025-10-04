@@ -1,0 +1,7 @@
+name: "Vai MI var izbeigt karu? miera konf. projekts"
+slug: "ukraina"
+languages: ["ua", "lv", "en"]
+domains: ["ukraina", "ukrainas-uzvara", "miera-konference","karš-ukrainā","krievijas-agresija"]
+dataset:
+  type: "external"
+notes: "Mēs cīnāmies par Ukainas uzveru Ukrainas cīņā pret Krievijas agresiju - Russia delenda est"
