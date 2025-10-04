@@ -5,27 +5,30 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Custom GPTs — Dashboard</title>
   <style>
-    body { font-family: system-ui, sans-serif; margin: 24px; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; }
     h1 { margin: 0 0 8px; }
+    h2 { margin-top: 28px; }
     .muted { color:#666; font-size:12px; }
     .bar { display:flex; gap:8px; flex-wrap:wrap; margin:12px 0; }
-    input, select { padding:8px; font-size:14px; }
+    input, select, button { padding:8px; font-size:14px; }
     table { width:100%; border-collapse:collapse; margin-top:12px; }
     th, td { border-bottom:1px solid #ddd; padding:8px; vertical-align:top; text-align:left; }
     th { background:#f7f7f7; position:sticky; top:0; cursor:pointer; }
     .tag { display:inline-block; padding:2px 6px; border-radius:12px; background:#eee; font-size:12px; margin-right:6px; }
+    .res { border:1px solid #eee; padding:8px; border-radius:8px; margin-top:8px; }
+    .item { margin:4px 0; }
     details { margin-top:16px; }
     pre { background:#fafafa; border:1px solid #eee; padding:8px; border-radius:8px; overflow:auto; }
   </style>
-  <!-- CSV + YAML bibliotēkas -->
+  <!-- Bibliotēkas CSV un YAML nolasīšanai -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
 </head>
 <body>
-  <h1>Custom GPTs — Dashboard <span class="muted">v-safe+</span></h1>
+  <h1>Custom GPTs — Dashboard</h1>
   <div id="status" class="muted">Ielāde…</div>
 
-  <!-- Filtri (strādā pēc YAML ielādes; bez YAML tabula tāpat rādas) -->
+  <!-- Tabulas filtri -->
   <div class="bar">
     <input id="q" type="search" placeholder="Meklēt tabulā (slug/nosaukums/purpose/notes)..." />
     <select id="statusFilter">
@@ -40,118 +43,57 @@
 
   <div id="table"></div>
 
- // ==== Globālā meklēšana: moduļi + termini + raksti ====
-const gq = document.getElementById("gq");
-const gout = document.getElementById("gout");
-const gstatus = document.getElementById("gstatus");
+  <!-- Globālā meklēšana -->
+  <h2>Globāla meklēšana (moduļi · termini · raksti)</h2>
+  <div class="bar">
+    <input id="gq" type="search" placeholder="Raksti meklējamo vārdu/frasu..." />
+    <span class="muted" id="gstatus">Indeksi vēl nav ielādēti.</span>
+  </div>
+  <div id="gout" class="res muted">—</div>
 
-let gMods = [], gTerms = [], gArts = [];
+  <!-- Diagnoze (izslēdzama) -->
+  <details id="debugWrap" open>
+    <summary>Diagnoze</summary>
+    <pre id="debug">—</pre>
+  </details>
 
-async function safeGet(path){
-  const ctrl = new AbortController();
-  const t = setTimeout(()=>ctrl.abort(), 6000);
-  try{
-    const res = await fetch(path + '?ts=' + Date.now(), { signal: ctrl.signal });
-    if(!res.ok) return null;
-    return await res.json();
-  }catch(_){ return null; }
-  finally{ clearTimeout(t); }
-}
-
-async function loadIndexes(){
-  gstatus.textContent = 'Ielādēju indeksus…';
-  const [mods, terms, arts] = await Promise.all([
-    safeGet('./index.json'),
-    safeGet('./terms.json'),
-    safeGet('./articles.json')
-  ]);
-  gMods  = (mods  && Array.isArray(mods.modules))    ? mods.modules    : [];
-  gTerms = (terms && Array.isArray(terms.terms))      ? terms.terms     : [];
-  gArts  = (arts  && Array.isArray(arts.articles))    ? arts.articles   : [];
-  gstatus.textContent = `Ielādēti: moduļi ${gMods.length}, termini ${gTerms.length}, raksti ${gArts.length}`;
-  doGlobalSearch(); // ja jau ir vaicājums, uzreiz parādīsies
-}
-
-function esc(s){ return (s||"").replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
-function repoLink(slug){
-  const user = location.hostname.split('.')[0];
-  const repo = location.pathname.replace(/^\/+/, '').split('/')[0];
-  return `https://github.com/${user}/${repo}/tree/main/gpts/${slug}`;
-}
-
-function doGlobalSearch(){
-  const q = (gq.value||'').trim().toLowerCase();
-  if(!gMods.length && !gTerms.length && !gArts.length){
-    gout.classList.add('muted'); gout.textContent = 'Indeksi nav ielādēti.'; return;
-  }
-  if(q.length < 2){
-    gout.classList.add('muted'); gout.textContent = 'Ievadi vismaz 2 rakstzīmes.'; return;
-  }
-  gout.classList.remove('muted');
-
-  const modHits = gMods.filter(m=>{
-    const hay = [m.slug,m.name,m.purpose,m.notes,m.prompt].join(' ').toLowerCase();
-    return hay.includes(q);
-  }).slice(0,50);
-
-  const termHits = gTerms.filter(t=>{
-    const hay = [t.term,t.definition_lv,t.definition_en,t.aliases,t.tags,t.slug].join(' ').toLowerCase();
-    return hay.includes(q);
-  }).slice(0,50);
-
-  const artHits = gArts.filter(a=>{
-    const hay = [a.key,a.title,a.authors,a.year,a.venue,a.tags,a.slug].join(' ').toLowerCase();
-    return hay.includes(q);
-  }).slice(0,50);
-
-  const html = [
-    `<div><b>Moduļi (${modHits.length})</b></div>`,
-    modHits.length ? modHits.map(m=>`<div>${esc(m.slug)} — ${esc(m.name)} · <a target="_blank" href="${repoLink(m.slug)}">repo</a></div>`).join('') : '<div class="muted">—</div>',
-    `<div style="margin-top:8px;"><b>Termini (${termHits.length})</b></div>`,
-    termHits.length ? termHits.map(t=>`<div><b>${esc(t.term)}</b> — ${esc(t.definition_lv||t.definition_en||'')} <span class="muted">[${esc(t.slug)}]</span> · <a target="_blank" href="${repoLink(t.slug)}">repo</a></div>`).join('') : '<div class="muted">—</div>',
-    `<div style="margin-top:8px;"><b>Raksti (${artHits.length})</b></div>`,
-    artHits.length ? artHits.map(a=>`<div><b>${esc(a.title||a.key||'')}</b> — ${esc(a.authors||'')}${a.year?`, ${esc(a.year)}`:''} <span class="muted">[${esc(a.slug)}]</span>${a.url?` · <a target="_blank" href="${a.url}">saite</a>`:''} · <a target="_blank" href="${repoLink(a.slug)}">repo</a></div>`).join('') : '<div class="muted">—</div>'
-  ].join('\n');
-
-  gout.innerHTML = html;
-}
-
-gq?.addEventListener('input', doGlobalSearch);
-loadIndexes();
 <script>
 (function(){
+  // ====== KONFIGS / PALĪGFUNCTIONS ======
+  const showDebug = true; // nomaini uz false, kad viss OK
   const statusEl = document.getElementById('status');
   const tableWrap = document.getElementById('table');
   const debugEl = document.getElementById('debug');
   const debugWrap = document.getElementById('debugWrap');
-
-  const qEl = document.getElementById('q');
-  const stEl = document.getElementById('statusFilter');
-  const langEl = document.getElementById('langFilter');
-  const domEl  = document.getElementById('domFilter');
-
-  // ja gribi pilnībā slēpt “Diagnozi”, nomaini uz false
-  const showDebug = false;
   if (!showDebug) debugWrap.style.display = 'none';
 
   function log(msg){
     if (!showDebug) return;
     debugEl.textContent = (debugEl.textContent === '—' ? '' : debugEl.textContent + '\n') + msg;
   }
+  function esc(s){ return (s||"").replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
 
   const csvUrl = './gpts.csv'; // publicētais CSV docs/ mapē
   const user = location.hostname.split('.')[0];
   const repo = location.pathname.replace(/^\/+/, '').split('/')[0];
+  function repoLink(slug){ return `https://github.com/${user}/${repo}/tree/main/gpts/${slug}`; }
+  function rawConfigUrl(slug){ return `https://raw.githubusercontent.com/${user}/${repo}/main/gpts/${slug}/config.yaml`; }
 
   let rows = [];            // no CSV
   let metaBySlug = {};      // { slug: {languages:[], domains:[]} }
   let sortK = 'slug';
   let sortDir = 1;
 
+  const qEl = document.getElementById('q');
+  const stEl = document.getElementById('statusFilter');
+  const langEl = document.getElementById('langFilter');
+  const domEl  = document.getElementById('domFilter');
+
   function uniqueSorted(arr){
     return Array.from(new Set(arr.filter(Boolean))).sort((a,b)=>a.localeCompare(b));
   }
 
+  // ====== TABULAS DAĻA ======
   function buildFilters(){
     const langs = uniqueSorted(rows.flatMap(r => (metaBySlug[r.slug]?.languages)||[]));
     const doms  = uniqueSorted(rows.flatMap(r => (metaBySlug[r.slug]?.domains)||[]));
@@ -160,14 +102,12 @@ loadIndexes();
   }
 
   function renderTable(){
-    // enrich ar YAML meta (ja nav, atgriezīsies tukšas kolonnas)
     const enriched = rows.map(r => ({
       ...r,
       languages: (metaBySlug[r.slug]?.languages)||[],
       domains:   (metaBySlug[r.slug]?.domains)||[]
     }));
 
-    // filtri
     const q = (qEl.value||'').toLowerCase();
     const st= (stEl.value||'').toLowerCase();
     const lsel = langEl.value||'';
@@ -182,14 +122,12 @@ loadIndexes();
       return okQ && okS && okL && okD;
     });
 
-    // kārtošana
     filtered.sort((a,b)=>{
       const av=(a[sortK]||'').toString().toLowerCase();
       const bv=(b[sortK]||'').toString().toLowerCase();
       return av.localeCompare(bv)*sortDir;
     });
 
-    // tabula
     const tbl = document.createElement('table');
     const thead = document.createElement('thead');
     const trh = document.createElement('tr');
@@ -206,7 +144,7 @@ loadIndexes();
     ].forEach(([k,title])=>{
       const th=document.createElement('th');
       th.textContent=title;
-      if (k!=='links'){ th.dataset.k=k; th.style.cursor='pointer'; th.addEventListener('click', ()=>{
+      if (k!=='links'){ th.dataset.k=k; th.addEventListener('click', ()=>{
         if (sortK===k) sortDir*=-1; else { sortK=k; sortDir=1; }
         renderTable();
       });}
@@ -218,24 +156,25 @@ loadIndexes();
     const tbody = document.createElement('tbody');
     filtered.forEach(r=>{
       const tr=document.createElement('tr');
-      const repoLnk = r.slug ? `<a href="https://github.com/${user}/${repo}/tree/main/gpts/${r.slug}" target="_blank" rel="noopener">repo</a>` : '';
-      const gptLnk  = r.openai_link ? `<a href="${r.openai_link}" target="_blank" rel="noopener">GPT</a>` : '';
-      const dataLnk = r.dataset_link ? `<a href="${r.dataset_link}" target="_blank" rel="noopener">dati</a>` : '';
-      const links=[gptLnk,dataLnk,repoLnk].filter(Boolean).join(' · ');
 
-      const langTags=(r.languages||[]).map(x=>`<span class="tag">${x}</span>`).join('');
-      const domTags =(r.domains||[]).map(x=>`<span class="tag">${x}</span>`).join('');
+      const langTags=(r.languages||[]).map(x=>`<span class="tag">${esc(x)}</span>`).join('');
+      const domTags =(r.domains||[]).map(x=>`<span class="tag">${esc(x)}</span>`).join('');
+
+      const linkParts=[];
+      if (r.openai_link)  linkParts.push(`<a href="${r.openai_link}" target="_blank" rel="noopener">GPT</a>`);
+      if (r.dataset_link) linkParts.push(`<a href="${r.dataset_link}" target="_blank" rel="noopener">dati</a>`);
+      if (r.slug)         linkParts.push(`<a href="${repoLink(r.slug)}" target="_blank" rel="noopener">repo</a>`);
 
       tr.innerHTML = `
-        <td><span class="tag">${r.slug||''}</span></td>
-        <td>${r.name||''}</td>
-        <td>${r.purpose||''}</td>
-        <td>${r.status||''}</td>
+        <td><span class="tag">${esc(r.slug||'')}</span></td>
+        <td>${esc(r.name||'')}</td>
+        <td>${esc(r.purpose||'')}</td>
+        <td>${esc(r.status||'')}</td>
         <td>${langTags}</td>
         <td>${domTags}</td>
-        <td>${links}</td>
-        <td>${r.last_edit||''}</td>
-        <td>${r.notes||''}</td>
+        <td>${linkParts.join(' · ')}</td>
+        <td>${esc(r.last_edit||'')}</td>
+        <td>${esc(r.notes||'')}</td>
       `;
       tbody.appendChild(tr);
     });
@@ -247,10 +186,8 @@ loadIndexes();
   }
 
   async function fetchConfig(slug){
-    // drošais YAML fetch no GitHub raw
-    const url = `https://raw.githubusercontent.com/${user}/${repo}/main/gpts/${slug}/config.yaml`;
     try{
-      const res = await fetch(url);
+      const res = await fetch(rawConfigUrl(slug) + '?ts=' + Date.now());
       if (!res.ok) { log(`YAML ${slug}: ${res.status}`); return; }
       const txt = await res.text();
       const obj = jsyaml.load(txt);
@@ -293,7 +230,7 @@ loadIndexes();
           }));
           if (rows.length===0){
             statusEl.textContent = 'CSV ielādēts, bet nav rindu.';
-            renderTable(); // uzzīmē tukšu, lai galvene un UI dzīvs
+            renderTable(); // zīmē tukšu karkasu
           } else {
             statusEl.textContent = `CSV ielādēts: ${rows.length} rindas. Lādēju konfigurācijas…`;
             loadAllConfigs();
@@ -310,51 +247,96 @@ loadIndexes();
     }
   }
 
-  // UI klausītāji
   qEl.addEventListener('input', renderTable);
   stEl.addEventListener('change', renderTable);
   langEl.addEventListener('change', renderTable);
   domEl.addEventListener('change', renderTable);
 
-  // start
-  loadCSV();
-})();
-  // ==== Vienkāršā globālā meklēšana (moduļi no docs/index.json) ====
-const gq = document.getElementById("gq");
-const gout = document.getElementById("gout");
-const gstatus = document.getElementById("gstatus");
-let gMods = [];
+  // ====== GLOBĀLĀ MEKLĒŠANA ======
+  const gq = document.getElementById("gq");
+  const gout = document.getElementById("gout");
+  const gstatus = document.getElementById("gstatus");
 
-async function loadModuleIndex(){
-  try{
-    const res = await fetch('./index.json');
-    if(!res.ok){ gstatus.textContent = 'Nav index.json (palaid “Build search indexes”).'; return; }
-    const data = await res.json();
-    gMods = Array.isArray(data.modules) ? data.modules : [];
-    gstatus.textContent = `Ielādēti moduļi: ${gMods.length}`;
-  }catch(e){
-    gstatus.textContent = 'Indeksa ielādes kļūda';
+  let gMods = [], gTerms = [], gArts = [];
+
+  async function safeGet(path){
+    const ctrl = new AbortController();
+    const t = setTimeout(()=>ctrl.abort(), 6000);
+    try{
+      const res = await fetch(path + '?ts=' + Date.now(), { signal: ctrl.signal });
+      if(!res.ok) return null;
+      return await res.json();
+    }catch(_){ return null; }
+    finally{ clearTimeout(t); }
   }
-}
-function doGlobalSearch(){
-  const q = (gq.value||'').trim().toLowerCase();
-  if(!gMods.length){ gout.classList.add('muted'); gout.textContent = 'Nav moduļu indeksa.'; return; }
-  if(q.length<2){ gout.classList.add('muted'); gout.textContent = 'Ievadi vismaz 2 rakstzīmes.'; return; }
-  gout.classList.remove('muted');
-  const hits = gMods.filter(m=>{
-    const hay = [m.slug,m.name,m.purpose,m.notes,m.prompt].join(' ').toLowerCase();
-    return hay.includes(q);
-  }).slice(0,50);
-  const user = location.hostname.split('.')[0];
-  const repo = location.pathname.replace(/^\/+/, '').split('/')[0];
-  const repoLink = slug => `https://github.com/${user}/${repo}/tree/main/gpts/${slug}`;
-  gout.innerHTML = hits.length
-    ? hits.map(m=>`<div><b>${m.slug}</b> — ${m.name} · <a target="_blank" href="${repoLink(m.slug)}">repo</a>${m.openai_link?` · <a target="_blank" href="${m.openai_link}">GPT</a>`:''}<br><span class="muted">${(m.prompt||'').slice(0,160)}${(m.prompt||'').length>160?'…':''}</span></div>`).join('')
-    : '<span class="muted">— Nav atbilstību —</span>';
-}
-gq?.addEventListener('input', doGlobalSearch);
-loadModuleIndex();
 
+  async function loadIndexes(){
+    gstatus.textContent = 'Ielādēju indeksus…';
+    const [mods, terms, arts] = await Promise.all([
+      safeGet('./index.json'),
+      safeGet('./terms.json'),
+      safeGet('./articles.json')
+    ]);
+    gMods  = (mods  && Array.isArray(mods.modules))  ? mods.modules  : [];
+    gTerms = (terms && Array.isArray(terms.terms))    ? terms.terms   : [];
+    gArts  = (arts  && Array.isArray(arts.articles))  ? arts.articles : [];
+    if (!mods && !terms && !arts){
+      gstatus.textContent = 'Nav indeksu failu (docs/index.json, terms.json, articles.json). Palaid “Build search indexes” vai izveido tos manuāli.';
+    } else {
+      gstatus.textContent = `Ielādēti: moduļi ${gMods.length}, termini ${gTerms.length}, raksti ${gArts.length}`;
+    }
+    doGlobalSearch(); // ja jau ierakstīts vaicājums — parādīt uzreiz
+  }
+
+  function doGlobalSearch(){
+    const q = (gq.value||'').trim().toLowerCase();
+    if(!gMods.length && !gTerms.length && !gArts.length){
+      gout.classList.add('muted'); gout.textContent = 'Indeksi nav ielādēti.'; return;
+    }
+    if(q.length < 2){
+      gout.classList.add('muted'); gout.textContent = 'Ievadi vismaz 2 rakstzīmes.'; return;
+    }
+    gout.classList.remove('muted');
+
+    const modHits = gMods.filter(m=>{
+      const hay = [m.slug,m.name,m.purpose,m.notes,m.prompt].join(' ').toLowerCase();
+      return hay.includes(q);
+    }).slice(0,50);
+
+    const termHits = gTerms.filter(t=>{
+      const hay = [t.term,t.definition_lv,t.definition_en,t.aliases,t.tags,t.slug].join(' ').toLowerCase();
+      return hay.includes(q);
+    }).slice(0,50);
+
+    const artHits = gArts.filter(a=>{
+      const hay = [a.key,a.title,a.authors,a.year,a.venue,a.tags,a.slug].join(' ').toLowerCase();
+      return hay.includes(q);
+    }).slice(0,50);
+
+    const html = [
+      `<div><b>Moduļi (${modHits.length})</b></div>`,
+      modHits.length
+        ? modHits.map(m=>`<div class="item"><b>${esc(m.slug)}</b> — ${esc(m.name)} · <a target="_blank" href="${repoLink(m.slug)}">repo</a>${m.openai_link?` · <a target="_blank" href="${m.openai_link}">GPT</a>`:''}</div>`).join('')
+        : '<div class="muted">—</div>',
+      `<div style="margin-top:8px;"><b>Termini (${termHits.length})</b></div>`,
+      termHits.length
+        ? termHits.map(t=>`<div class="item"><b>${esc(t.term)}</b> — ${esc(t.definition_lv||t.definition_en||'')} <span class="muted">[${esc(t.slug)}]</span> · <a target="_blank" href="${repoLink(t.slug)}">repo</a></div>`).join('')
+        : '<div class="muted">—</div>',
+      `<div style="margin-top:8px;"><b>Raksti (${artHits.length})</b></div>`,
+      artHits.length
+        ? artHits.map(a=>`<div class="item"><b>${esc(a.title||a.key||'')}</b> — ${esc(a.authors||'')}${a.year?`, ${esc(a.year)}`:''} <span class="muted">[${esc(a.slug)}]</span>${a.url?` · <a target="_blank" href="${a.url}">saite</a>`:''} · <a target="_blank" href="${repoLink(a.slug)}">repo</a></div>`).join('')
+        : '<div class="muted">—</div>'
+    ].join('\n');
+
+    gout.innerHTML = html;
+  }
+
+  document.getElementById("gq").addEventListener('input', doGlobalSearch);
+
+  // ====== START ======
+  loadCSV();
+  loadIndexes();
+})();
 </script>
 </body>
 </html>
