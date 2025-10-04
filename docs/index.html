@@ -263,6 +263,7 @@
   const gout = document.getElementById("gout");
   const gstatus = document.getElementById("gstatus");
   let gMods = [], gTerms = [], gArts = [];
+  let linkBySlug = {};
 
   async function safeGet(path){
     const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), 12000);
@@ -289,59 +290,62 @@
     }
     doGlobalSearch();
   }
-  function doGlobalSearch(){
-    const q = (gq.value||'').trim().toLowerCase();
-    if(!gMods.length && !gTerms.length && !gArts.length){
-      gout.classList.add('muted'); gout.textContent = 'Indeksi nav ielādēti.'; return;
-    }
-    if(q.length < 2){
-      gout.classList.add('muted'); gout.textContent = 'Ievadi vismaz 2 rakstzīmes.'; return;
-    }
-    gout.classList.remove('muted');
-
-    const modHits = gMods.filter(m=>{
-      const hay = [m.slug,m.name,m.purpose,m.notes,m.prompt].join(' ').toLowerCase();
-      return hay.includes(q);
-    }).slice(0,50);
-    const termHits = gTerms.filter(t=>{
-      const hay = [t.term,t.definition_lv,t.definition_en,t.aliases,t.tags,t.slug].join(' ').toLowerCase();
-      return hay.includes(q);
-    }).slice(0,50);
-    const artHits = gArts.filter(a=>{
-      const hay = [a.key,a.title,a.authors,a.year,a.venue,a.tags,a.slug].join(' ').toLowerCase();
-      return hay.includes(q);
-    }).slice(0,50);
-
-    const html = [
-      `<div><b>Moduļi (${modHits.length})</b></div>`,
-      modHits.length
-        ? modHits.map(m=>`<div class="item"><b>${esc(m.slug)}</b> — ${esc(m.name)}
-          · <a target="_blank" href="${repoLink(m.slug)}">repo</a>
-          · <a target="_blank" href="${rawPrompt(m.slug)}">prompt</a>
-          ${m.openai_link?` · <a target="_blank" href="${m.openai_link}">GPT</a>`:''}
-        </div>`).join('')
-        : '<div class="muted">—</div>',
-      `<div style="margin-top:8px;"><b>Termini (${termHits.length})</b></div>`,
-      termHits.length
-        ? termHits.map(t=>`<div class="item"><b>${esc(t.term)}</b> — ${esc(t.definition_lv||t.definition_en||'')}
-          <span class="muted">[${esc(t.slug)}]</span>
-          · <a target="_blank" href="${repoLink(t.slug)}">repo</a>
-          · <a target="_blank" href="${rawPrompt(t.slug)}">prompt</a>
-        </div>`).join('')
-        : '<div class="muted">—</div>',
-      `<div style="margin-top:8px;"><b>Raksti (${artHits.length})</b></div>`,
-      artHits.length
-        ? artHits.map(a=>`<div class="item"><b>${esc(a.title||a.key||'')}</b> — ${esc(a.authors||'')}${a.year?`, ${esc(a.year)}`:''}
-          <span class="muted">[${esc(a.slug)}]</span>
-          ${a.url?` · <a target="_blank" href="${a.url}">saite</a>`:''}
-          · <a target="_blank" href="${repoLink(a.slug)}">repo</a>
-          · <a target="_blank" href="${rawPrompt(a.slug)}">prompt</a>
-        </div>`).join('')
-        : '<div class="muted">—</div>'
-    ].join('\n');
-
-    gout.innerHTML = html;
+ function doGlobalSearch(){
+  const q = (gq.value||'').trim().toLowerCase();
+  if(!gMods.length && !gTerms.length && !gArts.length){
+    gout.classList.add('muted'); gout.textContent = 'Indeksi nav ielādēti.'; return;
   }
+  if(q.length < 2){
+    gout.classList.add('muted'); gout.textContent = 'Ievadi vismaz 2 rakstzīmes.'; return;
+  }
+  gout.classList.remove('muted');
+
+  const modHits = gMods.filter(m=>{
+    const hay = [m.slug,m.name,m.purpose,m.notes,m.prompt].join(' ').toLowerCase();
+    return hay.includes(q);
+  }).slice(0,50);
+
+  const termHits = gTerms.filter(t=>{
+    const hay = [t.term,t.definition_lv,t.definition_en,t.aliases,t.tags,t.slug].join(' ').toLowerCase();
+    return hay.includes(q);
+  }).slice(0,50);
+
+  const artHits = gArts.filter(a=>{
+    const hay = [a.key,a.title,a.authors,a.year,a.venue,a.tags,a.slug].join(' ').toLowerCase();
+    return hay.includes(q);
+  }).slice(0,50);
+
+  const html = [
+    `<div><b>Moduļi (${modHits.length})</b></div>`,
+    modHits.length
+      ? modHits.map(m=>`<div class="item"><b>${esc(m.slug)}</b> — ${esc(m.name)}
+        · <a target="_blank" href="${repoLink(m.slug)}">repo</a>
+        · <a target="_blank" href="${rawPrompt(m.slug)}">prompt</a>
+        ${linkBySlug[m.slug] ? ` · <a target="_blank" href="${linkBySlug[m.slug]}">GPT</a>` : ''}
+      </div>`).join('')
+      : '<div class="muted">—</div>',
+    `<div style="margin-top:8px;"><b>Termini (${termHits.length})</b></div>`,
+    termHits.length
+      ? termHits.map(t=>`<div class="item"><b>${esc(t.term)}</b> — ${esc(t.definition_lv||t.definition_en||'')}
+        <span class="muted">[${esc(t.slug)}]</span>
+        · <a target="_blank" href="${repoLink(t.slug)}">repo</a>
+        · <a target="_blank" href="${rawPrompt(t.slug)}">prompt</a>
+      </div>`).join('')
+      : '<div class="muted">—</div>',
+    `<div style="margin-top:8px;"><b>Raksti (${artHits.length})</b></div>`,
+    artHits.length
+      ? artHits.map(a=>`<div class="item"><b>${esc(a.title||a.key||'')}</b> — ${esc(a.authors||'')}${a.year?`, ${esc(a.year)}`:''}
+        <span class="muted">[${esc(a.slug)}]</span>
+        ${a.url?` · <a target="_blank" href="${a.url}">saite</a>`:''}
+        · <a target="_blank" href="${repoLink(a.slug)}">repo</a>
+        · <a target="_blank" href="${rawPrompt(a.slug)}">prompt</a>
+      </div>`).join('')
+      : '<div class="muted">—</div>'
+  ].join('\n');
+
+  gout.innerHTML = html;
+}
+
 
   // klausītāji
   document.getElementById("gq").addEventListener('input', doGlobalSearch);
