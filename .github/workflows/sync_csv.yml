@@ -17,10 +17,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Copy CSV to docs/
-        run: |
-          mkdir -p docs
-          cp gpts.csv docs/gpts.csv
+      - name: Copy to docs/
+  run: |
+    if [ ! -f gpts.csv ]; then
+      echo "ERROR: gpts.csv not found in repo root"; exit 1;
+    fi
+    mkdir -p docs
+    cp gpts.csv docs/gpts.csv
 
       - name: Commit if changed
         run: |
