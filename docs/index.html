@@ -40,17 +40,84 @@
 
   <div id="table"></div>
 
-  <h2>Globāla meklēšana (moduļi)</h2>
-<div class="bar">
-  <input id="gq" type="search" placeholder="Raksti meklējamo vārdu/frasu..." />
-  <span class="muted" id="gstatus">Ielādēju indeksu…</span>
-</div>
-<div id="gout" class="muted">—</div>
-  <details id="debugWrap">
-    <summary>Diagnoze</summary>
-    <pre id="debug">—</pre>
-  </details>
+ // ==== Globālā meklēšana: moduļi + termini + raksti ====
+const gq = document.getElementById("gq");
+const gout = document.getElementById("gout");
+const gstatus = document.getElementById("gstatus");
 
+let gMods = [], gTerms = [], gArts = [];
+
+async function safeGet(path){
+  const ctrl = new AbortController();
+  const t = setTimeout(()=>ctrl.abort(), 6000);
+  try{
+    const res = await fetch(path + '?ts=' + Date.now(), { signal: ctrl.signal });
+    if(!res.ok) return null;
+    return await res.json();
+  }catch(_){ return null; }
+  finally{ clearTimeout(t); }
+}
+
+async function loadIndexes(){
+  gstatus.textContent = 'Ielādēju indeksus…';
+  const [mods, terms, arts] = await Promise.all([
+    safeGet('./index.json'),
+    safeGet('./terms.json'),
+    safeGet('./articles.json')
+  ]);
+  gMods  = (mods  && Array.isArray(mods.modules))    ? mods.modules    : [];
+  gTerms = (terms && Array.isArray(terms.terms))      ? terms.terms     : [];
+  gArts  = (arts  && Array.isArray(arts.articles))    ? arts.articles   : [];
+  gstatus.textContent = `Ielādēti: moduļi ${gMods.length}, termini ${gTerms.length}, raksti ${gArts.length}`;
+  doGlobalSearch(); // ja jau ir vaicājums, uzreiz parādīsies
+}
+
+function esc(s){ return (s||"").replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+function repoLink(slug){
+  const user = location.hostname.split('.')[0];
+  const repo = location.pathname.replace(/^\/+/, '').split('/')[0];
+  return `https://github.com/${user}/${repo}/tree/main/gpts/${slug}`;
+}
+
+function doGlobalSearch(){
+  const q = (gq.value||'').trim().toLowerCase();
+  if(!gMods.length && !gTerms.length && !gArts.length){
+    gout.classList.add('muted'); gout.textContent = 'Indeksi nav ielādēti.'; return;
+  }
+  if(q.length < 2){
+    gout.classList.add('muted'); gout.textContent = 'Ievadi vismaz 2 rakstzīmes.'; return;
+  }
+  gout.classList.remove('muted');
+
+  const modHits = gMods.filter(m=>{
+    const hay = [m.slug,m.name,m.purpose,m.notes,m.prompt].join(' ').toLowerCase();
+    return hay.includes(q);
+  }).slice(0,50);
+
+  const termHits = gTerms.filter(t=>{
+    const hay = [t.term,t.definition_lv,t.definition_en,t.aliases,t.tags,t.slug].join(' ').toLowerCase();
+    return hay.includes(q);
+  }).slice(0,50);
+
+  const artHits = gArts.filter(a=>{
+    const hay = [a.key,a.title,a.authors,a.year,a.venue,a.tags,a.slug].join(' ').toLowerCase();
+    return hay.includes(q);
+  }).slice(0,50);
+
+  const html = [
+    `<div><b>Moduļi (${modHits.length})</b></div>`,
+    modHits.length ? modHits.map(m=>`<div>${esc(m.slug)} — ${esc(m.name)} · <a target="_blank" href="${repoLink(m.slug)}">repo</a></div>`).join('') : '<div class="muted">—</div>',
+    `<div style="margin-top:8px;"><b>Termini (${termHits.length})</b></div>`,
+    termHits.length ? termHits.map(t=>`<div><b>${esc(t.term)}</b> — ${esc(t.definition_lv||t.definition_en||'')} <span class="muted">[${esc(t.slug)}]</span> · <a target="_blank" href="${repoLink(t.slug)}">repo</a></div>`).join('') : '<div class="muted">—</div>',
+    `<div style="margin-top:8px;"><b>Raksti (${artHits.length})</b></div>`,
+    artHits.length ? artHits.map(a=>`<div><b>${esc(a.title||a.key||'')}</b> — ${esc(a.authors||'')}${a.year?`, ${esc(a.year)}`:''} <span class="muted">[${esc(a.slug)}]</span>${a.url?` · <a target="_blank" href="${a.url}">saite</a>`:''} · <a target="_blank" href="${repoLink(a.slug)}">repo</a></div>`).join('') : '<div class="muted">—</div>'
+  ].join('\n');
+
+  gout.innerHTML = html;
+}
+
+gq?.addEventListener('input', doGlobalSearch);
+loadIndexes();
 <script>
 (function(){
   const statusEl = document.getElementById('status');
