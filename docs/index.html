@@ -260,7 +260,7 @@
   let gMods = [], gTerms = [], gArts = [];
 
   async function safeGet(path){
-    const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), 6000);
+    const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), 12000);
     try{
       const res = await fetch(path + '?ts=' + Date.now(), { signal: ctrl.signal });
       if(!res.ok) return null;
