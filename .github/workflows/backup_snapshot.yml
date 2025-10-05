@@ -26,14 +26,15 @@ jobs:
           [ -d gpts ] && cp -r gpts "$SNAP/gpts" || true
           echo "SNAPSHOT=$SNAP" >> $GITHUB_ENV
 
-      - name: Commit snapshot
+           - name: Commit snapshot
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if ! git diff --quiet -- snapshots ; then
-            git add snapshots
+          git add -A snapshots
+          if git diff --cached --quiet; then
+            echo "Nothing to snapshot."
+          else
             git commit -m "Snapshot: ${SNAPSHOT} [skip ci]"
             git push
-          else
-            echo "Nothing to snapshot."
           fi
+
