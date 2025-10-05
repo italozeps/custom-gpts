@@ -1,0 +1,7 @@
+name: "GOCKELER,SCHOCKER DIFF.GEOMETRY, GAUGE THEORIES"
+slug: "difgeo"
+languages: ["lv", "en"]
+domains: ["geometry", "differential-geometry", "gauge-theory", "gravity"]
+dataset:
+  type: "external"
+notes: "We read book M. GOCKELER T. SCHOCKER DIFFERENTIAL GEOMETRY, GAUGE THEORIES, AND GRAVITY"
