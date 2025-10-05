@@ -17,17 +17,19 @@ jobs:
 
       - name: Make snapshot
         run: |
+          set -e
           TS=$(date -u +"%Y-%m-%d_%H-%M-%S")
           SNAP="snapshots/$TS"
           mkdir -p "$SNAP"
           # Saglabājam to, kas ietekmē dashboard
           cp -r docs "$SNAP/docs"
-          [ -f gpts.csv ] && cp gpts.csv "$SNAP/gpts.csv" || true
-          [ -d gpts ] && cp -r gpts "$SNAP/gpts" || true
+          if [ -f gpts.csv ]; then cp gpts.csv "$SNAP/gpts.csv"; fi
+          if [ -d gpts ]; then cp -r gpts "$SNAP/gpts"; fi
           echo "SNAPSHOT=$SNAP" >> $GITHUB_ENV
 
-           - name: Commit snapshot
+      - name: Commit snapshot
         run: |
+          set -e
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A snapshots
@@ -37,4 +39,3 @@ jobs:
             git commit -m "Snapshot: ${SNAPSHOT} [skip ci]"
             git push
           fi
-
