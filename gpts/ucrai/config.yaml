@@ -1,0 +1,7 @@
+name: "Чи може штучний інтелект (ШІ) зупинити війну? ПMK"
+slug: "ucrai"
+languages: ["ua", "lv", "en", "la"]
+domains: ["штучний-інтелект", "Russia-delenda-est"]
+dataset:
+  type: "external"
+notes: "Ми хочемо розпочати мирну конференцію для завершення війни в Україні, "
