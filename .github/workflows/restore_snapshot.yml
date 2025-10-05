@@ -1,0 +1,43 @@
+name: Restore snapshot
+
+on:
+  workflow_dispatch:
+    inputs:
+      path:
+        description: "Snapshot path under snapshots/ (e.g., 2025-10-05_12-00-00)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate input
+        run: |
+          SNAP="snapshots/${{ inputs.path }}"
+          test -d "$SNAP" || { echo "Snapshot not found: $SNAP"; exit 1; }
+          test -d "$SNAP/docs" || { echo "No docs/ in snapshot"; exit 1; }
+          echo "SNAP=$SNAP" >> $GITHUB_ENV
+
+      - name: Restore files
+        run: |
+          rm -rf docs
+          cp -r "$SNAP/docs" docs
+          if [ -f "$SNAP/gpts.csv" ]; then cp "$SNAP/gpts.csv" gpts.csv; fi
+          if [ -d "$SNAP/gpts" ]; then rm -rf gpts; cp -r "$SNAP/gpts" gpts; fi
+
+      - name: Commit restore
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs gpts.csv gpts || true
+          git commit -m "Restore from snapshot ${{ inputs.path }} [skip ci]" || echo "No changes to commit."
+          git push
