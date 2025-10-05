@@ -69,7 +69,10 @@
   const repo = location.pathname.replace(/^\/+/, '').split('/')[0];
   function repoLink(slug){ return `https://github.com/${user}/${repo}/tree/main/gpts/${slug}`; }
   function rawConfigUrl(slug){ return `https://raw.githubusercontent.com/${user}/${repo}/main/gpts/${slug}/config.yaml`; }
-  function rawPrompt(slug){ return `https://raw.githubusercontent.com/${user}/${repo}/main/gpts/${slug}/prompt.md`; }
+  function rawPrompt(slug){ 
+  return `https://github.com/${user}/${repo}/blob/main/gpts/${slug}/prompt.md`; 
+}
+
   function viewPrompt(slug){
   return `https://github.com/${user}/${repo}/blob/main/gpts/${slug}/prompt.md`;
 }
