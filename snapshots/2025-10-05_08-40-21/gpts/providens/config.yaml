@@ -1,0 +1,7 @@
+name: "Planetārā izglītība, noosfēra, providence"
+slug: "providens"
+languages: ["ua", "lv", "en"]
+domains: ["planetary-education", "noosphere","providence","victory-of-ukraine"]
+dataset:
+  type: "external"
+notes: "Planetary Education, Noosphere, Providence"

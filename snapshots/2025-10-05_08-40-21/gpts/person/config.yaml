@@ -1,0 +1,7 @@
+name: "Dainis Zeps. CV. Profils. Mana dzīve"
+slug: "person"
+languages: ["ru", "lv", "en", "ua", "la"]
+domains: ["curriculum-vitae", "mathematics", "physics"]
+dataset:
+  type: "external"
+notes: "Curriculum Vitae. Notikumi. Piedzīvojumi"

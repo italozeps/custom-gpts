@@ -1,0 +1,7 @@
+name: "May Information wage war against Evil?"
+slug: "artint"
+languages: ["ua", "lv", "en"]
+domains: ["AI", "against-evil", "AI-against-evil"]
+dataset:
+  type: "external"
+notes: "Artificial Intelligence against Evil"

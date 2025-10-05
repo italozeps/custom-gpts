@@ -1,0 +1,7 @@
+name: "E.Grinbergs Disertācija 1943"
+slug: "green"
+languages: ["lv", "ru", "en", "la", "fr", "it", "de"]
+domains: ["geometry", "differential-geometry", "oskulācija"]
+dataset:
+  type: "internal"   # saturu glabā šajā repo 
+notes: "Emanuels Grinbergs Par oskulāciju, superoskulāciju un charakteristiskiem punktiem"

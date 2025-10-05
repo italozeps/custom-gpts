@@ -1,0 +1,7 @@
+name: "About Russia's aggression against Ukraine"
+slug: "rusag"
+languages: ["ru", "lv", "en"]
+domains: ["Russia", "Russia-aggression", "war-in-ukraine"]
+dataset:
+  type: "external"
+notes: "We consider conversation with GPT about Russian Ukraine war and its analysis"

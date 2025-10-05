@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="lv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Custom GPTs — Dashboard</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; }
+    h1 { margin: 0 0 8px; }
+    h2 { margin-top: 28px; }
+    .muted { color:#666; font-size:12px; }
+    .bar { display:flex; gap:8px; flex-wrap:wrap; margin:12px 0; }
+    input, select, button { padding:8px; font-size:14px; }
+    table { width:100%; border-collapse:collapse; margin-top:12px; }
+    th, td { border-bottom:1px solid #ddd; padding:8px; vertical-align:top; text-align:left; }
+    th { background:#f7f7f7; position:sticky; top:0; cursor:pointer; }
+    .tag { display:inline-block; padding:2px 6px; border-radius:12px; background:#eee; font-size:12px; margin-right:6px; }
+    .res { border:1px solid #eee; padding:8px; border-radius:8px; margin-top:8px; }
+    .item { margin:4px 0; }
+    details { margin-top:16px; }
+    pre { background:#fafafa; border:1px solid #eee; padding:8px; border-radius:8px; overflow:auto; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+</head>
+<body>
+  <h1>Custom GPTs — Dashboard</h1>
+  <div id="status" class="muted">Ielāde…</div>
+
+  <div class="bar">
+    <input id="q" type="search" placeholder="Meklēt tabulā (slug/nosaukums/purpose/notes)..." />
+    <select id="statusFilter">
+      <option value="">Statuss — visi</option>
+      <option>active</option>
+      <option>draft</option>
+      <option>archived</option>
+    </select>
+    <select id="langFilter"><option value="">Valoda — visas</option></select>
+    <select id="domFilter"><option value="">Domēns — visi</option></select>
+  </div>
+
+  <div id="table"></div>
+
+  <h2>Globāla meklēšana (moduļi · termini · raksti)</h2>
+  <div class="bar">
+    <input id="gq" type="search" placeholder="Raksti meklējamo vārdu/frasu..." />
+    <span class="muted" id="gstatus">Ielādēju indeksus…</span>
+  </div>
+  <div id="gout" class="res muted">—</div>
+
+  <details id="debugWrap" open>
+    <summary>Diagnoze</summary>
+    <pre id="debug">—</pre>
+  </details>
+
+<script>
+(function(){
+  const showDebug = false;
+  const statusEl = document.getElementById('status');
+  const tableWrap = document.getElementById('table');
+  const debugEl = document.getElementById('debug');
+  const debugWrap = document.getElementById('debugWrap');
+  if (!showDebug) debugWrap.style.display = 'none';
+  function log(msg){ if (!showDebug) return; debugEl.textContent = (debugEl.textContent==='—'?'':debugEl.textContent+'\n') + msg; }
+  function esc(s){ return (s||"").replace(/[&<>]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+  const csvUrl = './gpts.csv';
+  const user = location.hostname.split('.')[0];
+  const repo = location.pathname.replace(/^\/+/, '').split('/')[0];
+  function repoLink(slug){ return `https://github.com/${user}/${repo}/tree/main/gpts/${slug}`; }
+  function rawConfigUrl(slug){ return `https://raw.githubusercontent.com/${user}/${repo}/main/gpts/${slug}/config.yaml`; }
+  function rawPrompt(slug){ return `https://raw.githubusercontent.com/${user}/${repo}/main/gpts/${slug}/prompt.md`; }
+  function a(href, text){ return href ? '<a target="_blank" rel="noopener" href="'+href+'">'+esc(text)+'</a>' : esc(text); }
+
+
+  let rows = [];
+  let metaBySlug = {};       // {slug:{languages:[],domains:[]}}
+  let linkBySlug = {};       // {slug: openai_link}
+  let sortK = 'slug', sortDir = 1;
+
+  const qEl = document.getElementById('q');
+  const stEl = document.getElementById('statusFilter');
+  const langEl = document.getElementById('langFilter');
+  const domEl  = document.getElementById('domFilter');
+
+  function uniqueSorted(arr){ return Array.from(new Set(arr.filter(Boolean))).sort((a,b)=>a.localeCompare(b)); }
+
+  function buildFilters(){
+    const langs = uniqueSorted(rows.flatMap(r => (metaBySlug[r.slug]?.languages)||[]));
+    const doms  = uniqueSorted(rows.flatMap(r => (metaBySlug[r.slug]?.domains)||[]));
+    langEl.innerHTML = '<option value="">Valoda — visas</option>' + langs.map(x=>`<option>${esc(x)}</option>`).join('');
+    domEl.innerHTML  = '<option value="">Domēns — visi</option>' + doms.map(x=>`<option>${esc(x)}</option>`).join('');
+  }
+
+  function renderTable(){
+    const enriched = rows.map(r => ({
+      ...r,
+      languages: (metaBySlug[r.slug]?.languages)||[],
+      domains:   (metaBySlug[r.slug]?.domains)||[]
+    }));
+
+    const q = (qEl.value||'').toLowerCase();
+    const st= (stEl.value||'').toLowerCase();
+    const lsel = langEl.value||'';
+    const dsel = domEl.value||'';
+
+    const filtered = enriched.filter(r=>{
+      const hay = [r.slug,r.name,r.purpose,r.notes].join(' ').toLowerCase();
+      const okQ = !q || hay.includes(q);
+      const okS = !st || (r.status||'').toLowerCase()===st;
+      const okL = !lsel || (r.languages||[]).includes(lsel);
+      const okD = !dsel || (r.domains||[]).includes(dsel);
+      return okQ && okS && okL && okD;
+    });
+
+    filtered.sort((a,b)=>{
+      const av=(a[sortK]||'').toString().toLowerCase();
+      const bv=(b[sortK]||'').toString().toLowerCase();
+      return av.localeCompare(bv)*sortDir;
+    });
+
+    const tbl = document.createElement('table');
+    const thead = document.createElement('thead');
+    const trh = document.createElement('tr');
+    [
+      ['slug','Slug'],
+      ['name','Nosaukums'],
+      ['purpose','Mērķis'],
+      ['status','Statuss'],
+      ['languages','Valodas'],
+      ['domains','Domēni'],
+      ['links','Links'],
+      ['last_edit','Pēd. lab.'],
+      ['notes','Piezīmes']
+    ].forEach(([k,title])=>{
+      const th=document.createElement('th');
+      th.textContent=title;
+      if (k!=='links'){ th.dataset.k=k; th.addEventListener('click', ()=>{
+        if (sortK===k) sortDir*=-1; else { sortK=k; sortDir=1; }
+        renderTable();
+      });}
+      trh.appendChild(th);
+    });
+    thead.appendChild(trh);
+    tbl.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+    filtered.forEach(r=>{
+      const tr=document.createElement('tr');
+      const langTags=(r.languages||[]).map(x=>`<span class="tag">${esc(x)}</span>`).join('');
+      const domTags =(r.domains||[]).map(x=>`<span class="tag">${esc(x)}</span>`).join('');
+
+      const linkParts=[];
+      if (r.openai_link)  linkParts.push(`<a href="${r.openai_link}" target="_blank" rel="noopener">GPT</a>`);
+      if (r.dataset_link) linkParts.push(`<a href="${r.dataset_link}" target="_blank" rel="noopener">dati</a>`);
+      if (r.slug)         linkParts.push(`<a href="${repoLink(r.slug)}" target="_blank" rel="noopener">repo</a>`);
+      if (r.slug)         linkParts.push(`<a href="${rawPrompt(r.slug)}" target="_blank" rel="noopener">prompt</a>`);
+
+      tr.innerHTML = `
+        <td><span class="tag">${esc(r.slug||'')}</span></td>
+        <td>${esc(r.name||'')}</td>
+        <td>${esc(r.purpose||'')}</td>
+        <td>${esc(r.status||'')}</td>
+        <td>${langTags}</td>
+        <td>${domTags}</td>
+        <td>${linkParts.join(' · ')}</td>
+        <td>${esc(r.last_edit||'')}</td>
+        <td>${esc(r.notes||'')}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    tbl.appendChild(tbody);
+    tableWrap.innerHTML = '';
+    tableWrap.appendChild(tbl);
+    statusEl.textContent = `Rindas: ${filtered.length} / ${rows.length}`;
+  }
+
+  async function fetchConfig(slug){
+    const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), 12000);
+    try{
+      const res = await fetch(rawConfigUrl(slug) + '?ts=' + Date.now(), { signal: ctrl.signal });
+      if (!res.ok) { log(`YAML ${slug}: HTTP ${res.status}`); return; }
+      const txt = await res.text();
+      const obj = jsyaml.load(txt);
+      metaBySlug[slug] = {
+        languages: Array.isArray(obj?.languages) ? obj.languages : [],
+        domains:   Array.isArray(obj?.domains)   ? obj.domains   : []
+      };
+      log(`YAML OK: ${slug} (${(metaBySlug[slug].languages||[]).length} lang, ${(metaBySlug[slug].domains||[]).length} dom)`);
+    } catch(e){
+      log(`YAML error ${slug}: ${e.name||e}`);
+    } finally { clearTimeout(t); }
+  }
+
+  function loadAllConfigs(){
+    Promise.allSettled(rows.map(r=>fetchConfig(r.slug))).then(()=>{
+      buildFilters();
+      renderTable();
+    });
+  }
+
+  function loadCSV(){
+    try{
+      log('Sāk lasīt: ' + csvUrl);
+      Papa.parse(csvUrl, {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: (res) => {
+          log('CSV ielādēts. Kolonnas: ' + (res.meta && res.meta.fields ? res.meta.fields.join(', ') : 'nav'));
+          rows = (res.data||[]).map(r => ({
+            slug: r.slug||'',
+            name: r.name||'',
+            purpose: r.purpose||'',
+            status: r.status||'',
+            owner: r.owner||'',
+            last_edit: r.last_edit||'',
+            openai_link: r.openai_link||'',
+            dataset_link: r.dataset_link||'',
+            notes: r.notes||''
+          }));
+          // slug -> openai_link karte meklēšanai
+          linkBySlug = Object.fromEntries(
+            rows.filter(r => r.slug && r.openai_link).map(r => [r.slug, r.openai_link])
+          );
+
+          if (rows.length===0){
+            statusEl.textContent = 'CSV ielādēts, bet nav rindu.';
+            renderTable();
+          } else {
+            statusEl.textContent = `CSV ielādēts: ${rows.length} rindas. Lādēju konfigurācijas…`;
+            loadAllConfigs();
+          }
+        },
+        error: (err) => {
+          statusEl.textContent = 'Kļūda ielādējot CSV: ' + err;
+          log('CSV kļūda: ' + JSON.stringify(err));
+        }
+      });
+    } catch(e){
+      statusEl.textContent = 'JS kļūda: ' + (e && e.message ? e.message : e);
+      log((e && e.stack) ? e.stack : String(e));
+    }
+  }
+
+  qEl.addEventListener('input', renderTable);
+  stEl.addEventListener('change', renderTable);
+  langEl.addEventListener('change', renderTable);
+  domEl.addEventListener('change', renderTable);
+
+  // ====== GLOBĀLĀ MEKLĒŠANA ======
+  const gq = document.getElementById("gq");
+  const gout = document.getElementById("gout");
+  const gstatus = document.getElementById("gstatus");
+  let gMods = [], gTerms = [], gArts = [];
+
+  async function safeGet(path){
+    const ctrl = new AbortController(); const t = setTimeout(()=>ctrl.abort(), 12000);
+    try{
+      const res = await fetch(path + '?ts=' + Date.now(), { signal: ctrl.signal });
+      if(!res.ok) return null;
+      return await res.json();
+    }catch(_){ return null; }
+    finally{ clearTimeout(t); }
+  }
+  async function loadIndexes(){
+    const [mods, terms, arts] = await Promise.all([
+      safeGet('./index.json'),
+      safeGet('./terms.json'),
+      safeGet('./articles.json')
+    ]);
+    gMods  = (mods  && Array.isArray(mods.modules))  ? mods.modules  : [];
+    gTerms = (terms && Array.isArray(terms.terms))    ? terms.terms   : [];
+    gArts  = (arts  && Array.isArray(arts.articles))  ? arts.articles : [];
+    if (!mods && !terms && !arts){
+      gstatus.textContent = 'Nav indeksu failu (docs/index.json, terms.json, articles.json).';
+    } else {
+      gstatus.textContent = `Ielādēti: moduļi ${gMods.length}, termini ${gTerms.length}, raksti ${gArts.length}`;
+    }
+    doGlobalSearch();
+  }
+ function doGlobalSearch(){
+  const q = (gq.value||'').trim().toLowerCase();
+  if(!gMods.length && !gTerms.length && !gArts.length){
+    gout.classList.add('muted'); gout.textContent = 'Indeksi nav ielādēti.'; return;
+  }
+  if(q.length < 2){
+    gout.classList.add('muted'); gout.textContent = 'Ievadi vismaz 2 rakstzīmes.'; return;
+  }
+  gout.classList.remove('muted');
+
+  const modHits = gMods.filter(m=>{
+    const hay = [m.slug,m.name,m.purpose,m.notes,m.prompt].join(' ').toLowerCase();
+    return hay.includes(q);
+  }).slice(0,50);
+
+  const termHits = gTerms.filter(t=>{
+    const hay = [t.term,t.definition_lv,t.definition_en,t.aliases,t.tags,t.slug].join(' ').toLowerCase();
+    return hay.includes(q);
+  }).slice(0,50);
+
+  const artHits = gArts.filter(a=>{
+    const hay = [a.key,a.title,a.authors,a.year,a.venue,a.tags,a.slug].join(' ').toLowerCase();
+    return hay.includes(q);
+  }).slice(0,50);
+
+  let html = '';
+
+  // Moduļi
+  html += '<div><b>Moduļi ('+modHits.length+')</b></div>';
+  if(modHits.length){
+    const lines = [];
+    modHits.forEach(m=>{
+      let line = '<div class="item"><b>'+esc(m.slug)+'</b> — '+esc(m.name)
+               +' · '+a(repoLink(m.slug), 'repo')
+               +' · '+a(rawPrompt(m.slug), 'prompt');
+      if (linkBySlug[m.slug]) line += ' · '+a(linkBySlug[m.slug], 'GPT');
+      line += '</div>';
+      lines.push(line);
+    });
+    html += lines.join('');
+  } else {
+    html += '<div class="muted">—</div>';
+  }
+
+  // Termini
+  html += '<div style="margin-top:8px;"><b>Termini ('+termHits.length+')</b></div>';
+  if(termHits.length){
+    const lines = [];
+    termHits.forEach(t=>{
+      const def = t.definition_lv || t.definition_en || '';
+      let line = '<div class="item"><b>'+esc(t.term)+'</b> — '+esc(def)
+               +' <span class="muted">['+esc(t.slug)+']</span>'
+               +' · '+a(repoLink(t.slug), 'repo')
+               +' · '+a(rawPrompt(t.slug), 'prompt')
+               +'</div>';
+      lines.push(line);
+    });
+    html += lines.join('');
+  } else {
+    html += '<div class="muted">—</div>';
+  }
+
+  // Raksti
+  html += '<div style="margin-top:8px;"><b>Raksti ('+artHits.length+')</b></div>';
+  if(artHits.length){
+    const lines = [];
+    artHits.forEach(aObj=>{
+      let line = '<div class="item"><b>'+esc(aObj.title||aObj.key||'')+'</b> — '+esc(aObj.authors||'');
+      if (aObj.year) line += ', '+esc(aObj.year);
+      line += ' <span class="muted">['+esc(aObj.slug)+']</span>';
+      if (aObj.url) line += ' · '+a(aObj.url, 'saite');
+      line += ' · '+a(repoLink(aObj.slug), 'repo')
+           +  ' · '+a(rawPrompt(aObj.slug), 'prompt')
+           +  '</div>';
+      lines.push(line);
+    });
+    html += lines.join('');
+  } else {
+    html += '<div class="muted">—</div>';
+  }
+
+  gout.innerHTML = html;
+}
+
+
+  document.getElementById("gq").addEventListener('input', doGlobalSearch);
+
+  // START
+  loadCSV();
+  loadIndexes();
+})();
+</script>
+</body>
+</html>
