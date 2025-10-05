@@ -1,0 +1,7 @@
+name: "Dainis Zeps/Publications"
+slug: "public"
+languages: ["el", "lv", "en","ru"]
+domains: ["ancient-languages", "combinatorial-mathematics", "science-and-religion-dialogue", "project-russia", "emanuels-grinbergs-mathematical-legacy"]
+dataset:
+  type: "external"
+notes: "Publication Lists"

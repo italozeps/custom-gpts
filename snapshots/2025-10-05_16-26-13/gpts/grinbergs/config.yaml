@@ -1,0 +1,7 @@
+name: "Grinbergs Heritage GPT"
+slug: "grinbergs"
+languages: ["lv", "en"]
+domains: ["geometry", "history-of-math"]
+dataset:
+  type: "external"
+notes: "36h/43d; oskulācija; sagatave"

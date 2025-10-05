@@ -1,0 +1,7 @@
+name: "May AI end the war: peace conference project"
+slug: "pcp"
+languages: ["ua", "lv", "en", "la"]
+domains: ["war-in-ukraine", "stand-with-ukraine","peace-conference-project"]
+dataset:
+  type: "external"
+notes: "We want to initiate a peace conference to end the war in Ukraine by simulating its proceedings"

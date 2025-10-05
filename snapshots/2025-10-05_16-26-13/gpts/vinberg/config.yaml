@@ -1,0 +1,8 @@
+name: "Vinberg Algebra GPT"
+slug: "vinberg"
+languages: ["lv", "ru", "en"]
+domains: ["mathematics", "algebra"]
+dataset:
+  type: "internal"   # saturu glabā šajā repo (skat. 3. soli)
+  pointers: []
+notes: "E. B. Vinberg — A Course in Algebra (izmantot kopsavilkumus/indeksus; neglabāt pilnu grāmatu)."
