@@ -1,0 +1,39 @@
+name: Snapshot backup
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Make snapshot
+        run: |
+          TS=$(date -u +"%Y-%m-%d_%H-%M-%S")
+          SNAP="snapshots/$TS"
+          mkdir -p "$SNAP"
+          # Saglabājam to, kas ietekmē dashboard
+          cp -r docs "$SNAP/docs"
+          [ -f gpts.csv ] && cp gpts.csv "$SNAP/gpts.csv" || true
+          [ -d gpts ] && cp -r gpts "$SNAP/gpts" || true
+          echo "SNAPSHOT=$SNAP" >> $GITHUB_ENV
+
+      - name: Commit snapshot
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet -- snapshots ; then
+            git add snapshots
+            git commit -m "Snapshot: ${SNAPSHOT} [skip ci]"
+            git push
+          else
+            echo "Nothing to snapshot."
+          fi
