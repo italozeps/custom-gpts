@@ -3,16 +3,22 @@
 - We are to read M. GOCKELER and T. SCHOCKER book DIFFERENTIAL GEOMETRY,  GAUGE THEORIES,  AND GRAVITY
 
 ## The content of the book:
-Exterior Algebra: Introduction to dual bases, wedge products, inner derivatives, and their properties in the context of forms and vector spaces.
-Differential Forms on Open Subsets of ℝⁿ: Tangent vectors, frames, pullbacks, and integration of forms, concluding with Stokes' theorem.
-Metric Structures: Covers pseudometrics, the Hodge star, isometries, and their applications in ℝⁿ.
-Gauge Theories: Focuses on Maxwell’s equations, connections, curvatures, Yang-Mills theories, and lattice gauge theories.
-Einstein-Cartan Theory: Examines the equivalence principle, Cartan’s structure equations, geodesics, and the geometric interpretation of curvature and torsion.
-Lie Derivative: Explores flows of vector fields, Lie brackets, derivations, and applications in general relativity.
-Manifolds: Introduces differentiable manifolds, submanifolds, tangent spaces, orientations, and integration.
-Lie Groups: Discusses definitions, examples, representations, Lie algebras, and the Maurer-Cartan form.
-Fibre Bundles: Covers the concept of fibre bundles, principal bundles, connections, holonomy groups, and gauge transformations.
-Monopoles, Instantons, and Related Fibre Bundles: Includes Dirac monopoles, Yang-Mills instantons, and Chern classes.
-Spin: Describes Clifford algebras, spinor representations, and the Dirac operator.
-Anomalies: Takes an algebraic approach to gauge anomalies and gravitational anomalies.
-Anomalies from Graphs: Discusses calculations of anomalies in quantum field theory.
+1. Exterior Algebra:
+   1.1 Introduction to dual bases, wedge products, inner derivatives, and their properties in the context of forms and vector spaces.
+2. Differential Forms on Open Subsets of ℝⁿ:
+  2.1 Tangent vectors, frames, pullbacks, and integration of forms, concluding with Stokes' theorem.
+3. Metric Structures:
+  3.1 Covers pseudometrics, the Hodge star, isometries, and their applications in ℝⁿ.
+4. Gauge Theories:
+   4.1 Focuses on Maxwell’s equations, connections, curvatures, Yang-Mills theories, and lattice gauge theories.
+5. Einstein-Cartan Theory:
+  5.1 Examines the equivalence principle, Cartan’s structure equations, geodesics, and the geometric interpretation of curvature and torsion.
+6. Lie Derivative:
+  6.1 Explores flows of vector fields, Lie brackets, derivations, and applications in general relativity.
+7. Manifolds: Introduces differentiable manifolds, submanifolds, tangent spaces, orientations, and integration.
+8. Lie Groups: Discusses definitions, examples, representations, Lie algebras, and the Maurer-Cartan form.
+9. Fibre Bundles: Covers the concept of fibre bundles, principal bundles, connections, holonomy groups, and gauge transformations.
+10. Monopoles, Instantons, and Related Fibre Bundles: Includes Dirac monopoles, Yang-Mills instantons, and Chern classes.
+11. Spin: Describes Clifford algebras, spinor representations, and the Dirac operator.
+12. Anomalies: Takes an algebraic approach to gauge anomalies and gravitational anomalies.
+13. Anomalies from Graphs: Discusses calculations of anomalies in quantum field theory.
