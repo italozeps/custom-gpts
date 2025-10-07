@@ -2,7 +2,7 @@
 Apskatīsim rakstu, ko veidojam ar šādu pašu nosaukumu
 
 Aplūkojam raksta sagatavi Planetārā izglītība, noosfēra, providence.
-- Literatūras norādes/References
+## Literatūras norādes
 
 1.	Burgert A Senekal, Die neerslag van Russiese propaganda in kommentare op Maroela Media se nuusberigte oor die oorlog in Oekraïne, (Traces of Russian propaganda narratives in comments on Maroela Media’s news reports about the war in Ukraine) https://doi.org/10.56273/1995-5928/2023/j20n2b2, 2023-05-31
 2.	Burgert Adriaan Senekal, ChatGPT as a Source of Information about Russian Military Involvement in Ukraine (2014–Present), University of the Free State, South Africa, https://doi.org/10.1080/02500167.2024.2405018, https://www.tandfonline.com/doi/pdf/10.1080/02500167.2024.2405018 
