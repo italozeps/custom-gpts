@@ -18,10 +18,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 0 }
+
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
+
       - name: Build indexes (modules/terms/articles)
         run: python scripts/build_index.py
+
+      - name: Show docs/articles.json head (debug)
+        run: |
+          echo "--- docs/articles.json (first 60 lines) ---"
+          sed -n '1,60p' docs/articles.json || true
+
       - name: Commit docs/*.json if changed
         run: |
           if ! git diff --quiet -- docs/index.json docs/terms.json docs/articles.json; then
