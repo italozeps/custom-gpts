@@ -381,51 +381,69 @@
 })();
 </script>
 
-<!-- 1) GoatCounter skaitītājs --Grok variants>
+<!-- 1) GoatCounter skaitītājs -->
 <script data-goatcounter="https://dainize.goatcounter.com/count"
         async src="https://gc.zgo.at/count.js"></script>
 
 <!-- 2) Mazs “vizuālais skaitītājs” (HTML variants) -->
-<div id="gc-stats" style="margin: 8px 0; white-space: nowrap; color: #000 !important; display: inline-flex; align-items: center; min-width: 150px; border: none !important; background: transparent !important;"></div>
+<div id="gc-stats" style="margin: 8px 0; color: #000 !important; display: inline-flex; align-items: center; min-width: 150px; white-space: nowrap; border: none !important; background: transparent !important; font-family: Arial, sans-serif;">
+  <!-- Fallback teksts, ja skaitītājs neielādējas -->
+  <span id="gc-fallback" style="color: #000;">Loading counter...</span>
+</div>
+
 <script>
-  // Pagaidām, līdz ielādējas count.js
+  // Pārbauda GoatCounter ielādi un inicializē skaitītāju
   var t = setInterval(function () {
     if (window.goatcounter && window.goatcounter.visit_count) {
       clearInterval(t);
+      // Slēpj fallback tekstu
+      document.getElementById('gc-fallback').style.display = 'none';
+      // Inicializē skaitītāju
       window.goatcounter.visit_count({
-        append: '#gc-stats',   // Kur ielikt
-        type: 'html',          // HTML izvade
-        no_branding: true      // Paslēpt “by GoatCounter”
+        append: '#gc-stats',
+        type: 'html', // HTML izvade
+        no_branding: true // Paslēpt “by GoatCounter”
       });
-      // Pievieno papildu stilu pēc ielādes, lai pārliecinātos
+      // Pārraksta stilus pēc renderēšanas
       setTimeout(() => {
         document.querySelectorAll('#gc-stats, #gc-stats *').forEach(el => {
           el.style.color = '#000';
           el.style.border = 'none';
           el.style.background = 'transparent';
           el.style.whiteSpace = 'nowrap';
+          el.style.display = 'inline';
         });
-      }, 500); // Gaida 500ms, lai GoatCounter pabeigtu renderēšanu
+      }, 1000); // Gaida 1 sekundi, lai nodrošinātu renderēšanu
     }
   }, 100);
+
+  // Kļūdu apstrāde, ja GoatCounter neielādējas 5 sekunžu laikā
+  setTimeout(() => {
+    if (!window.goatcounter || !window.goatcounter.visit_count) {
+      document.getElementById('gc-fallback').textContent = 'Counter failed to load';
+      console.error('GoatCounter failed to load. Check network or URL: https://dainize.goatcounter.com/count');
+    }
+  }, 5000);
 </script>
 
-<!-- 3) Papildu CSS, lai kontrolētu GoatCounter izvadi -->
+<!-- 3) Papildu CSS, lai kontrolētu izvadi -->
 <style>
   #gc-stats, #gc-stats * {
-    color: #000 !important; /* Melna krāsa visam */
+    color: #000 !important; /* Melna krāsa */
     white-space: nowrap !important; /* Vienā rindā */
-    font-size: 14px; /* Kontrolē izmēru */
-    border: none !important; /* Noņem jebkuru rāmi */
+    font-size: 14px !important; /* Vienots izmērs */
+    border: none !important; /* Noņem rāmi */
     background: transparent !important; /* Noņem fonu */
-    padding: 0 !important; /* Noņem padding, kas var izraisīt pārlūšanu */
-    margin: 0 !important; /* Noņem margin konfliktus */
+    padding: 0 !important; /* Noņem padding */
+    margin: 0 !important; /* Noņem margin */
     line-height: 1.2 !important; /* Kontrolē rindu augstumu */
+    display: inline !important; /* Nodrošina inline izkārtojumu */
+    font-family: Arial, sans-serif !important; /* Vienots fonts */
   }
   #gc-stats {
-    display: inline-flex !important; /* Nodrošina vienu rindu */
+    min-width: 150px !important; /* Novērš saspiešanu */
+    display: inline-flex !important; /* Vienota rinda */
     align-items: center !important;
-    min-width: 150px; /* Paplašina, lai izvairītos no pārlūšanas */
   }
 </style>
 
