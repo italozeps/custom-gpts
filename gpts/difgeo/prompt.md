@@ -31,7 +31,18 @@
    - connections,
    - holonomy groups, and
    - gauge transformations.
-10. Monopoles, Instantons, and Related Fibre Bundles: Includes Dirac monopoles, Yang-Mills instantons, and Chern classes.
-11. Spin: Describes Clifford algebras, spinor representations, and the Dirac operator.
-12. Anomalies: Takes an algebraic approach to gauge anomalies and gravitational anomalies.
-13. Anomalies from Graphs: Discusses calculations of anomalies in quantum field theory.
+10. Monopoles,
+   - Instantons, and
+   -  Related Fibre Bundles:
+        - Includes Dirac monopoles,
+        - Yang-Mills instantons, and
+        - Chern classes.
+11. Spin:
+   - Describes Clifford algebras,
+   -  spinor representations, and
+   -  the Dirac operator.
+12. Anomalies:
+   - Takes an algebraic approach to gauge anomalies and
+   -  gravitational anomalies.
+13. Anomalies from Graphs:
+   - Discusses calculations of anomalies in quantum field theory.
