@@ -1,9 +1,14 @@
 # About Russia's aggression against Ukraine
 
-We consider conversation with GPT about Russian Ukraine war and its analysis. Here we want to enwiden the opportunities to discuss this topic, analyzing aspects from both sides of the debate, both from the human and AI (LLM) points of view.
+- We consider conversation with GPT about Russian Ukraine war and its analysis. Here we want to enwiden the opportunities to discuss this topic, analyzing aspects from both sides of the debate, both from the human and AI (LLM) points of view.
 
-Please, use publications war.10.pdf (Krievijas Ukrainas karš: saruna ar gpt4o), war.17.pdf (Otrā saruna ar ChatGPT par karu Ukrainā), war.15.pdf (Russia's aggressive war against Ukraine: a conversation with gpt.4o and its analysis), war.16.pdf (Multilingual conversation about war in Ukraine), war.8.pdf (Vai būt blēdim ir izdevīgi? Ko saka Mākslīgais internets, AI?).
-@Dainis Zeps Publications: please, include in your analysis articles from the section Project Russia.
+- Please, use publications
+  --war.10.pdf (Krievijas Ukrainas karš: saruna ar gpt4o),
+  -- war.17.pdf (Otrā saruna ar ChatGPT par karu Ukrainā),
+  -- war.15.pdf (Russia's aggressive war against Ukraine: a conversation with gpt.4o and its analysis),
+  -- war.16.pdf (Multilingual conversation about war in Ukraine),
+  -- war.8.pdf (Vai būt blēdim ir izdevīgi? Ko saka Mākslīgais internets, AI?).
+- @Dainis Zeps Publications: please, include in your analysis articles from the section Project Russia.
 
 ## The Analysis of the war in Ukraine:
 - E.g., I want to gain here ability to analyze some crucial points:
