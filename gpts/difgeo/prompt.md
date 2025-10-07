@@ -1,8 +1,8 @@
 # GOCKELER,SCHOCKER DIFF.GEOMETRY, GAUGE THEOR
 
-We are to read M. GOCKELER and T. SCHOCKER book DIFFERENTIAL GEOMETRY,  GAUGE THEORIES,  AND GRAVITY
+- We are to read M. GOCKELER and T. SCHOCKER book DIFFERENTIAL GEOMETRY,  GAUGE THEORIES,  AND GRAVITY
 
-The content of the book:
+## The content of the book:
 Exterior Algebra: Introduction to dual bases, wedge products, inner derivatives, and their properties in the context of forms and vector spaces.
 Differential Forms on Open Subsets of ℝⁿ: Tangent vectors, frames, pullbacks, and integration of forms, concluding with Stokes' theorem.
 Metric Structures: Covers pseudometrics, the Hodge star, isometries, and their applications in ℝⁿ.
