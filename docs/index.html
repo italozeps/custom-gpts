@@ -409,6 +409,29 @@
     font-size: 14px; /* Kontrolē izmēru, pielāgo pēc vajadzības */
   }
 </style>
+<!-- 1) GoatCounter skaitītājs --gpt variants >
+<script data-goatcounter="https://dainize.goatcounter.com/count"
+        async src="https://gc.zgo.at/count.js"></script>
+
+<!-- 2) Vizuālais skaitītājs -->
+<div id="gc-stats" style="margin:8px 0;"></div>
+<script>
+  var t = setInterval(function () {
+    if (window.goatcounter && window.goatcounter.visit_count) {
+      clearInterval(t);
+      window.goatcounter.visit_count({
+        append: '#gc-stats',
+        type: 'svg',      // ← te ir vienīgā maiņa; 'svg' = vienā rindā, melns
+        no_branding: true
+      });
+    }
+  }, 100);
+</script>
+  <style>
+  #gc-stats, #gc-stats * { display:inline !important; white-space:nowrap; color:#111 !important; }
+  #gc-stats br { display:none; }
+</style>
+
 
 </body>
 </html>
