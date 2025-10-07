@@ -17,9 +17,9 @@
    -  isometries, and their applications in ℝⁿ.
 4. Gauge Theories:
     -   Focuses on Maxwell’s equations,
-      connections, curvatures,
-      Yang-Mills theories, and
-      lattice gauge theories.
+      - connections, curvatures,
+      - Yang-Mills theories, and
+     -  lattice gauge theories.
 5. Einstein-Cartan Theory:
    -  Examines the equivalence principle,
    -  Cartan’s structure equations,
@@ -27,9 +27,9 @@
    -  the geometric interpretation of curvature and torsion.
 6. Lie Derivative:
     - Explores flows of vector fields,
-      Lie brackets,
-      derivations, and
-      applications in general relativity.
+     -  Lie brackets,
+     -  derivations, and
+     -  applications in general relativity.
 7. Manifolds:
    - Introduces differentiable manifolds,
    - submanifolds, tangent spaces,
