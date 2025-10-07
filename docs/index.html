@@ -23,52 +23,49 @@
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
 </head>
- <!-- GoatCounter: skaits + plāksnīte apakšējā kreisajā stūrī -->
-<div id="gc-stats" class="gc-badge" aria-live="polite"></div>
+<!-- Plāksnītes stils: nelauzt rindu -->
 <style>
   .gc-badge{
     position:fixed; left:12px; bottom:12px;
     background:#fff; border:1px solid #e5e7eb; border-radius:10px;
     padding:6px 10px; font:12px/1.2 system-ui,sans-serif; color:#111;
     box-shadow:0 2px 6px rgba(0,0,0,.06); z-index:9999;
+    white-space: nowrap;              /* <- nelauzt rindu */
   }
-  @media (max-width:640px){ .gc-badge{ left:8px; bottom:8px; padding:5px 8px; } }
+  .gc-badge * { display:inline !important; } /* ja GC ieliek <div>, padara vienlīnijas */
 </style>
 
-<script>
-  /* Ja vienā GC kontā skaiti vairākas vietnes, atšķir pēc hosta: */
-  window.goatcounter = window.goatcounter || {};
-  // ja NAV vajadzīgs – šo rindu vari izkomentēt
-  window.goatcounter.path = (p) => location.host + p;
-</script>
-<script async src="https://gc.zgo.at/count.js"
-        data-goatcounter="https://dainize.goatcounter.com/count"></script>
+<div id="gc-stats" class="gc-badge" aria-live="polite">…</div>
 
 <script>
   window.addEventListener('load', () => {
     const base = location.pathname + location.search + location.hash;
-    const pathForCount = (window.goatcounter.path ? window.goatcounter.path(base) : base);
+    const pathForCount = (window.goatcounter?.path ? window.goatcounter.path(base) : base);
 
-    if (window.goatcounter && window.goatcounter.visit_count) {
+    // Iegūstam skaitu HTML veidā (pēc tam pārrakstīsim uz vienu rindu)
+    if (window.goatcounter?.visit_count) {
       window.goatcounter.visit_count({
         append: '#gc-stats',
-        type: 'html',         // vari arī 'svg' vai 'png'
+        type: 'html',
         no_branding: true,
         path: pathForCount
       });
 
-      // Mazs tulkojums “Views for this page:” -> “Skatījumi:”
       const el = document.querySelector('#gc-stats');
       const obs = new MutationObserver(() => {
-        if (el && el.textContent.includes('Views for this page:')) {
-          el.innerHTML = el.innerHTML.replace('Views for this page:', 'Skatījumi:');
+        if (!el) return;
+        // Izvelkam ciparu un pārrakstām uz vienas rindas tekstu
+        const m = el.textContent.match(/(\d+)\s*$/);
+        if (m) {
+          el.textContent = 'Skatījumi: ' + m[1];   // ← vienā rindā
           obs.disconnect();
         }
       });
-      el && obs.observe(el, { childList:true, subtree:true });
+      obs.observe(el, { childList:true, subtree:true });
     }
   });
 </script>
+
 
 <body>
   <h1>Custom GPTs — Dashboard</h1>
