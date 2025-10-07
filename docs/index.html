@@ -410,5 +410,29 @@
     font-size: 14px; /* Kontrolē izmēru, pielāgo pēc vajadzības */
   }
 </style>
+  <script>
+(async function () {
+  try {
+    // ielādē ar cache-busteri
+    const resp = await fetch('articles.json?v=' + Date.now(), { cache: 'no-store' });
+    const raw  = await resp.json();
+    // normalizē uz masīvu (der gan {"articles":[...]} gan tiešs masīvs)
+    window.gArts = Array.isArray(raw) ? raw : (raw.articles || []);
+    console.log('gArts (raksti) ielādēti:', window.gArts.length);
+
+    // ja ir funkcija, kas pārzīmē kopsavilkumu/meklēšanu — palaid
+    if (typeof doGlobalSearch === 'function') {
+      doGlobalSearch();
+    }
+    if (typeof updateSummary === 'function') {
+      updateSummary();
+    }
+  } catch (e) {
+    console.error('Rakstu ielāde neizdevās:', e);
+    window.gArts = [];
+  }
+})();
+</script>
+
 </body>
 </html>
