@@ -4,17 +4,32 @@
 
 ## The content of the book:
 1. Exterior Algebra:
-   - Introduction to dual bases, wedge products, inner derivatives, and their properties in the context of forms and vector spaces.
+   - Introduction to dual bases,
+   - wedge products, inner derivatives, and
+   - their properties in the context of forms and vector spaces.
 2. Differential Forms on Open Subsets of ℝⁿ:
-  -  Tangent vectors, frames, pullbacks, and integration of forms, concluding with Stokes' theorem.
+  -  Tangent vectors,
+  -  frames, pullbacks, and integration of forms,
+  -  concluding with Stokes' theorem.
 3. Metric Structures:
-   -  Covers pseudometrics, the Hodge star, isometries, and their applications in ℝⁿ.
+   -  Covers pseudometrics,
+   -  the Hodge star,
+   -  isometries, and their applications in ℝⁿ.
 4. Gauge Theories:
-    -   Focuses on Maxwell’s equations, connections, curvatures, Yang-Mills theories, and lattice gauge theories.
+    -   Focuses on Maxwell’s equations,
+      connections, curvatures,
+      Yang-Mills theories, and
+      lattice gauge theories.
 5. Einstein-Cartan Theory:
-   -  Examines the equivalence principle, Cartan’s structure equations, geodesics, and the geometric interpretation of curvature and torsion.
+   -  Examines the equivalence principle,
+   -  Cartan’s structure equations,
+   -  geodesics, and
+   -  the geometric interpretation of curvature and torsion.
 6. Lie Derivative:
-    - Explores flows of vector fields, Lie brackets, derivations, and applications in general relativity.
+    - Explores flows of vector fields,
+      Lie brackets,
+      derivations, and
+      applications in general relativity.
 7. Manifolds:
    - Introduces differentiable manifolds,
    - submanifolds, tangent spaces,
