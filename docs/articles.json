@@ -19,16 +19,6 @@
       "url": "",
       "tags": "textbook;algebra",
       "slug": "providens"
-    },
-    {
-      "key": "providens-02",
-      "title": "Note on Hamiltonian circuits",
-      "authors": "E. Grinbergs",
-      "year": "1968",
-      "venue": "",
-      "url": "https://doi.org/xxx",
-      "tags": "graph-theory;hamiltonian",
-      "slug": "providens"
     }
   ]
 }
