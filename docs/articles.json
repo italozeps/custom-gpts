@@ -1,1 +1,14 @@
-{"articles": [{"key": "grinbergs36h", "title": "Note on Hamiltonian circuits", "authors": "E. Grinbergs", "year": "1968", "venue": "", "url": "https://doi.org/xxx", "tags": "graph-theory;hamiltonian", "slug": "grinbergs"}]}
+{
+  "articles": [
+    {
+      "key": "grinbergs36h",
+      "title": "Note on Hamiltonian circuits",
+      "authors": "E. Grinbergs",
+      "year": "1968",
+      "venue": "",
+      "url": "https://doi.org/xxx",
+      "tags": "graph-theory;hamiltonian",
+      "slug": "grinbergs"
+    }
+  ]
+}
