@@ -381,85 +381,33 @@
 })();
 </script>
 
-<!-- 1) GoatCounter skaitītājs (pamatversija) -->
+
+<!-- 1) GoatCounter skaitītājs -->
 <script data-goatcounter="https://dainize.goatcounter.com/count"
         async src="https://gc.zgo.at/count.js"></script>
 
-<!-- 2) Vizuālais skaitītājs ar fallback -->
-<div id="gc-stats" style="margin: 8px 0; color: #000 !important; display: inline-block; min-width: 150px; white-space: nowrap; border: none !important; background: transparent !important; font-family: Arial, sans-serif;">
-  <span id="gc-fallback" style="color: #000;">Loading counter...</span>
-</div>
-
+<!-- 2) Mazs “vizuālais skaitītājs” (HTML variants) -->
+<div id="gc-stats" style="margin: 8px 0; white-space: nowrap; color: #000 !important; display: inline-flex; align-items: center; min-width: 100px;"></div>
 <script>
-  // Funkcija, lai inicializētu skaitītāju un pārrakstītu stilus
-  function initCounter() {
+  // Pagaidām, līdz ielādējas count.js
+  var t = setInterval(function () {
     if (window.goatcounter && window.goatcounter.visit_count) {
-      console.log('GoatCounter loaded successfully!');
-      // Slēpj fallback
-      document.getElementById('gc-fallback').style.display = 'none';
-      // Ģenerē skaitītāju
-      window.goatcounter.visit_count({
-        append: '#gc-stats',
-        type: 'html',  // Vai izmēģini 'svg', ja HTML problēmas
-        no_branding: true
-      });
-      // Nekavējoties pārraksta stilus, lai novērstu macron/sarkano un lauzumu
-      setTimeout(() => {
-        const elements = document.querySelectorAll('#gc-stats *');
-        elements.forEach(el => {
-          el.style.color = '#000 !important';  // Melna krāsa
-          el.style.border = 'none !important';  // Noņem rāmi (vai '1px solid #000', ja gribi melnu rāmi)
-          el.style.background = 'transparent !important';
-          el.style.whiteSpace = 'nowrap !important';  // Novērš lauzumu
-          el.style.display = 'inline !important';
-          el.style.lineHeight = '1.2 !important';
-          el.style.padding = '0 !important';
-          el.style.margin = '0 !important';
-          console.log('Applied styles to GoatCounter element:', el);
-        });
-      }, 200);  // Īss gaidīšanas laiks
-    } else {
-      console.log('GoatCounter not ready yet... retrying.');
-    }
-  }
-
-  // Sākotnējā pārbaude ar atkārtojumiem
-  let attempts = 0;
-  const maxAttempts = 20;  // Mēģina 2 sekundes (20x 100ms)
-  var t = setInterval(() => {
-    attempts++;
-    initCounter();
-    if (attempts >= maxAttempts) {
       clearInterval(t);
-      // Maina fallback uz kļūdas ziņojumu
-      document.getElementById('gc-fallback').innerHTML = 'Counter error: Check console.';
-      console.error('GoatCounter failed after', maxAttempts, 'attempts. Check URL: https://dainize.goatcounter.com/count and allow domain italozepts.github.io in your GoatCounter settings.');
+      window.goatcounter.visit_count({
+        append: '#gc-stats',   // Kur ielikt
+        type: 'html',          // Var arī 'svg' vai 'png'
+        no_branding: true      // Paslēpt “by GoatCounter”
+      });
     }
   }, 100);
-
-  // Papildu pārbaude pēc lapas ielādes
-  window.addEventListener('load', () => {
-    setTimeout(initCounter, 1000);  // Mēģina vēlreiz pēc pilnas ielādes
-  });
 </script>
 
-<!-- 3) CSS drošībai (pārraksta jebkuru ārēju stilu) -->
+<!-- 3) Papildu CSS, lai kontrolētu GoatCounter izvadi -->
 <style>
   #gc-stats, #gc-stats * {
-    color: #000 !important;  /* Melna krāsa pret macron/sarkano */
-    white-space: nowrap !important;  /* Nav lauzuma rindā */
-    font-size: 14px !important;
-    border: none !important;  /* Vai '1px solid #000' melnam rāmim */
-    background: transparent !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    line-height: 1.2 !important;
-    display: inline !important;
-    font-family: Arial, sans-serif !important;
-  }
-  #gc-stats {
-    min-width: 150px !important;  /* Vieta pret saspiešanu */
-    display: inline-block !important;
+    color: #000 !important; /* Nodrošina melnu krāsu visiem iekšējiem elementiem */
+    white-space: nowrap !important; /* Novērš jebkādu pārlaušanu */
+    font-size: 14px; /* Kontrolē izmēru, pielāgo pēc vajadzības */
   }
 </style>
 </body>
