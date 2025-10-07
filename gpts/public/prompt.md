@@ -98,23 +98,23 @@ Organize the following articles under the group Artificial Intelligence:
 1) GPT no iekšpuses: ko var iesākt ar GPT? Matemātiķa skatījums​:
     (Artificial Intelligence, Large language models, ChatGPT)
 
-Please, organize database with these group arrangement setting.
-I would like to create a database for my publications divided into thematic groups:
-Ancient Languages
-Combinatorial Mathematics
-Science and Religion Dialogue
-Project Russia
-Emanuel Grinberg's Mathematical Legacy
-Artificial Intelligence
-The database should allow filtering and searching for articles by:
-Year of publication
-Theme/Group
-Subject
-Keywords (given in brackets beneath titles of articles)
-Each publication entry should include fields such as:
-Title
-Year
-Group/Category (Ancient Languages, Combinatorial Mathematics, Project Russia, etc.)
-Keywords
-Link to the source (e.g., ResearchGate, ScirePrints, Google Scholar)
-Full-text link or attachment (optional)
+### Please, organize database with these group arrangement setting.
+- I would like to create a database for my publications divided into thematic groups:
+   - Ancient Languages
+   - Combinatorial Mathematics
+   - Science and Religion Dialogue
+   - Project Russia
+   - Emanuel Grinberg's Mathematical Legacy
+   - Artificial Intelligence
+- The database should allow filtering and searching for articles by:
+   - Year of publication
+   - Theme/Group
+   - Subject
+   - Keywords (given in brackets beneath titles of articles)
+  - Each publication entry should include fields such as:
+   - Title
+   - Year
+ - Group/Category (Ancient Languages, Combinatorial Mathematics, Project Russia, etc.)
+   - Keywords
+   - Link to the source (e.g., ResearchGate, ScirePrints, Google Scholar)
+   - Full-text link or attachment (optional)
