@@ -23,6 +23,26 @@
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
 </head>
+  <!-- 1) GoatCounter skaitītājs -->
+<script data-goatcounter="https://dainize.goatcounter.com/count"
+        async src="https://gc.zgo.at/count.js"></script>
+
+<!-- 2) Mazs “vizuālais skaitītājs” (HTML variants) -->
+<div id="gc-stats" style="margin-top:8px;"></div>
+<script>
+  // pagaidām, līdz ielādējas count.js
+  var t = setInterval(function () {
+    if (window.goatcounter && window.goatcounter.visit_count) {
+      clearInterval(t);
+      window.goatcounter.visit_count({
+        append: '#gc-stats',   // kur ielikt
+        type: 'html',          // var arī 'svg' vai 'png'
+        no_branding: true      // paslēpt “by GoatCounter”
+      });
+    }
+  }, 100);
+</script>
+
 <body>
   <h1>Custom GPTs — Dashboard</h1>
   <div id="status" class="muted">Ielāde…</div>
