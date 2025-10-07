@@ -1,0 +1,32 @@
+name: Extract articles from prompt.md
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - "gpts/**/prompt.md"
+      - "scripts/extract_articles.py"
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Run extractor
+        run: |
+          python scripts/extract_articles.py
+      - name: Commit CSV changes
+        run: |
+          if ! git diff --quiet -- gpts/**/articles.csv; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add gpts/**/articles.csv
+            git commit -m "Auto-extract articles from prompt.md [skip ci]"
+            git push
+          else
+            echo "No changes."
+          fi
