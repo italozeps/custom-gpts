@@ -402,5 +402,60 @@
   loadIndexes();
 })();
 </script>
+
+  <!-- GoatCounter skaitīšana -->
+<script async src="https://gc.zgo.at/count.js"
+        data-goatcounter="https://dainize.goatcounter.com/count"></script>
+
+<!-- Inline skaitītājs lapas plūsmā (vienā rindā) -->
+<script>
+(function () {
+  // 1) atrodam vietu, kur ielikt — aiz virsraksta "Diagnoze" (ja nav, tad pašās beigās)
+  const anchor = [...document.querySelectorAll('h2,h3,div,b,span')]
+    .find(el => /Diagnoze/i.test(el.textContent));
+  const host = anchor ? anchor.parentElement : document.body;
+
+  host.insertAdjacentHTML('beforeend', `
+    <div id="gc-inline" style="margin:16px 0;font:12px/1.2 system-ui,sans-serif;white-space:nowrap;">
+      Skatījumi: <span id="gc-num">…</span>
+    </div>
+  `);
+
+  // 2) ceļš skaitīšanai – ja biji definējis host+path, respektējam to
+  const base = location.pathname + location.search + location.hash;
+  const pathForCount = (window.goatcounter && window.goatcounter.path)
+        ? window.goatcounter.path(base) : base;
+
+  // 3) paņemam skaitu ar visit_count (neko nefiksējam, viss plūsmā)
+  window.addEventListener('load', () => {
+    if (!window.goatcounter || !window.goatcounter.visit_count) return;
+
+    // izveidojam slēptu konteineri, kur GC iemetīs savu HTML
+    const tmp = document.createElement('div');
+    tmp.style.display = 'none';
+    document.body.appendChild(tmp);
+
+    // pieprasām skaitu, tad izvilksim ciparu un ieliksim mūsu vienrindes elementā
+    window.goatcounter.visit_count({
+      append: tmp,
+      type: 'html',
+      no_branding: true,
+      path: pathForCount
+    });
+
+    const out = document.getElementById('gc-num');
+    const obs = new MutationObserver(() => {
+      const m = tmp.textContent.match(/(\d+)\s*$/);
+      if (m) {
+        out.textContent = m[1];     // ← vienā rindā: "Skatījumi: N"
+        obs.disconnect();
+        tmp.remove();
+      }
+    });
+    obs.observe(tmp, { childList: true, subtree: true });
+  });
+})();
+</script>
+
 </body>
 </html>
