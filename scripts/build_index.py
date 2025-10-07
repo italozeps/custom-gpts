@@ -1,37 +1,79 @@
-name: Build search indexes
+#!/usr/bin/env python3
+# scripts/build_index.py
+import csv, json
+from pathlib import Path
 
-on:
-  workflow_dispatch:
-  push:
-    branches: [ main ]
-    paths:
-      - "gpts.csv"
-      - "gpts/**"
-      - "scripts/build_index.py"
+ROOT = Path(__file__).resolve().parents[1]
+DOCS = ROOT / "docs"
+GPTS = ROOT / "gpts"
+DOCS.mkdir(parents=True, exist_ok=True)
 
-permissions:
-  contents: write   # lai drīkst iekomitēt docs/*.json
+def read_csv_rows(path: Path, slug_guess: str = ""):
+    rows = []
+    with path.open(encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            rec = { (k or "").strip(): (row.get(k, "") or "").strip()
+                    for k in (reader.fieldnames or []) }
+            if "slug" not in rec or not rec["slug"]:
+                rec["slug"] = slug_guess
+            rows.append(rec)
+    return rows
 
-jobs:
-  build-indexes:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with: { fetch-depth: 0 }
-      - uses: actions/setup-python@v5
-        with: { python-version: "3.11" }
+def build_modules():
+    src = ROOT / "gpts.csv"
+    modules = []
+    if src.exists():
+        with src.open(encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                modules.append({k: (row.get(k, "") or "").strip()
+                                for k in reader.fieldnames or []})
+    out = DOCS / "index.json"
+    with out.open("w", encoding="utf-8") as f:
+        json.dump(modules, f, ensure_ascii=False, indent=2)
+    print(f"[build] modules: {len(modules)} ieraksti -> docs/index.json")
 
-      - name: Build indexes (modules/terms/articles)
-        run: python scripts/build_index.py
+def build_terms():
+    terms = []
+    for p in GPTS.rglob("terms.csv"):
+        parts = p.parts
+        slug_guess = ""
+        if "gpts" in parts:
+            i = parts.index("gpts")
+            if i + 1 < len(parts):
+                slug_guess = parts[i + 1]
+        terms += read_csv_rows(p, slug_guess)
+    root_terms = GPTS / "terms.csv"
+    if root_terms.exists():
+        terms += read_csv_rows(root_terms, "")
+    out = DOCS / "terms.json"
+    with out.open("w", encoding="utf-8") as f:
+        json.dump(terms, f, ensure_ascii=False, indent=2)
+    print(f"[build] terms: {len(terms)} ieraksti -> docs/terms.json")
 
-      - name: Commit docs/*.json if changed
-        run: |
-          if ! git diff --quiet -- docs/index.json docs/terms.json docs/articles.json; then
-            git config user.name  "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add docs/index.json docs/terms.json docs/articles.json
-            git commit -m "Rebuild search indexes [skip ci]"
-            git push
-          else
-            echo "No changes."
-          fi
+def build_articles():
+    articles = []
+    for p in GPTS.rglob("articles.csv"):
+        parts = p.parts
+        slug_guess = ""
+        if "gpts" in parts:
+            i = parts.index("gpts")
+            if i + 1 < len(parts):
+                slug_guess = parts[i + 1]
+        articles += read_csv_rows(p, slug_guess)
+    root_csv = GPTS / "articles.csv"
+    if root_csv.exists():
+        articles += read_csv_rows(root_csv, "")
+    out = DOCS / "articles.json"
+    with out.open("w", encoding="utf-8") as f:
+        json.dump({"articles": articles}, f, ensure_ascii=False, indent=2)
+    print(f"[build] articles: {len(articles)} ieraksti -> docs/articles.json")
+
+def main():
+    build_modules()
+    build_terms()
+    build_articles()
+
+if __name__ == "__main__":
+    main()
