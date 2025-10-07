@@ -6,7 +6,9 @@ on:
     branches: [ main ]
     paths:
       - "gpts/**/prompt.md"
-      - "scripts/extract_articles.py"
+
+permissions:
+  contents: write
 
 jobs:
   extract:
@@ -16,9 +18,86 @@ jobs:
         with: { fetch-depth: 0 }
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
-      - name: Run extractor
+
+      - name: Extract references to CSV
         run: |
-          python scripts/extract_articles.py
+          python - <<'PY'
+          import re, csv, os
+          from pathlib import Path
+
+          ROOT = Path('.').resolve()
+          GPTS = ROOT / 'gpts'
+
+          HDR = ["key","title","authors","year","venue","url","tags"]
+          HDR_PAT = re.compile(r'^\s{0,3}#{1,6}\s*(Literatūras norādes(?:/References)?|Literatūra|References)\b', re.I)
+          ITEM_PAT = re.compile(r'^\s*(?:[-*]|\d+[.)\]])\s+(.*)')
+          YEAR_PAT = re.compile(r'\b(1[6-9]\d{2}|20\d{2}|21\d{2})\b')
+          URL_PAT  = re.compile(r'(https?://\S+)')
+
+          def parse_items(block:str):
+              items, buf = [], []
+              for line in block.splitlines():
+                  m = ITEM_PAT.match(line)
+                  if m:
+                      if buf:
+                          items.append(" ".join(buf).strip()); buf=[]
+                      buf.append(m.group(1).strip())
+                  else:
+                      if buf and (line.strip() or line.startswith(' ')):
+                          buf.append(line.strip())
+              if buf: items.append(" ".join(buf).strip())
+              return items
+
+          def split_fields(txt:str):
+              url=None; mu=URL_PAT.search(txt)
+              if mu:
+                  url = mu.group(1).rstrip(').,;')
+                  txt = txt.replace(mu.group(1),'').strip()
+              year=None; my=YEAR_PAT.search(txt)
+              if my: year=my.group(1)
+              authors, title = None, txt
+              for sep in [' — ', ' – ', ' - ']:
+                  if sep in txt:
+                      parts = [p.strip() for p in txt.split(sep,1)]
+                      if len(parts)==2:
+                          authors, title = parts[0], parts[1]; break
+              title = title.strip().strip('*_“”"\'')
+              return authors or "", title, year or "", "", url or "", ""
+
+          total = 0
+          for p in sorted(GPTS.glob('*/prompt.md')):
+              slug = p.parent.name
+              text = p.read_text(encoding='utf-8', errors='ignore')
+              lines = text.splitlines()
+              start=None
+              for i,l in enumerate(lines):
+                  if HDR_PAT.match(l):
+                      start=i+1; break
+              if start is None:
+                  print(f"[skip] {slug}: nav 'Literatūras norādes/References' sadaļas")
+                  continue
+              end=len(lines)
+              for j in range(start,len(lines)):
+                  if re.match(r'^\s{0,3}#{1,6}\s+\S', lines[j]):
+                      end=j; break
+              block = "\n".join(lines[start:end])
+              items = parse_items(block)
+              if not items:
+                  print(f"[skip] {slug}: sadaļa tukša"); continue
+
+              out = p.parent/'articles.csv'
+              with out.open('w', newline='', encoding='utf-8') as f:
+                  w = csv.writer(f); w.writerow(HDR)
+                  for idx, it in enumerate(items,1):
+                      a,t,y,v,u,tg = split_fields(it)
+                      key = f"{slug}-{idx:02d}"
+                      w.writerow([key,t,a,y,v,u,tg])
+              print(f"[extract] {slug}: {len(items)} ieraksti -> {out}")
+              total += len(items)
+
+          print(f"Kopā izvilkts: {total}")
+          PY
+
       - name: Commit CSV changes
         run: |
           if ! git diff --quiet -- gpts/**/articles.csv; then
@@ -28,5 +107,5 @@ jobs:
             git commit -m "Auto-extract articles from prompt.md [skip ci]"
             git push
           else
-            echo "No changes."
+            echo "No CSV changes."
           fi
