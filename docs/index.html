@@ -23,24 +23,51 @@
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
 </head>
-  <!-- 1) GoatCounter skaitītājs -->
-<script data-goatcounter="https://dainize.goatcounter.com/count"
-        async src="https://gc.zgo.at/count.js"></script>
+ <!-- GoatCounter: skaits + plāksnīte apakšējā kreisajā stūrī -->
+<div id="gc-stats" class="gc-badge" aria-live="polite"></div>
+<style>
+  .gc-badge{
+    position:fixed; left:12px; bottom:12px;
+    background:#fff; border:1px solid #e5e7eb; border-radius:10px;
+    padding:6px 10px; font:12px/1.2 system-ui,sans-serif; color:#111;
+    box-shadow:0 2px 6px rgba(0,0,0,.06); z-index:9999;
+  }
+  @media (max-width:640px){ .gc-badge{ left:8px; bottom:8px; padding:5px 8px; } }
+</style>
 
-<!-- 2) Mazs “vizuālais skaitītājs” (HTML variants) -->
-<div id="gc-stats" style="margin-top:8px;"></div>
 <script>
-  // pagaidām, līdz ielādējas count.js
-  var t = setInterval(function () {
+  /* Ja vienā GC kontā skaiti vairākas vietnes, atšķir pēc hosta: */
+  window.goatcounter = window.goatcounter || {};
+  // ja NAV vajadzīgs – šo rindu vari izkomentēt
+  window.goatcounter.path = (p) => location.host + p;
+</script>
+<script async src="https://gc.zgo.at/count.js"
+        data-goatcounter="https://dainize.goatcounter.com/count"></script>
+
+<script>
+  window.addEventListener('load', () => {
+    const base = location.pathname + location.search + location.hash;
+    const pathForCount = (window.goatcounter.path ? window.goatcounter.path(base) : base);
+
     if (window.goatcounter && window.goatcounter.visit_count) {
-      clearInterval(t);
       window.goatcounter.visit_count({
-        append: '#gc-stats',   // kur ielikt
-        type: 'html',          // var arī 'svg' vai 'png'
-        no_branding: true      // paslēpt “by GoatCounter”
+        append: '#gc-stats',
+        type: 'html',         // vari arī 'svg' vai 'png'
+        no_branding: true,
+        path: pathForCount
       });
+
+      // Mazs tulkojums “Views for this page:” -> “Skatījumi:”
+      const el = document.querySelector('#gc-stats');
+      const obs = new MutationObserver(() => {
+        if (el && el.textContent.includes('Views for this page:')) {
+          el.innerHTML = el.innerHTML.replace('Views for this page:', 'Skatījumi:');
+          obs.disconnect();
+        }
+      });
+      el && obs.observe(el, { childList:true, subtree:true });
     }
-  }, 100);
+  });
 </script>
 
 <body>
