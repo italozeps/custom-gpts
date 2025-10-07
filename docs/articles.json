@@ -11,7 +11,17 @@
       "slug": "grinbergs"
     },
     {
-      "key": "grinbergs36h",
+      "key": "providens-01",
+      "title": "A Course in Algebra",
+      "authors": "E. B. Vinberg",
+      "year": "2003",
+      "venue": "AMS",
+      "url": "",
+      "tags": "textbook;algebra",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-02",
       "title": "Note on Hamiltonian circuits",
       "authors": "E. Grinbergs",
       "year": "1968",
