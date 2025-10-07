@@ -381,12 +381,12 @@
 })();
 </script>
 
-<!-- 1) GoatCounter skaitītājs -->
+<!-- 1) GoatCounter skaitītājs --Grok variants>
 <script data-goatcounter="https://dainize.goatcounter.com/count"
         async src="https://gc.zgo.at/count.js"></script>
 
 <!-- 2) Mazs “vizuālais skaitītājs” (HTML variants) -->
-<div id="gc-stats" style="margin: 8px 0; white-space: nowrap; color: #000 !important; display: inline-flex; align-items: center; min-width: 100px;"></div>
+<div id="gc-stats" style="margin: 8px 0; white-space: nowrap; color: #000 !important; display: inline-flex; align-items: center; min-width: 150px; border: none !important; background: transparent !important;"></div>
 <script>
   // Pagaidām, līdz ielādējas count.js
   var t = setInterval(function () {
@@ -394,9 +394,18 @@
       clearInterval(t);
       window.goatcounter.visit_count({
         append: '#gc-stats',   // Kur ielikt
-        type: 'html',          // Var arī 'svg' vai 'png'
+        type: 'html',          // HTML izvade
         no_branding: true      // Paslēpt “by GoatCounter”
       });
+      // Pievieno papildu stilu pēc ielādes, lai pārliecinātos
+      setTimeout(() => {
+        document.querySelectorAll('#gc-stats, #gc-stats *').forEach(el => {
+          el.style.color = '#000';
+          el.style.border = 'none';
+          el.style.background = 'transparent';
+          el.style.whiteSpace = 'nowrap';
+        });
+      }, 500); // Gaida 500ms, lai GoatCounter pabeigtu renderēšanu
     }
   }, 100);
 </script>
@@ -404,10 +413,22 @@
 <!-- 3) Papildu CSS, lai kontrolētu GoatCounter izvadi -->
 <style>
   #gc-stats, #gc-stats * {
-    color: #000 !important; /* Nodrošina melnu krāsu visiem iekšējiem elementiem */
-    white-space: nowrap !important; /* Novērš jebkādu pārlaušanu */
-    font-size: 14px; /* Kontrolē izmēru, pielāgo pēc vajadzības */
+    color: #000 !important; /* Melna krāsa visam */
+    white-space: nowrap !important; /* Vienā rindā */
+    font-size: 14px; /* Kontrolē izmēru */
+    border: none !important; /* Noņem jebkuru rāmi */
+    background: transparent !important; /* Noņem fonu */
+    padding: 0 !important; /* Noņem padding, kas var izraisīt pārlūšanu */
+    margin: 0 !important; /* Noņem margin konfliktus */
+    line-height: 1.2 !important; /* Kontrolē rindu augstumu */
+  }
+  #gc-stats {
+    display: inline-flex !important; /* Nodrošina vienu rindu */
+    align-items: center !important;
+    min-width: 150px; /* Paplašina, lai izvairītos no pārlūšanas */
   }
 </style>
+
+  
 </body>
 </html>
