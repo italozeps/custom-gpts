@@ -23,28 +23,6 @@
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
 </head>
-<!-- GoatCounter skripts skaitīšanai (atstāj, ja jau ir) -->
-<script async src="https://gc.zgo.at/count.js"
-        data-goatcounter="https://dainize.goatcounter.com/count"></script>
-
-<!-- Inline skaitītājs lapas plūsmā (nevis fixed) -->
-<div id="gc-inline" style="margin:16px 0; font:12px/1.2 system-ui, sans-serif;">
-  <img id="gc-img" alt="Views for this page" style="vertical-align:middle;">
-</div>
-<script>
-  window.addEventListener('load', () => {
-    // ja lietoji host+path dalīšanai, atspoguļo to arī šeit; citādi pietiek ar pathname+search+hash
-    const base = location.pathname + location.search + location.hash;
-    // ja agrāk definēji: window.goatcounter.path = p => location.host + p;
-    // tad izmanto to pašu:
-    const pathForCount = (window.goatcounter && window.goatcounter.path)
-        ? window.goatcounter.path(base) : base;
-
-    const url = 'https://dainize.goatcounter.com/counter/' +
-                encodeURIComponent(pathForCount) + '.svg?no_branding=1';
-    document.getElementById('gc-img').src = url;
-  });
-</script>
 
 <body>
   <h1>Custom GPTs — Dashboard</h1>
