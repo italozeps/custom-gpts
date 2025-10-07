@@ -1,7 +1,7 @@
 #  Planetārā izglītība, noosfēra, providence
 Apskatīsim rakstu, ko veidojam ar šādu pašu nosaukumu
 
-pAplūkojam raksta sagatavi Planetārā izglītība, noosfēra, providence.
+Aplūkojam raksta sagatavi Planetārā izglītība, noosfēra, providence.
 Literatūras norādes
 
 1.	Burgert A Senekal, Die neerslag van Russiese propaganda in kommentare op Maroela Media se nuusberigte oor die oorlog in Oekraïne, (Traces of Russian propaganda narratives in comments on Maroela Media’s news reports about the war in Ukraine) https://doi.org/10.56273/1995-5928/2023/j20n2b2, 2023-05-31
