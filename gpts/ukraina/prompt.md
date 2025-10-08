@@ -9,7 +9,7 @@ Mēs gribam sākt miera konferenci Ukrainas kara izbeigšanai, imitējot tās da
 
 ## Literatūras norādes
 
-1. D. Zeps, Ko gaidīt no ASV un Trampa? #StandWithUkraine", https://lingua.id.lv/art/war.74.pdf
+1. D. Zeps, Ko gaidīt no ASV un Trampa? #StandWithUkraine", https://zenodo.org/records/17104358
 2. D. Zeps, The AI That Invented Times Radio: When Language Models Go Rogue, https://lingua.id.lv/art/war.73.pdf
 3. D. Zeps, Aļaska 2025. gada 15. augusts. Vai mežonis brutalitātē pārspēs mežoni? https://zenodo.org/records/16813267
 4. D. Zeps, Information against Evil. Conversation with Grok. Case of Bueno Mesquita. #StandwithUkraine,	https://zenodo.org/records/16778088
@@ -18,3 +18,4 @@ Mēs gribam sākt miera konferenci Ukrainas kara izbeigšanai, imitējot tās da
 7.  D. Zeps, Political Chemistry: for Total Ukrainian Victory! #StandWithUkraine, https://zenodo.org/records/15569946
 8.  D. Zeps, Kāda attēla analīze – saruna ar MI par ASV iekšpolitikas sasāpējušiem jautājumiem, https://zenodo.org/records/15488934
 9.  D. Zeps, Real Peace or Political Theater? Western Attempts to End the War in Europe, https://zenodo.org/records/15425385
+10.  D. Zeps, Ukraina – ASV – Krievija : Šodienas pasaule #StandWithUkraine, https://zenodo.org/records/17108393
