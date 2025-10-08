@@ -25,7 +25,7 @@ Aplūkojam raksta sagatavi Planetārā izglītība, noosfēra, providence.
 19.	D. Zeps, Karš izdeldē vājos, gļēvos, glupos, Papildināts.2.4.2024., https://lingua.id.lv/art/war.5.pdf 
 20.	D. Zeps, Что на Руси творится: Проект Россия, https://www.researchgate.net/publication/318038370 , 2017
 21.	D. Zeps, Russia's aggressive war against Ukraine: a conversation with gpt.4o and its analysis, Zinātnes un Reliģijas dialoga grupas seminārs, 27. novembrī, 2024, https://lingua.id.lv/art/war.15.pdf 
-22.	D. Zeps, The New World, or The world after Ukraine's victory, https://hal.science/hal-04839439 
+22.	D. Zeps, The New World, or The world after Ukraine's victory, https://www.researchgate.net/profile/Dainis-Zeps/publication/387070127
 23.	D. Zeps, Russia delenda est: how we understand this, https://www.researchgate.net/publication/387538894
 24.	Dainis Zeps, Russia delenda est, vai Demilitarizācija, Depropagandizācija, Deeskalizācija: kā mēs to saprotam? https://www.researchgate.net/publication/387521785 
 25.	Dainis Zeps, Kā palīdzēt Ukrainai uzvarēt? Kas mums ir jādara Ukrainas atbalstam? Jauna saruna ar MI, https://lingua.id.lv/art/war.25.pdf, 2025 
