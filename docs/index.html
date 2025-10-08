@@ -382,34 +382,8 @@
 </script>
 
 
-<!-- 1) GoatCounter skaitītājs -->
-<script data-goatcounter="https://dainize.goatcounter.com/count"
-        async src="https://gc.zgo.at/count.js"></script>
 
-<!-- 2) Mazs “vizuālais skaitītājs” (HTML variants) -->
-<div id="gc-stats" style="margin: 8px 0; white-space: nowrap; color: #000 !important; display: inline-flex; align-items: center; min-width: 100px;"></div>
-<script>
-  // Pagaidām, līdz ielādējas count.js
-  var t = setInterval(function () {
-    if (window.goatcounter && window.goatcounter.visit_count) {
-      clearInterval(t);
-      window.goatcounter.visit_count({
-        append: '#gc-stats',   // Kur ielikt
-        type: 'html',          // Var arī 'svg' vai 'png'
-        no_branding: true      // Paslēpt “by GoatCounter”
-      });
-    }
-  }, 100);
-</script>
-
-<!-- 3) Papildu CSS, lai kontrolētu GoatCounter izvadi -->
-<style>
-  #gc-stats, #gc-stats * {
-    color: #000 !important; /* Nodrošina melnu krāsu visiem iekšējiem elementiem */
-    white-space: nowrap !important; /* Novērš jebkādu pārlaušanu */
-    font-size: 14px; /* Kontrolē izmēru, pielāgo pēc vajadzības */
-  }
-</style>
+  
 
   <!-- 2) Poga "v.c." un slēptais skaitītājs tajā pašā vietā -->
 <div id="gc-inline" style="margin:8px 0; font:12px/1.2 system-ui,sans-serif; white-space:nowrap;">
