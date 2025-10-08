@@ -5,6 +5,7 @@
 - Let us read conversations with LLMs about these issues.
 
  ## Playlist of YT Videos
+ ### https://www.youtube.com/playlist?list=PL4BlbwwbdXAJV-lNTc51iq7-RHdWWaYaI 
 
    - Trump, Putin, and the Ukraine Peace Plan A Game of Geopolitics, Skepticism, and Survival
    - Comments on actual information. Second part #StandWithUkraine
