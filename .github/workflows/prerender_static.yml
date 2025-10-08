@@ -1,0 +1,34 @@
+name: Prerender static index (No-JS)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - "docs/index.json"
+      - "scripts/prerender_static.py"
+
+permissions:
+  contents: write
+
+jobs:
+  prerender:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Build static index
+        run: python scripts/prerender_static.py
+      - name: Commit docs/index_noscript.html if changed
+        run: |
+          if ! git diff --quiet -- docs/index_noscript.html; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add docs/index_noscript.html
+            git commit -m "Build index_noscript.html [skip ci]"
+            git push
+          else
+            echo "No changes."
+          fi
