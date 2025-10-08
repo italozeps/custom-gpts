@@ -410,6 +410,57 @@
     font-size: 14px; /* Kontrolē izmēru, pielāgo pēc vajadzības */
   }
 </style>
+
+  <!-- 2) Poga "v.c." un slēptais skaitītājs tajā pašā vietā -->
+<div id="gc-inline" style="margin:8px 0; font:12px/1.2 system-ui,sans-serif; white-space:nowrap;">
+  <button id="gc-btn" type="button"
+          title="Show visit counts"
+          style="padding:2px 6px; font:12px; border:1px solid #e5e7eb; border-radius:6px; background:#fff; cursor:pointer">
+    v.c.
+  </button>
+  <span id="gc-stats" style="margin-left:8px; display:none;"></span>
+</div>
+
+<script>
+(function () {
+  var btn = document.getElementById('gc-btn');
+  var box = document.getElementById('gc-stats');
+  var loaded = false;
+
+  function currentPath(){
+    var base = location.pathname + location.search + location.hash;
+    return (window.goatcounter && window.goatcounter.path)
+      ? window.goatcounter.path(base) : base; // respektē, ja lieto host+path
+  }
+
+  function showCountsOnce(){
+    // vienlīnijas SVG (melns), nevis HTML: stabilāk un nelūzt
+    var img = document.createElement('img');
+    img.alt = 'Views for this page';
+    img.style.verticalAlign = 'middle';
+    img.src = 'https://dainize.goatcounter.com/counter/' +
+              encodeURIComponent(currentPath()) + '.svg?no_branding=1';
+    box.innerHTML = '';
+    box.appendChild(img);
+    loaded = true;
+  }
+
+  btn.addEventListener('click', function(){
+    var visible = box.style.display !== 'none' && box.style.display !== '';
+    if (visible) {
+      box.style.display = 'none';
+      btn.textContent = 'v.c.';           // ja gribi garāku: 'visit counts'
+      btn.title = 'Show visit counts';
+    } else {
+      if (!loaded) showCountsOnce();
+      box.style.display = 'inline';
+      btn.textContent = '×';
+      btn.title = 'Hide';
+    }
+  });
+})();
+</script>
+
   <script>
 (async function () {
   try {
