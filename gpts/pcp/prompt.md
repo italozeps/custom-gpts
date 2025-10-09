@@ -210,3 +210,270 @@ The biblical wisdom holds: all that is hidden will be revealed. AI ensures it ha
 ---
 
 *This position paper synthesizes insights from over 30 research dialogues with AI systems (GPT-4o, Grok3, DeepSeek, Claude) conducted since September 2024 as part of the "Information Against Evil" initiative. Full bibliography and technical appendices available at https://zenodo.org/communities/pcp-journal*
+
+## Here, folowing suggestion of Claude, plan B,
+
+# Information as Weapon
+## A Mathematician's Case for Ukraine
+
+**Dainis Zeps**  
+*University of Latvia, Riga*  
+September 2025
+
+---
+
+### The Mathematician's Dilemma
+
+Mathematicians seek elegant solutions to complex problems. We distrust arguments that rely on authority rather than logic. When I turned my analytical attention to the Russia-Ukraine war in September 2024, I approached it as any mathematical problem: strip away rhetoric, examine underlying structures, follow logical implications to their conclusions.
+
+What I discovered was not elegant—it was tragic.
+
+**Ukraine needs two things to win**: overwhelming military force to defeat Russian aggression, and overwhelming information dominance to defeat the evil that drives it. Ideally, the West would provide both unreservedly. Ukraine would receive F-16s, ATACMS, Taurus missiles, and Patriots without restrictions—while simultaneously, global AI systems would document every Russian war crime, expose every lie, mobilize every conscience.
+
+**The West provides neither adequately.** Weapons arrive with restrictions, delays, and quantities insufficient for decisive victory. Information support remains fragmented, hesitant, and undermined by "both-sides" false equivalence.
+
+This leaves Ukraine fighting with one hand tied behind its back—and forces a cruel mathematical conclusion: **Information must become Ukraine's primary weapon not because it is superior to military force, but because Western cowardice makes it the only fully available tool.**
+
+This is not the argument I wanted to make. But mathematics follows truth, not preference.
+
+---
+
+### The Ideal Equation
+
+Let me state clearly what **should** be:
+
+**Military Victory + Information Victory = Total Victory**
+
+**Military component**: Sufficient weapons, without restrictions, delivered rapidly. Ukraine liberates all territory through overwhelming force that makes Russian resistance futile.
+
+**Information component**: Global AI-assisted synthesis documenting Russian atrocities, exposing propaganda, maintaining moral clarity, preventing "war fatigue" narratives, ensuring accountability.
+
+**Together**, these create stable peace: Russia militarily defeated AND ideologically discredited, unable to regroup for future aggression.
+
+This is not utopian—it is the minimal rational solution. Game theory proves that partial outcomes (frozen conflicts, territorial concessions) are unstable equilibria that guarantee future wars.
+
+---
+
+### The Actual Equation
+
+Reality betrays this logic:
+
+**Western Military Support** = Necessary but Insufficient
+- Weapons arrive slowly
+- Use restrictions prevent decisive strikes
+- Quantities fall short of Ukrainian needs
+- "Escalation" fears override strategic calculation
+
+**Western Information Support** = Fragmented and Compromised
+- Media outlets amplify "war fatigue"
+- Diplomatic discourse seeks "off-ramps" for Putin
+- False equivalence treats aggressor and victim symmetrically
+- AI resources focus on commercial applications, not truth warfare
+
+**Result**: Ukraine fights increasingly alone, compensating for Western failures through asymmetric means.
+
+This is where information becomes decisive—not through abstract preference but through **brutal necessity**.
+
+---
+
+### Why Information Must Compensate for Betrayal
+
+When weapons are constrained, information must multiply force. When Western resolve wavers, information must sustain it. When diplomatic pressure pushes toward compromise, information must expose its moral bankruptcy.
+
+**Mathematics of compensation**: If military support provides 60% of required force, information warfare must generate the remaining 40% through:
+- International pressure maintaining sanctions
+- Exposing Russian atrocities to prevent normalization
+- Documenting war crimes to ensure accountability
+- Mobilizing civil society when governments hesitate
+- Using AI to process information volumes overwhelming human analysis
+
+This is not ideal allocation—it is **forced optimization under constraints**. Ukraine uses the tools Western cowardice leaves available.
+
+---
+
+### The Mathematician's Perspective: Structure and Logic
+
+My academic path—mathematics, theology, linguistics—taught me that information has always been humanity's weapon against tyranny. Studying ancient texts with Anna Rāta, I learned the biblical principle: "All that is hidden will be revealed" (Luke 8:17).
+
+This is not merely theology—it is **information theory**. Suppression requires continuous energy expenditure. Revelation propagates naturally. The thermodynamic gradient favors disclosure.
+
+Russia wages information warfare because it fears information more than weapons. Every smartphone becomes a witness. Every satellite a camera. Every database potentially leaked. The volume documenting Russian war crimes grows exponentially.
+
+Claude Shannon's mathematics tells us why: **information possesses thermodynamic properties**. Suppression fights entropy. Truth seeks equilibrium.
+
+Since September 2024, I have produced over 30 research papers through AI-assisted analysis—dialogues with GPT-4o, Grok3, DeepSeek, Claude. These demonstrate how artificial intelligence processes information volumes overwhelming human cognition.
+
+Pierre Teilhard de Chardin envisioned the "noosphere"—global consciousness from interconnected minds. AI realizes this: **collective intelligence processing collective knowledge**.
+
+---
+
+### Game Theory: Why Weapons Alone Are Insufficient
+
+Even with unlimited weapons, Ukraine needs information dominance. Here's why:
+
+**The Cheater Problem**: Russia operates as what game theorists call a "cheater"—an actor facing no reputational cost for breaking agreements. Every treaty violation (Budapest Memorandum, Minsk Protocols, grain deal) taught Moscow that agreements are tactical pauses.
+
+**Theorem**: You cannot achieve stable outcomes with actors facing no enforcement.
+
+**Implication**: Military victory alone is insufficient. Russia must be **ideologically defeated**—exposed as absolute evil, held accountable for war crimes, transformed in governance to prevent future aggression.
+
+This requires information warfare: documenting atrocities, maintaining historical record, preventing revisionist narratives, ensuring accountability mechanisms.
+
+Weapons can defeat Russian military. **Only information can defeat the evil that drives it.**
+
+---
+
+### The Trump Catastrophe: When Military Support Evaporates
+
+Donald Trump's potential return makes information warfare not merely important but **existential**.
+
+Trump promises to "end the war in 24 hours"—meaning pressure on Ukraine to accept territorial concessions. Former KGB officer Sergei Zhirnov calls Trump "Putin's agent." Portuguese President Marcelo Rebelo de Sousa says Trump "acts like Putin's agent."
+
+Whether literal agent or exploitable narcissist matters less than outcome: **Trump's presidency would eliminate reliable military support**.
+
+In this scenario, information becomes Ukraine's **only** weapon:
+- Exposing Trump-Putin collusion
+- Mobilizing European and American civil society
+- Documenting ongoing Russian atrocities
+- Maintaining international pressure despite official betrayal
+- Using AI to circumvent governmental obstruction
+
+This is not preferred strategy—it is **survival strategy when governments fail**.
+
+---
+
+### The Peace Conference Project: Information as Strategic Planning
+
+Since September 2024, I have collaborated with South African researcher Burgert Senekal on the Peace Conference Project—27 publications using AI to model post-war scenarios.
+
+This demonstrates information's strategic role:
+- **AI-assisted scenario planning**: Modeling outcomes under various support levels
+- **Game-theoretic analysis**: Identifying stable equilibria vs. unstable compromises  
+- **Historical synthesis**: Connecting current events to patterns across time
+- **Multilingual output**: Reaching audiences Western media ignores
+
+Key findings:
+- Total Ukrainian victory is game-theoretically stable; partial victories are not
+- Western fears of "escalation" are mathematically incoherent—gradualism maximizes risk
+- Information advantage compounds over time—truth's thermodynamic property
+- AI processing reveals structural features invisible to human analysis
+
+**Publications demonstrate**: Information warfare is not abstract philosophy but **operational methodology with concrete results**.
+
+---
+
+### Why Ukraine Will Win Through Information
+
+Despite Western failure, Ukrainian victory remains inevitable for three reasons:
+
+**1. Existential Asymmetry**  
+For Ukraine, this is survival. For Russia, imperial vanity. Existential conflicts generate resilience overwhelming material disadvantages. Ukrainian friends tell me: "We will fight, no matter how hard it gets."
+
+**2. Information Advantage**  
+Ukrainian transparency vs. Russian lies creates compounding support. Every exposed atrocity shifts global opinion. Information flows thermodynamically in Ukraine's favor.
+
+**3. AI Amplification**  
+Information warfare at scale requires AI. Processing millions of data points—documents, images, videos, testimonies—exceeds human capacity. AI synthesizes patterns revealing truth faster than Russia can suppress.
+
+Western military support is uncertain. Western governmental resolve wavers. But information—once released—cannot be recalled. Truth propagates inevitably.
+
+**This is mathematics, not optimism.**
+
+---
+
+### The Tragic Necessity: Information as Compensation
+
+I do not celebrate this analysis. I state it because truth demands acknowledgment.
+
+**Ideal scenario**: West provides overwhelming military force AND information support. Ukraine wins swiftly with minimal casualties. Russia transforms under international oversight. Stable peace follows.
+
+**Actual scenario**: West provides insufficient military force with excessive restrictions. Ukraine compensates through information warfare—exposing Western cowardice while defeating Russian evil. Victory comes later, with higher casualties, but information ensures it comes.
+
+**The mathematics is brutal**: When X (military support) falls below threshold, Y (information warfare) must increase to maintain Z (victory probability) constant.
+
+This is not preference—it is **forced optimization under Western betrayal**.
+
+---
+
+### The Moral Weight
+
+This analysis carries moral burden. Every delayed weapon shipment, every use restriction, every diplomatic pressure toward compromise **increases Ukrainian casualties**.
+
+Western leaders speak of "avoiding escalation" while Ukrainians die. This is not prudence—it is **moral cowardice disguised as strategic calculation**.
+
+Information warfare exposes this hypocrisy:
+- Document every delayed shipment's cost in lives
+- Expose every "red line" proven false by events
+- Record every diplomat urging "compromise" while Russians commit genocide
+- Use AI to calculate casualties directly attributable to Western restrictions
+
+This is not propaganda—it is **accountability through information**.
+
+Russia commits evil. But Western cowardice enables it. Both must be defeated—Russia through Ukrainian courage, West through information exposing its failure.
+
+---
+
+### The Rebirth Vision: Information Enabling Transformation
+
+Total victory enables transformation beyond mere restoration. My proposal: **Revive Kievan Rus' as legitimate heir to East Slavic civilization**.
+
+Moscow's rise was historical usurpation (Ivan IV, 1547). Current war creates opportunity to correct this through:
+- Filip Orlik's 1710 Constitution as governance framework
+- Confederation under international oversight
+- Territorial redistribution restoring historical justice
+- Independence for subjugated peoples
+
+This seems radical only to minds narrowed by conventional thinking. Information reveals historical grounding and structural logic.
+
+**But achieving this requires information dominance**: Documenting Russia's imperial crimes, exposing Moscow's false historical narratives, building international consensus for transformation, preventing revisionist "both sides" historiography.
+
+Military force liberates territory. **Information liberates consciousness.**
+
+---
+
+### Conclusion: The Weapon We Have, Not the Weapon We Want
+
+As mathematician, I conclude:
+
+**Optimally**: Ukraine needs overwhelming military force AND information dominance.
+
+**Actually**: Western cowardice provides neither adequately.
+
+**Therefore**: Information must compensate—becoming primary weapon not by choice but by necessity.
+
+**Outcome**: Ukraine wins through information warfare amplified by AI, despite Western betrayal rather than because of Western support.
+
+This is not elegant mathematics. It is tragedy transformed into strategy.
+
+But the conclusion is unambiguous: **Information will secure Ukrainian victory because it is the weapon Western cowardice cannot constrain, Russian tyranny cannot suppress, and mathematical truth guarantees propagates.**
+
+When governments fail, information prevails. When weapons are restricted, truth becomes unrestricted. When leaders betray, mathematics remains faithful.
+
+**Information as weapon**—not metaphor but operational necessity, not preference but forced optimization, not hope but mathematical certainty.
+
+Ukraine will win. Information will ensure it. The only question is how many die while the West learns courage.
+
+---
+
+### Selected Publications
+
+**Peace Conference Project (27 publications):**
+- Zeps, D. (2025). *Ukraina – ASV – Krievija: Šodienas pasaule.* Zenodo, 17108393.
+- Zeps, D. (2025). *Information against Evil: Case of Bueno Mesquita.* Zenodo, 16778088.
+- Zeps, D. (2025). *Political Chemistry: for Total Ukrainian Victory!* Zenodo, 15569946.
+- Senekal, B. & Zeps, D. (2025). *May AI Machines End the War?* Zenodo, 14770922.
+- Senekal, B. (2025). *Russian disinformation, LLMs and War in Ukraine.* Zenodo, 14959292.
+
+**Complete PCP bibliography**: https://zenodo.org/communities/pcp-journal
+
+**Core Publications:**
+- Zeps, D. (2025). *The Rebirth of Kievan Rus'.* Zenodo, 15873145.
+- Zeps, D. (2025). *Framework for Reviving Filip Orlik's Constitution.* Zenodo, 16484131.
+- Zeps, D. (2025). *Russia delenda est.* ResearchGate, 387538894.
+
+**Contact:** dainis.zeps@lu.lv  
+**Portfolio:** https://lingua.id.lv/pofo/
+
+---
+
+*This essay synthesizes insights from over 30 research dialogues with AI systems conducted since September 2024, including the Peace Conference Project's 27 publications on AI-assisted scenario planning for post-war Ukraine.*
