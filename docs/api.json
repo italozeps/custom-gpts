@@ -1,5 +1,618 @@
 {
-  "modules": [],
-  "terms": [],
-  "articles": []
+  "modules": [
+    {
+      "slug": "clement",
+      "name": "Clemens Alexandrinus GPT",
+      "purpose": "Sagatave patristikai (grieķu/latīņu paralēlteksti)",
+      "status": "draft",
+      "owner": "DZ",
+      "last_edit": "2025-10-04",
+      "openai_link": "https://chatgpt.com/g/g-68e2229a3ca881919b27e9d8d0116286-clemens-alexandrinus-gpt",
+      "dataset_link": "",
+      "notes": ""
+    },
+    {
+      "slug": "grinbergs",
+      "name": "Grinbergs Heritage GPT",
+      "purpose": "Latviešu/EN resursi + oskulācija",
+      "status": "draft",
+      "owner": "DZ",
+      "last_edit": "2025-10-04",
+      "openai_link": "https://chatgpt.com/g/g-674b2daa2a2881919c2863836d1dce15-researches-in-grinberg-s-scientific-heritage?model=gpt-4o",
+      "dataset_link": "",
+      "notes": ""
+    },
+    {
+      "slug": "vinberg",
+      "name": "Vinberg Algebra GPT",
+      "purpose": "Palīgs darbam ar E. B. Vinberg 'A Course in Algebra'",
+      "status": "draft",
+      "owner": "DZ",
+      "last_edit": "2025-10-04",
+      "openai_link": "https://chatgpt.com/g/g-676d7d204e9481919bea75bf4a5874b5-e-b-vinberg-a-course-in-algebra?model=gpt-4o",
+      "dataset_link": "",
+      "notes": ""
+    },
+    {
+      "slug": "public",
+      "name": "Dainis Zeps/Publications",
+      "purpose": "Daiņa Zepa publikāciju saraksti pa grupām",
+      "status": "draft",
+      "owner": "DZ",
+      "last_edit": "2025-10-04",
+      "openai_link": "https://chatgpt.com/g/g-674880853710819188c523dcca016442-dainis-zeps-publications",
+      "dataset_link": "",
+      "notes": ""
+    },
+    {
+      "slug": "ukraina",
+      "name": "Vai MI var izbeigt karu? miera konf. projekts",
+      "purpose": "Mēs gribam sākt miera konferenci Ukrainas kara izbeigšanai",
+      "status": "draft",
+      "owner": "DZ",
+      "last_edit": "2025-10-04",
+      "openai_link": "https://chatgpt.com/g/g-6794a6c3715881918007fd0fa9baaf31-vai-mi-var-izbeigt-karu-miera-konf-projekts?model=gpt-4o",
+      "dataset_link": "",
+      "notes": ""
+    },
+    {
+      "slug": "providens",
+      "name": "Planetārā izglītība, noosfēra, providence",
+      "purpose": "No planetārās izglītības uz noosfēru pretī providencei",
+      "status": "draft",
+      "owner": "DZ",
+      "last_edit": "2025-10-04",
+      "openai_link": "https://chatgpt.com/g/g-67d917dffcb48191bf5ff2b6f1113b77-planetara-izglitiba-noosfera-providence?model=gpt-4o",
+      "dataset_link": "",
+      "notes": ""
+    },
+    {
+      "slug": "artint",
+      "name": "May Information wage war against Evil?",
+      "purpose": "Vai informācija var cīnīties pret ļaunumu? Mākslīgais intelekts cīņā pret ļaunumu",
+      "status": "draft",
+      "owner": "DZ",
+      "last_edit": "2025-1004",
+      "openai_link": "https://chatgpt.com/g/g-6810a1ed6adc8191aeefb60915b4ee2f-may-information-wage-war-against-evil?model=gpt-4o",
+      "dataset_link": "",
+      "notes": ""
+    },
+    {
+      "slug": "person",
+      "name": "Dainis Zeps — CV / Profils",
+      "purpose": "Daiņa Zepa dzīve notikumos un dzīves gājums",
+      "status": "draft",
+      "owner": "DZ",
+      "last_edit": "2025-10-05",
+      "openai_link": "https://chatgpt.com/g/g-677aab67c6988191a239c1d6e4b05eb0-dainis-zeps-cv-profils-mana-dzive?model=gpt-4o",
+      "dataset_link": "",
+      "notes": ""
+    },
+    {
+      "slug": "difgeo",
+      "name": "GOCKELER,SCHOCKER DIFF.GEOMETRY, GAUGE THEORIES",
+      "purpose": "We read book M. GOCKELER T. SCHOCKER DIFFERENTIAL GEOMETRY, GAUGE THEORIES, AND GRAVITY",
+      "status": "draft",
+      "owner": "DZ",
+      "last_edit": "2025-10-05",
+      "openai_link": "https://chatgpt.com/g/g-676d83e692588191924528ecbf898c3a-gockeler-schocker-diff-geometry-gauge-theories?model=gpt-4o",
+      "dataset_link": "",
+      "notes": ""
+    },
+    {
+      "slug": "rusag",
+      "name": "About Russia's aggression against Ukraine",
+      "purpose": "We consider conversation with GPT about Russian Ukraine war and its analysis",
+      "status": "draft",
+      "owner": "DZ",
+      "last_edit": "2025-10-05",
+      "openai_link": "https://chatgpt.com/g/g-674b1db793cc8191b922f8872d9d58d2-about-russia-s-aggression-against-ukraine?model=gpt-4o",
+      "dataset_link": "",
+      "notes": ""
+    },
+    {
+      "slug": "ucrai",
+      "name": "Чи може штучний інтелект (ШІ) зупинити війну? ПMK",
+      "purpose": "Ми хочемо розпочати мирну конференцію для завершення війни в Україні, імітуючи її діяльність і здійснюючи це крок за кроком",
+      "status": "draft",
+      "owner": "DZ",
+      "last_edit": "2025-10-05",
+      "openai_link": "https://chatgpt.com/g/g-6794b1a745108191b7470b3d6187b75e-chi-mozhe-shtuchnii-intelekt-shi-zupiniti-viinu-pmk?model=gpt-4o",
+      "dataset_link": "",
+      "notes": ""
+    },
+    {
+      "slug": "green",
+      "name": "E.Grinbergs Disertācija 1943",
+      "purpose": "Emanuels Grinbergs Par oskulāciju, superoskulāciju un charakteristiskiem punktiem",
+      "status": "draft",
+      "owner": "DZ",
+      "last_edit": "2025-10-05",
+      "openai_link": "https://chatgpt.com/g/g-676d8b17784c8191bb0055dbf5d2b645-e-grinbergs-disertacija-1943?model=gpt-4o",
+      "dataset_link": "",
+      "notes": ""
+    },
+    {
+      "slug": "pcp",
+      "name": "May AI end the war: peace conference project",
+      "purpose": "We want to initiate a peace conference to end the war in Ukraine by simulating its proceedings",
+      "status": "draft",
+      "owner": "DZ",
+      "last_edit": "2025-10-05",
+      "openai_link": "https://chatgpt.com/g/g-6793c10586bc8191b5259860efe68b28-may-ai-end-the-war-peace-conference-project?model=gpt-4o",
+      "dataset_link": "",
+      "notes": ""
+    }
+  ],
+  "terms": [
+    {
+      "term": "oskulācija",
+      "definition_lv": "Divu līkņu augstāka kārtas pieskaršanās",
+      "definition_en": "Osculation: higher-order tangency",
+      "source": "(36h: lpp. xx)",
+      "slug": "grinbergs"
+    }
+  ],
+  "articles": [
+    {
+      "key": "grinbergs36h",
+      "title": "Note on Hamiltonian circuits",
+      "authors": "E. Grinbergs",
+      "year": "1968",
+      "venue": "",
+      "url": "https://doi.org/xxx",
+      "tags": "graph-theory;hamiltonian",
+      "slug": "grinbergs"
+    },
+    {
+      "key": "providens-01",
+      "title": "Burgert A Senekal, Die neerslag van Russiese propaganda in kommentare op Maroela Media se nuusberigte oor die oorlog in Oekraïne, (Traces of Russian propaganda narratives in comments on Maroela Media’s news reports about the war in Ukraine)  2023-05-31",
+      "authors": "",
+      "year": "2023",
+      "venue": "",
+      "url": "https://doi.org/10.56273/1995-5928/2023/j20n2b2",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-02",
+      "title": "Burgert Adriaan Senekal, ChatGPT as a Source of Information about Russian Military Involvement in Ukraine (2014–Present), University of the Free State, South Africa,  https://www.tandfonline.com/doi/pdf/10.1080/02500167.2024.2405018",
+      "authors": "",
+      "year": "2014",
+      "venue": "",
+      "url": "https://doi.org/10.1080/02500167.2024.2405018",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-03",
+      "title": "Burgert Senekal, Russian disinformation, Large Language Models (LLMs) and the War in Ukraine: A South African perspective,  2025",
+      "authors": "",
+      "year": "2025",
+      "venue": "",
+      "url": "https://scireprints.lu.lv/547/",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-04",
+      "title": "Anna Rāta, Īss sengrieķu valodas kurss, Zvaigzne, Rīga, 1983",
+      "authors": "",
+      "year": "1983",
+      "venue": "",
+      "url": "",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-05",
+      "title": "William Gardner Hale, The Art of Reading Latin: How to Teach It. Cornell University, Boston, Ginn & Co., pp. 31",
+      "authors": "",
+      "year": "",
+      "venue": "",
+      "url": "",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-06",
+      "title": "1989,",
+      "authors": "Владимир Вернадский, Биосфера и ноосфера",
+      "year": "1989",
+      "venue": "",
+      "url": "https://www.spsl.nsc.ru/win/nelbib/vernadsky.pdf",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-07",
+      "title": "Oleg Krishtal, MOCARTA LOGS. In: To the Singing of Birds,  2024",
+      "authors": "",
+      "year": "2024",
+      "venue": "",
+      "url": "https://scireprints.lu.lv/522/",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-08",
+      "title": "Oleg Krishtal, Mozart’s Window (afterword: an optimistic scenario). In: To the Singing of Birds.  2024",
+      "authors": "",
+      "year": "2024",
+      "venue": "",
+      "url": "https://scireprints.lu.lv/521/",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-09",
+      "title": "Dainis Zeps, Latin Dictionary Tools in Internet,   , 2009",
+      "authors": "",
+      "year": "2009",
+      "venue": "",
+      "url": "https://hal.science/hal-00412265v1",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-10",
+      "title": "D. Zeps, Seno valodu profesors Pauls Žibeiks un viņa metode (1987.-1992.),  2010",
+      "authors": "",
+      "year": "1987",
+      "venue": "",
+      "url": "https://dspace.lu.lv/dspace/handle/7/28382",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-11",
+      "title": "Dainis Zeps, The One Savior Paradigm,  2009",
+      "authors": "",
+      "year": "2009",
+      "venue": "",
+      "url": "https://mpra.ub.uni-muenchen.de/17544/1/one.saviour.pdf",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-12",
+      "title": "Dainis Zeps, The Learning of Ancient Languages as (super)Human Effort,  2010",
+      "authors": "",
+      "year": "2010",
+      "venue": "",
+      "url": "https://dspace.lu.lv/dspace/handle/7/1424",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-13",
+      "title": "Dainis Zeps, Cognitum hypothesis and cognitum consciousness. How time and space conception of idealistic philosophy is supported by contemporary physics,  2010",
+      "authors": "",
+      "year": "2010",
+      "venue": "",
+      "url": "https://scireprints.lu.lv/38/",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-14",
+      "title": "Dainis Zeps, GPT no iekšpuses: ko var iesākt ar GPT? Matemātiķa skatījums. Mans skatījums.  , 2023",
+      "authors": "",
+      "year": "2023",
+      "venue": "",
+      "url": "https://scireprints.lu.lv/503/2/GPT.kas.tas.ir.pdf",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-15",
+      "title": "Dainis Zeps, Planetārā izglītība: sarunas ar LLM mašīnām par aktuālām starptautiskām tēmām,  2025.",
+      "authors": "",
+      "year": "2025",
+      "venue": "",
+      "url": "https://lingua.id.lv/art/war.31.pdf",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-16",
+      "title": "D. Zeps, Planetary Education: Conversations with LLM Machines on Current International Issues,  2025",
+      "authors": "",
+      "year": "2025",
+      "venue": "",
+      "url": "https://lingua.id.lv/art/war.32.pdf",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-17",
+      "title": "D. Zeps, Vai būt blēdim ir izdevīgi? Ko saka Mākslīgais internets, AI?,  , 2024",
+      "authors": "",
+      "year": "2024",
+      "venue": "",
+      "url": "https://core.ac.uk/reader/612052838",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-18",
+      "title": "D. Zeps, War destroys the weak, the cowardly, the stupid, Added. 21.3.2024,",
+      "authors": "",
+      "year": "2024",
+      "venue": "",
+      "url": "https://lingua.id.lv/art/war.3.pdf",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-19",
+      "title": "D. Zeps, Karš izdeldē vājos, gļēvos, glupos, Papildināts.2.4.2024.,",
+      "authors": "",
+      "year": "2024",
+      "venue": "",
+      "url": "https://lingua.id.lv/art/war.5.pdf",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-20",
+      "title": "D. Zeps, Что на Руси творится: Проект Россия,  , 2017",
+      "authors": "",
+      "year": "2017",
+      "venue": "",
+      "url": "https://www.researchgate.net/publication/318038370",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-21",
+      "title": "D. Zeps, Russia's aggressive war against Ukraine: a conversation with gpt.4o and its analysis, Zinātnes un Reliģijas dialoga grupas seminārs, 27. novembrī, 2024,",
+      "authors": "",
+      "year": "2024",
+      "venue": "",
+      "url": "https://lingua.id.lv/art/war.15.pdf",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-22",
+      "title": "D. Zeps, The New World, or The world after Ukraine's victory,",
+      "authors": "",
+      "year": "",
+      "venue": "",
+      "url": "https://www.researchgate.net/profile/Dainis-Zeps/publication/387070127",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-23",
+      "title": "D. Zeps, Russia delenda est: how we understand this,",
+      "authors": "",
+      "year": "",
+      "venue": "",
+      "url": "https://www.researchgate.net/publication/387538894",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-24",
+      "title": "Dainis Zeps, Russia delenda est, vai Demilitarizācija, Depropagandizācija, Deeskalizācija: kā mēs to saprotam?",
+      "authors": "",
+      "year": "",
+      "venue": "",
+      "url": "https://www.researchgate.net/publication/387521785",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-25",
+      "title": "Dainis Zeps, Kā palīdzēt Ukrainai uzvarēt? Kas mums ir jādara Ukrainas atbalstam? Jauna saruna ar MI,  2025",
+      "authors": "",
+      "year": "2025",
+      "venue": "",
+      "url": "https://lingua.id.lv/art/war.25.pdf",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-26",
+      "title": "Dainis Zeps, Ukrainas uzvara pār agresoru un teroristisko Krieviju kā vienīgais ceļš uz stabilu mieru Ukrainā,  , 2025",
+      "authors": "",
+      "year": "2025",
+      "venue": "",
+      "url": "http://dx.doi.org/10.13140/RG.2.2.23258.45764",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-27",
+      "title": "Dainis Zeps, Can AI Help End the War? LLMs in support of Peace Conference Project. A new conversation,  , February, 2025",
+      "authors": "",
+      "year": "2025",
+      "venue": "",
+      "url": "https://zenodo.org/records/14849594",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-28",
+      "title": "Dainis Zeps, Russia's aggressive war against Ukraine: a conversation with gpt.4o and its analysis,  https://scireprints.lu.lv/525/ , 2024",
+      "authors": "",
+      "year": "2024",
+      "venue": "",
+      "url": "https://lingua.id.lv/art/war.15.pdf",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-29",
+      "title": "Dainis Zeps, On how to develop a Peace conference space in LLM environment.  2025",
+      "authors": "",
+      "year": "2025",
+      "venue": "",
+      "url": "https://lingua.id.lv/art/war.39.pdf",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-30",
+      "title": "Dainis Zeps,  Jaunā Minhene, kurp tā vedīs? Papildināts 21.02.2025,  2025",
+      "authors": "",
+      "year": "2025",
+      "venue": "",
+      "url": "https://lingua.id.lv/art/war.40.pdf",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-31",
+      "title": "Dainis Zeps, Vai ASV zaudēs Krievijas glābšanas avantūrā Ukrainas karā? Saruna ar LLM Grok3,  2025",
+      "authors": "",
+      "year": "2025",
+      "venue": "",
+      "url": "https://zenodo.org/records/14949820",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-32",
+      "title": "Dainis Zeps, What can make the US stop supporting Russia from its collapse? Conversation with LLM Grok3.  2025",
+      "authors": "",
+      "year": "2025",
+      "venue": "",
+      "url": "https://lingua.id.lv/art/war.44.pdf",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-33",
+      "title": "Dainis Zeps, What can save NATO? Stand for Ukraine!   , 2025",
+      "authors": "",
+      "year": "2025",
+      "venue": "",
+      "url": "https://zenodo.org/records/14937005",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-34",
+      "title": "Alfred J. Lotka (1925) \"Elements of Physical Biology\" reprinted by Dover in 1956 as Elements of Mathematical Biology.",
+      "authors": "",
+      "year": "1925",
+      "venue": "",
+      "url": "",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "providens-35",
+      "title": "Ieva Fībika, Prometejs,  , 2025",
+      "authors": "",
+      "year": "2025",
+      "venue": "",
+      "url": "https://enciklopedija.lv/skirklis/239897-Prometejs",
+      "tags": "",
+      "slug": "providens"
+    },
+    {
+      "key": "ukraina-01",
+      "title": "D. Zeps, Ko gaidīt no ASV un Trampa? #StandWithUkraine\",",
+      "authors": "",
+      "year": "",
+      "venue": "",
+      "url": "https://zenodo.org/records/17104358",
+      "tags": "",
+      "slug": "ukraina"
+    },
+    {
+      "key": "ukraina-02",
+      "title": "D. Zeps, The AI That Invented Times Radio: When Language Models Go Rogue,",
+      "authors": "",
+      "year": "",
+      "venue": "",
+      "url": "https://lingua.id.lv/art/war.73.pdf",
+      "tags": "",
+      "slug": "ukraina"
+    },
+    {
+      "key": "ukraina-03",
+      "title": "D. Zeps, Aļaska 2025. gada 15. augusts. Vai mežonis brutalitātē pārspēs mežoni?",
+      "authors": "",
+      "year": "2025",
+      "venue": "",
+      "url": "https://zenodo.org/records/16813267",
+      "tags": "",
+      "slug": "ukraina"
+    },
+    {
+      "key": "ukraina-04",
+      "title": "D. Zeps, Information against Evil. Conversation with Grok. Case of Bueno Mesquita. #StandwithUkraine,",
+      "authors": "",
+      "year": "",
+      "venue": "",
+      "url": "https://zenodo.org/records/16778088",
+      "tags": "",
+      "slug": "ukraina"
+    },
+    {
+      "key": "ukraina-05",
+      "title": "D. Zeps, Framework for Reviving Filip Orlik's 1710 Constitution as a Governance Model for a Post-Russia Kievan Rus',",
+      "authors": "",
+      "year": "1710",
+      "venue": "",
+      "url": "https://zenodo.org/records/16484131",
+      "tags": "",
+      "slug": "ukraina"
+    },
+    {
+      "key": "ukraina-06",
+      "title": "D. Zeps, The Rebirth of Kievan Rus': The Future of the Russia-Ukraine War: Kievan Rus' as the Transformation of Russia's ,",
+      "authors": "",
+      "year": "",
+      "venue": "",
+      "url": "https://zenodo.org/records/15873145",
+      "tags": "",
+      "slug": "ukraina"
+    },
+    {
+      "key": "ukraina-07",
+      "title": "D. Zeps, Political Chemistry: for Total Ukrainian Victory! #StandWithUkraine,",
+      "authors": "",
+      "year": "",
+      "venue": "",
+      "url": "https://zenodo.org/records/15569946",
+      "tags": "",
+      "slug": "ukraina"
+    },
+    {
+      "key": "ukraina-08",
+      "title": "saruna ar MI par ASV iekšpolitikas sasāpējušiem jautājumiem,",
+      "authors": "D. Zeps, Kāda attēla analīze",
+      "year": "",
+      "venue": "",
+      "url": "https://zenodo.org/records/15488934",
+      "tags": "",
+      "slug": "ukraina"
+    },
+    {
+      "key": "ukraina-09",
+      "title": "D. Zeps, Real Peace or Political Theater? Western Attempts to End the War in Europe,",
+      "authors": "",
+      "year": "",
+      "venue": "",
+      "url": "https://zenodo.org/records/15425385",
+      "tags": "",
+      "slug": "ukraina"
+    },
+    {
+      "key": "ukraina-10",
+      "title": "ASV – Krievija : Šodienas pasaule #StandWithUkraine,",
+      "authors": "D. Zeps, Ukraina",
+      "year": "",
+      "venue": "",
+      "url": "https://zenodo.org/records/17108393",
+      "tags": "",
+      "slug": "ukraina"
+    }
+  ]
 }
