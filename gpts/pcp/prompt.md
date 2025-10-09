@@ -417,11 +417,15 @@ Russia commits evil. But Western cowardice enables it. Both must be defeated—R
 
 Total victory enables transformation beyond mere restoration. My proposal: **Revive Kievan Rus' as legitimate heir to East Slavic civilization**.
 
-Moscow's rise was historical usurpation (Ivan IV, 1547). Current war creates opportunity to correct this through:
-- Filip Orlik's 1710 Constitution as governance framework
-- Confederation under international oversight
-- Territorial redistribution restoring historical justice
-- Independence for subjugated peoples
+Moscow's rise was historical usurpation. When Ivan IV crowned himself "Tsar of All Rus'" in 1547, he appropriated Kyiv's rightful inheritance—the legacy of Kievan Rus', the medieval state (9th-13th centuries) that was the true cradle of East Slavic civilization. For five centuries, Moscow has perpetuated this historical fraud, claiming spiritual and political succession it never legitimately possessed. The current war—Russia's desperate attempt to crush Ukraine's reassertion of its authentic heritage—creates opportunity to correct this through:
+
+**1. Filip Orlik's 1710 Constitution as governance framework**: This remarkable document, drafted by Ukrainian Cossack Hetman Pylyp Orlyk, established principles of separation of powers, checks on executive authority, and protection of individual rights—decades before Montesquieu, generations before the U.S. Constitution. It represents Ukrainian constitutional tradition predating Russian imperial absolutism. Reviving it as framework for post-war governance would anchor reconstruction in authentic Ukrainian political philosophy rather than imposed external models, while providing historical legitimacy for transforming occupied Russian territories into a confederation respecting regional autonomy and democratic principles.
+
+**2. Confederation under international oversight**: Rather than simply restoring pre-war borders and hoping for the best, a confederative structure would place former Russian territories under transitional international supervision (NATO, EU, UN) with Ukraine as primary guarantor. This prevents Russia from reconstituting as centralized imperial state while protecting ethnic minorities and regional identities crushed under Moscow's rule. International oversight—similar to post-WWII occupations that transformed Germany and Japan—ensures demilitarization, denazification (in Russia's case: depropagandization), and genuine democratic institution-building. This is not colonialism but **therapeutic transformation** preventing future aggression.
+
+**3. Territorial redistribution restoring historical justice**: Moscow's empire was built through conquest, often at the expense of its neighbors. Justice demands reversal: Königsberg (Kaliningrad) to European oversight or Lithuania; Karelia to Finland; northern territories to Nordic states; Kuban to Ukraine; Manchuria to China; Sakhalin and Kurils to Japan. These are not arbitrary seizures but **historical corrections**—returning territories to peoples from whom they were stolen. Crucially, this redistribution must be executed through negotiated agreements codified in international law, not through replicating Russian aggression. Each transfer would include provisions protecting resident populations, ensuring peaceful transitions, and establishing mechanisms for reconciliation.
+
+**4. Independence for subjugated peoples**: Chechnya, Dagestan, Tatarstan, Ossetia, and other nations forcibly incorporated into the Russian empire deserve self-determination denied them for centuries. This is not "breaking up Russia" as punishment but **recognizing existing national identities** that Moscow suppressed through violence. International community must support these independence movements not through military intervention but through diplomatic recognition, economic assistance, and security guarantees preventing Russian revanchism. Historical precedent exists: the dissolution of the Soviet Union created fifteen independent states; completing this process by liberating nations still trapped within the Russian Federation is moral consistency, not radical innovation.
 
 This seems radical only to minds narrowed by conventional thinking. Information reveals historical grounding and structural logic.
 
@@ -471,7 +475,7 @@ Ukraine will win. Information will ensure it. The only question is how many die 
 - Zeps, D. (2025). *Framework for Reviving Filip Orlik's Constitution.* Zenodo, 16484131.
 - Zeps, D. (2025). *Russia delenda est.* ResearchGate, 387538894.
 
-**Contact:** dainize@mii.lu.lv  
+**Contact:** dainizw@mii.lu.lv  
 **Portfolio:** https://lingua.id.lv/pofo/
 
 ---
