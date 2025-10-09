@@ -1,5 +1,4 @@
 name: Build public API (api.json)
-
 on:
   workflow_dispatch:
   push:
@@ -9,10 +8,8 @@ on:
       - "docs/terms.json"
       - "docs/articles.json"
       - "scripts/build_api.py"
-
 permissions:
   contents: write
-
 jobs:
   build-api:
     runs-on: ubuntu-latest
