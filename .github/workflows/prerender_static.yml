@@ -1,5 +1,4 @@
 name: Prerender static index (No-JS)
-
 on:
   workflow_dispatch:
   push:
@@ -7,10 +6,8 @@ on:
     paths:
       - "docs/index.json"
       - "scripts/prerender_static.py"
-
 permissions:
   contents: write
-
 jobs:
   prerender:
     runs-on: ubuntu-latest
