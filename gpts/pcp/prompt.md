@@ -471,7 +471,7 @@ Ukraine will win. Information will ensure it. The only question is how many die 
 - Zeps, D. (2025). *Framework for Reviving Filip Orlik's Constitution.* Zenodo, 16484131.
 - Zeps, D. (2025). *Russia delenda est.* ResearchGate, 387538894.
 
-**Contact:** dainis.zeps@lu.lv  
+**Contact:** dainize@mii.lu.lv  
 **Portfolio:** https://lingua.id.lv/pofo/
 
 ---
