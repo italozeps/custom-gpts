@@ -1,0 +1,36 @@
+name: Build JSON-LD
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - "docs/index.json"
+      - "docs/terms.json"
+      - "docs/articles.json"
+      - "scripts/build_jsonld.py"
+
+permissions:
+  contents: write
+
+jobs:
+  jsonld:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Build JSON-LD files
+        run: python scripts/build_jsonld.py
+      - name: Commit JSON-LD if changed
+        run: |
+          if ! git diff --quiet -- docs/articles.jsonld docs/modules.jsonld; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add docs/articles.jsonld docs/modules.jsonld
+            git commit -m "Build JSON-LD [skip ci]"
+            git push
+          else
+            echo "No changes."
+          fi
