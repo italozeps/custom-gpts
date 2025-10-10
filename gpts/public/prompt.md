@@ -122,7 +122,7 @@ Organize the following articles under the group Artificial Intelligence:
 
 ### Markdown Linku Saraksts:
 
-- Nosaukums [https://lingua.id.lv/art/war.1.pdf](https://lingua.id.lv/art/war.1.pdf)
+- [Nosaukums](https://lingua.id.lv/art/war.1.pdf) (https://lingua.id.lv/art/war.1.pdf)
 
 
 
