@@ -122,7 +122,7 @@ Organize the following articles under the group Artificial Intelligence:
 
 
 
-## Markdown Literatūras norādes
+## Literatūras norādes
 
 
   -  Dainis Zeps, "Aicinājums uz ANO Ģenerālas asamblejas deb", [https://lingua.id.lv/art/war.1.pdf](https://lingua.id.lv/art/war.1.pdf)
