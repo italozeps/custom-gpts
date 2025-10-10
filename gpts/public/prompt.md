@@ -120,9 +120,406 @@ Organize the following articles under the group Artificial Intelligence:
    - Full-text link or attachment (optional)
 
 
-### Markdown Linku Saraksts:
+async function check(url) {
+  try {
+    let resp = await fetch(url, { method: 'HEAD' });
+    return resp.ok;
+  } catch (e) {
+    return false;
+  }
+}
 
-- [Nosaukums](https://lingua.id.lv/art/war.1.pdf) (https://lingua.id.lv/art/war.1.pdf)
+async function makeList() {
+  const base = "https://lingua.id.lv/art/war.";
+  const max = 80; // var mainīt uz vajadzīgo numuru
+  const found = [];
+
+  for (let i = 1; i <= max; i++) {
+    let url = base + i + ".pdf";
+    let exists = await check(url);
+    if (exists) {
+      console.log("✅", url);
+      found.push(url);
+    } else {
+      console.log("❌", url);
+    }
+  }
+
+  // Izvada visu sarakstu vienā blokā
+  console.log("---- ATRASTIE FAILI ----");
+  found.forEach(f => console.log(f));
+}
+
+makeList();
+
+Promise {<pending>}
+VM23:19 ✅ https://lingua.id.lv/art/war.1.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.2.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.3.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.4.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.5.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.6.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.7.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.8.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.9.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.10.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.11.pdf
+VM23:3  HEAD https://lingua.id.lv/art/war.12.pdf net::ERR_ABORTED 404 (Not Found)
+check @ VM23:3
+makeList @ VM23:17
+await in makeList
+(anonymous) @ VM23:31
+VM23:22 ❌ https://lingua.id.lv/art/war.12.pdf
+VM23:3  HEAD https://lingua.id.lv/art/war.13.pdf net::ERR_ABORTED 404 (Not Found)
+check @ VM23:3
+makeList @ VM23:17
+await in makeList
+(anonymous) @ VM23:31
+VM23:22 ❌ https://lingua.id.lv/art/war.13.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.14.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.15.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.16.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.17.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.18.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.19.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.20.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.21.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.22.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.23.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.24.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.25.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.26.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.27.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.28.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.29.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.30.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.31.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.32.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.33.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.34.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.35.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.36.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.37.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.38.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.39.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.40.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.41.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.42.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.43.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.44.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.45.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.46.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.47.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.48.pdf
+VM23:3  HEAD https://lingua.id.lv/art/war.49.pdf net::ERR_ABORTED 404 (Not Found)
+check @ VM23:3
+makeList @ VM23:17
+await in makeList
+(anonymous) @ VM23:31
+VM23:22 ❌ https://lingua.id.lv/art/war.49.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.50.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.51.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.52.pdf
+VM23:3  HEAD https://lingua.id.lv/art/war.53.pdf net::ERR_ABORTED 404 (Not Found)
+check @ VM23:3
+makeList @ VM23:17
+await in makeList
+(anonymous) @ VM23:31
+VM23:22 ❌ https://lingua.id.lv/art/war.53.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.54.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.55.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.56.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.57.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.58.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.59.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.60.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.61.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.62.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.63.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.64.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.65.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.66.pdf
+VM23:3  HEAD https://lingua.id.lv/art/war.67.pdf net::ERR_ABORTED 404 (Not Found)
+check @ VM23:3
+makeList @ VM23:17
+await in makeList
+(anonymous) @ VM23:31
+VM23:22 ❌ https://lingua.id.lv/art/war.67.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.68.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.69.pdf
+VM23:3  HEAD https://lingua.id.lv/art/war.70.pdf net::ERR_ABORTED 404 (Not Found)
+check @ VM23:3
+makeList @ VM23:17
+await in makeList
+(anonymous) @ VM23:31
+VM23:22 ❌ https://lingua.id.lv/art/war.70.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.71.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.72.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.73.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.74.pdf
+VM23:19 ✅ https://lingua.id.lv/art/war.75.pdf
+VM23:3  HEAD https://lingua.id.lv/art/war.76.pdf net::ERR_ABORTED 404 (Not Found)
+check @ VM23:3
+makeList @ VM23:17
+await in makeList
+(anonymous) @ VM23:31
+VM23:22 ❌ https://lingua.id.lv/art/war.76.pdf
+VM23:3  HEAD https://lingua.id.lv/art/war.77.pdf 404 (Not Found)
+check @ VM23:3
+makeList @ VM23:17
+await in makeList
+(anonymous) @ VM23:31
+VM23:22 ❌ https://lingua.id.lv/art/war.77.pdf
+VM23:3  HEAD https://lingua.id.lv/art/war.78.pdf net::ERR_ABORTED 404 (Not Found)
+check @ VM23:3
+makeList @ VM23:17
+await in makeList
+(anonymous) @ VM23:31
+VM23:22 ❌ https://lingua.id.lv/art/war.78.pdf
+VM23:3  HEAD https://lingua.id.lv/art/war.79.pdf net::ERR_ABORTED 404 (Not Found)
+check @ VM23:3
+makeList @ VM23:17
+await in makeList
+(anonymous) @ VM23:31
+VM23:22 ❌ https://lingua.id.lv/art/war.79.pdf
+VM23:3  HEAD https://lingua.id.lv/art/war.80.pdf net::ERR_ABORTED 404 (Not Found)
+check @ VM23:3
+makeList @ VM23:17
+await in makeList
+(anonymous) @ VM23:31
+VM23:22 ❌ https://lingua.id.lv/art/war.80.pdf
+VM23:27 ---- ATRASTIE FAILI ----
+VM23:28 https://lingua.id.lv/art/war.1.pdf
+VM23:28 https://lingua.id.lv/art/war.2.pdf
+VM23:28 https://lingua.id.lv/art/war.3.pdf
+VM23:28 https://lingua.id.lv/art/war.4.pdf
+VM23:28 https://lingua.id.lv/art/war.5.pdf
+VM23:28 https://lingua.id.lv/art/war.6.pdf
+VM23:28 https://lingua.id.lv/art/war.7.pdf
+VM23:28 https://lingua.id.lv/art/war.8.pdf
+VM23:28 https://lingua.id.lv/art/war.9.pdf
+VM23:28 https://lingua.id.lv/art/war.10.pdf
+VM23:28 https://lingua.id.lv/art/war.11.pdf
+VM23:28 https://lingua.id.lv/art/war.14.pdf
+VM23:28 https://lingua.id.lv/art/war.15.pdf
+VM23:28 https://lingua.id.lv/art/war.16.pdf
+VM23:28 https://lingua.id.lv/art/war.17.pdf
+VM23:28 https://lingua.id.lv/art/war.18.pdf
+VM23:28 https://lingua.id.lv/art/war.19.pdf
+VM23:28 https://lingua.id.lv/art/war.20.pdf
+VM23:28 https://lingua.id.lv/art/war.21.pdf
+VM23:28 https://lingua.id.lv/art/war.22.pdf
+VM23:28 https://lingua.id.lv/art/war.23.pdf
+VM23:28 https://lingua.id.lv/art/war.24.pdf
+VM23:28 https://lingua.id.lv/art/war.25.pdf
+VM23:28 https://lingua.id.lv/art/war.26.pdf
+VM23:28 https://lingua.id.lv/art/war.27.pdf
+VM23:28 https://lingua.id.lv/art/war.28.pdf
+VM23:28 https://lingua.id.lv/art/war.29.pdf
+VM23:28 https://lingua.id.lv/art/war.30.pdf
+VM23:28 https://lingua.id.lv/art/war.31.pdf
+VM23:28 https://lingua.id.lv/art/war.32.pdf
+VM23:28 https://lingua.id.lv/art/war.33.pdf
+VM23:28 https://lingua.id.lv/art/war.34.pdf
+VM23:28 https://lingua.id.lv/art/war.35.pdf
+VM23:28 https://lingua.id.lv/art/war.36.pdf
+VM23:28 https://lingua.id.lv/art/war.37.pdf
+VM23:28 https://lingua.id.lv/art/war.38.pdf
+VM23:28 https://lingua.id.lv/art/war.39.pdf
+VM23:28 https://lingua.id.lv/art/war.40.pdf
+VM23:28 https://lingua.id.lv/art/war.41.pdf
+VM23:28 https://lingua.id.lv/art/war.42.pdf
+VM23:28 https://lingua.id.lv/art/war.43.pdf
+VM23:28 https://lingua.id.lv/art/war.44.pdf
+VM23:28 https://lingua.id.lv/art/war.45.pdf
+VM23:28 https://lingua.id.lv/art/war.46.pdf
+VM23:28 https://lingua.id.lv/art/war.47.pdf
+VM23:28 https://lingua.id.lv/art/war.48.pdf
+VM23:28 https://lingua.id.lv/art/war.50.pdf
+VM23:28 https://lingua.id.lv/art/war.51.pdf
+VM23:28 https://lingua.id.lv/art/war.52.pdf
+VM23:28 https://lingua.id.lv/art/war.54.pdf
+VM23:28 https://lingua.id.lv/art/war.55.pdf
+VM23:28 https://lingua.id.lv/art/war.56.pdf
+VM23:28 https://lingua.id.lv/art/war.57.pdf
+VM23:28 https://lingua.id.lv/art/war.58.pdf
+VM23:28 https://lingua.id.lv/art/war.59.pdf
+VM23:28 https://lingua.id.lv/art/war.60.pdf
+VM23:28 https://lingua.id.lv/art/war.61.pdf
+VM23:28 https://lingua.id.lv/art/war.62.pdf
+VM23:28 https://lingua.id.lv/art/war.63.pdf
+VM23:28 https://lingua.id.lv/art/war.64.pdf
+VM23:28 https://lingua.id.lv/art/war.65.pdf
+VM23:28 https://lingua.id.lv/art/war.66.pdf
+VM23:28 https://lingua.id.lv/art/war.68.pdf
+VM23:28 https://lingua.id.lv/art/war.69.pdf
+VM23:28 https://lingua.id.lv/art/war.71.pdf
+VM23:28 https://lingua.id.lv/art/war.72.pdf
+VM23:28 https://lingua.id.lv/art/war.73.pdf
+VM23:28 https://lingua.id.lv/art/war.74.pdf
+VM23:28 https://lingua.id.lv/art/war.75.pdf
+found.forEach(url => {
+  console.log(`<a href="${url}" target="_blank">${url}</a>`);
+});
+
+VM68:1 Uncaught ReferenceError: found is not defined
+    at <anonymous>:1:1
+(anonymous) @ VM68:1
+let raw = `
+VM23:28 https://lingua.id.lv/art/war.1.pdf
+VM23:28 https://lingua.id.lv/art/war.2.pdf
+VM23:28 https://lingua.id.lv/art/war.3.pdf
+VM23:28 https://lingua.id.lv/art/war.4.pdf
+VM23:28 https://lingua.id.lv/art/war.5.pdf
+VM23:28 https://lingua.id.lv/art/war.6.pdf
+VM23:28 https://lingua.id.lv/art/war.7.pdf
+VM23:28 https://lingua.id.lv/art/war.8.pdf
+VM23:28 https://lingua.id.lv/art/war.9.pdf
+VM23:28 https://lingua.id.lv/art/war.10.pdf
+VM23:28 https://lingua.id.lv/art/war.11.pdf
+VM23:28 https://lingua.id.lv/art/war.14.pdf
+VM23:28 https://lingua.id.lv/art/war.15.pdf
+VM23:28 https://lingua.id.lv/art/war.16.pdf
+VM23:28 https://lingua.id.lv/art/war.17.pdf
+VM23:28 https://lingua.id.lv/art/war.18.pdf
+VM23:28 https://lingua.id.lv/art/war.19.pdf
+VM23:28 https://lingua.id.lv/art/war.20.pdf
+VM23:28 https://lingua.id.lv/art/war.21.pdf
+VM23:28 https://lingua.id.lv/art/war.22.pdf
+VM23:28 https://lingua.id.lv/art/war.23.pdf
+VM23:28 https://lingua.id.lv/art/war.24.pdf
+VM23:28 https://lingua.id.lv/art/war.25.pdf
+VM23:28 https://lingua.id.lv/art/war.26.pdf
+VM23:28 https://lingua.id.lv/art/war.27.pdf
+VM23:28 https://lingua.id.lv/art/war.28.pdf
+VM23:28 https://lingua.id.lv/art/war.29.pdf
+VM23:28 https://lingua.id.lv/art/war.30.pdf
+VM23:28 https://lingua.id.lv/art/war.31.pdf
+VM23:28 https://lingua.id.lv/art/war.32.pdf
+VM23:28 https://lingua.id.lv/art/war.33.pdf
+VM23:28 https://lingua.id.lv/art/war.34.pdf
+VM23:28 https://lingua.id.lv/art/war.35.pdf
+VM23:28 https://lingua.id.lv/art/war.36.pdf
+VM23:28 https://lingua.id.lv/art/war.37.pdf
+VM23:28 https://lingua.id.lv/art/war.38.pdf
+VM23:28 https://lingua.id.lv/art/war.39.pdf
+VM23:28 https://lingua.id.lv/art/war.40.pdf
+VM23:28 https://lingua.id.lv/art/war.41.pdf
+VM23:28 https://lingua.id.lv/art/war.42.pdf
+VM23:28 https://lingua.id.lv/art/war.43.pdf
+VM23:28 https://lingua.id.lv/art/war.44.pdf
+VM23:28 https://lingua.id.lv/art/war.45.pdf
+VM23:28 https://lingua.id.lv/art/war.46.pdf
+VM23:28 https://lingua.id.lv/art/war.47.pdf
+VM23:28 https://lingua.id.lv/art/war.48.pdf
+VM23:28 https://lingua.id.lv/art/war.50.pdf
+VM23:28 https://lingua.id.lv/art/war.51.pdf
+VM23:28 https://lingua.id.lv/art/war.52.pdf
+VM23:28 https://lingua.id.lv/art/war.54.pdf
+VM23:28 https://lingua.id.lv/art/war.55.pdf
+VM23:28 https://lingua.id.lv/art/war.56.pdf
+VM23:28 https://lingua.id.lv/art/war.57.pdf
+VM23:28 https://lingua.id.lv/art/war.58.pdf
+VM23:28 https://lingua.id.lv/art/war.59.pdf
+VM23:28 https://lingua.id.lv/art/war.60.pdf
+VM23:28 https://lingua.id.lv/art/war.61.pdf
+VM23:28 https://lingua.id.lv/art/war.62.pdf
+VM23:28 https://lingua.id.lv/art/war.63.pdf
+VM23:28 https://lingua.id.lv/art/war.64.pdf
+VM23:28 https://lingua.id.lv/art/war.65.pdf
+VM23:28 https://lingua.id.lv/art/war.66.pdf
+VM23:28 https://lingua.id.lv/art/war.68.pdf
+VM23:28 https://lingua.id.lv/art/war.69.pdf
+VM23:28 https://lingua.id.lv/art/war.71.pdf
+VM23:28 https://lingua.id.lv/art/war.72.pdf
+VM23:28 https://lingua.id.lv/art/war.73.pdf
+VM23:28 https://lingua.id.lv/art/war.74.pdf
+VM23:28 https://lingua.id.lv/art/war.75.pdf
+`;
+
+let links = raw.split('\n').map(line => {
+  let match = line.match(/https:\/\/\S+/);
+  return match ? match[0] : null;
+}).filter(Boolean);
+
+// Izdrukā Markdown formatā
+console.log("### Markdown Linku Saraksts:\n");
+links.forEach(url => {
+  console.log(`- [${url}](${url})`);
+});
+
+VM72:79 ### Markdown Linku Saraksts:
+
+VM72:81 - [https://lingua.id.lv/art/war.1.pdf](https://lingua.id.lv/art/war.1.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.2.pdf](https://lingua.id.lv/art/war.2.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.3.pdf](https://lingua.id.lv/art/war.3.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.4.pdf](https://lingua.id.lv/art/war.4.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.5.pdf](https://lingua.id.lv/art/war.5.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.6.pdf](https://lingua.id.lv/art/war.6.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.7.pdf](https://lingua.id.lv/art/war.7.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.8.pdf](https://lingua.id.lv/art/war.8.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.9.pdf](https://lingua.id.lv/art/war.9.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.10.pdf](https://lingua.id.lv/art/war.10.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.11.pdf](https://lingua.id.lv/art/war.11.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.14.pdf](https://lingua.id.lv/art/war.14.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.15.pdf](https://lingua.id.lv/art/war.15.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.16.pdf](https://lingua.id.lv/art/war.16.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.17.pdf](https://lingua.id.lv/art/war.17.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.18.pdf](https://lingua.id.lv/art/war.18.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.19.pdf](https://lingua.id.lv/art/war.19.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.20.pdf](https://lingua.id.lv/art/war.20.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.21.pdf](https://lingua.id.lv/art/war.21.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.22.pdf](https://lingua.id.lv/art/war.22.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.23.pdf](https://lingua.id.lv/art/war.23.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.24.pdf](https://lingua.id.lv/art/war.24.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.25.pdf](https://lingua.id.lv/art/war.25.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.26.pdf](https://lingua.id.lv/art/war.26.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.27.pdf](https://lingua.id.lv/art/war.27.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.28.pdf](https://lingua.id.lv/art/war.28.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.29.pdf](https://lingua.id.lv/art/war.29.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.30.pdf](https://lingua.id.lv/art/war.30.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.31.pdf](https://lingua.id.lv/art/war.31.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.32.pdf](https://lingua.id.lv/art/war.32.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.33.pdf](https://lingua.id.lv/art/war.33.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.34.pdf](https://lingua.id.lv/art/war.34.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.35.pdf](https://lingua.id.lv/art/war.35.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.36.pdf](https://lingua.id.lv/art/war.36.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.37.pdf](https://lingua.id.lv/art/war.37.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.38.pdf](https://lingua.id.lv/art/war.38.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.39.pdf](https://lingua.id.lv/art/war.39.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.40.pdf](https://lingua.id.lv/art/war.40.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.41.pdf](https://lingua.id.lv/art/war.41.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.42.pdf](https://lingua.id.lv/art/war.42.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.43.pdf](https://lingua.id.lv/art/war.43.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.44.pdf](https://lingua.id.lv/art/war.44.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.45.pdf](https://lingua.id.lv/art/war.45.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.46.pdf](https://lingua.id.lv/art/war.46.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.47.pdf](https://lingua.id.lv/art/war.47.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.48.pdf](https://lingua.id.lv/art/war.48.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.50.pdf](https://lingua.id.lv/art/war.50.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.51.pdf](https://lingua.id.lv/art/war.51.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.52.pdf](https://lingua.id.lv/art/war.52.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.54.pdf](https://lingua.id.lv/art/war.54.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.55.pdf](https://lingua.id.lv/art/war.55.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.56.pdf](https://lingua.id.lv/art/war.56.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.57.pdf](https://lingua.id.lv/art/war.57.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.58.pdf](https://lingua.id.lv/art/war.58.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.59.pdf](https://lingua.id.lv/art/war.59.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.60.pdf](https://lingua.id.lv/art/war.60.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.61.pdf](https://lingua.id.lv/art/war.61.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.62.pdf](https://lingua.id.lv/art/war.62.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.63.pdf](https://lingua.id.lv/art/war.63.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.64.pdf](https://lingua.id.lv/art/war.64.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.65.pdf](https://lingua.id.lv/art/war.65.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.66.pdf](https://lingua.id.lv/art/war.66.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.68.pdf](https://lingua.id.lv/art/war.68.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.69.pdf](https://lingua.id.lv/art/war.69.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.71.pdf](https://lingua.id.lv/art/war.71.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.72.pdf](https://lingua.id.lv/art/war.72.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.73.pdf](https://lingua.id.lv/art/war.73.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.74.pdf](https://lingua.id.lv/art/war.74.pdf)
+VM72:81 - [https://lingua.id.lv/art/war.75.pdf](https://lingua.id.lv/art/war.75.pdf)
+
 
 
 
