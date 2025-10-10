@@ -125,7 +125,7 @@ Organize the following articles under the group Artificial Intelligence:
 ## Literatūras norādes
 
 
-  -  Vidvuds Z. Beldavs, "Aicinājums uz ANO Ģenerālas asamblejas deb", [https://lingua.id.lv/art/war.1.pdf](https://lingua.id.lv/art/war.1.pdf)
+  -  Vidvuds Z. Beldavs, "Aicinājums uz ANO Ģenerālas asamblejas debatēm par Krievijas leģitimitāti Drošības padomē", [https://lingua.id.lv/art/war.1.pdf](https://lingua.id.lv/art/war.1.pdf)
   - Dainis Zeps, "Karš izdeldē vājos, gļēvos, glupos", [https://lingua.id.lv/art/war.2.pdf](https://lingua.id.lv/art/war.2.pdf)
   -  Dainis Zeps, "War destroys the weak, the cowardly, the stupid", [https://lingua.id.lv/art/war.3.pdf](https://lingua.id.lv/art/war.3.pdf)
    -  Dainis Zeps, "Karš izdeldē vājos, gļēvos, glupos", [https://lingua.id.lv/art/war.4.pdf](https://lingua.id.lv/art/war.4.pdf)
@@ -150,7 +150,7 @@ Organize the following articles under the group Artificial Intelligence:
   -  Dainis Zeps, "Kā palīdzēt Ukrainai uzvarēt? Kas mums ir jādara Ukrainas atbalstam? Jauna saruna ar MI", [https://lingua.id.lv/art/war.25.pdf](https://lingua.id.lv/art/war.25.pdf)
   -  Dainis Zeps, "Maltsev’s argument: WILL AI BE ABLE TO UPGRADE ALL OF HUMANITY'S MECHANICAL INVENTIONS", [https://lingua.id.lv/art/war.26.pdf](https://lingua.id.lv/art/war.26.pdf)
    -  Dainis Zeps, "May AI Machines End the War? A Peace Conference Project", [https://lingua.id.lv/art/war.27.pdf](https://lingua.id.lv/art/war.27.pdf)
-  -  Dainis Zeps, "May AI Machines End the War? An Invitation to the Peace Conference Project", [https://lingua.id.lv/art/war.28.pdf](https://lingua.id.lv/art/war.28.pdf)
+  -  B. A. Senekal, Dainis Zeps, "May AI Machines End the War? An Invitation to the Peace Conference Project", [https://lingua.id.lv/art/war.28.pdf](https://lingua.id.lv/art/war.28.pdf)
   -  Dainis Zeps, "Can AI Help End the War? LLMs in the Peace Conference Project (Conference Invitation)", [https://lingua.id.lv/art/war.29.pdf](https://lingua.id.lv/art/war.29.pdf)
    - B. A. Senekal, Dainis Zeps, "May AI Machines End the War? A Peace Conference Project", [https://lingua.id.lv/art/war.30.pdf](https://lingua.id.lv/art/war.30.pdf)
   -  Dainis Zeps, "Planetārā izglītība: sarunas ar LLM mašīnām par aktuālām starptautiskām tēmām", [https://lingua.id.lv/art/war.31.pdf](https://lingua.id.lv/art/war.31.pdf)
@@ -169,7 +169,7 @@ Organize the following articles under the group Artificial Intelligence:
   -  Dainis Zeps, "What can make the US stop supporting Russia", [https://lingua.id.lv/art/war.44.pdf](https://lingua.id.lv/art/war.44.pdf)
  -  Dainis Zeps, "Par eskalāciju uz WWIII, kas to dara? Saruna ar ChatGPT, [https://lingua.id.lv/art/war.45.pdf](https://lingua.id.lv/art/war.45.pdf)
    -  Dainis Zeps, "The Escalation Toward WWIII: Who is Driving It? A Conversation with ChatGPT", [https://lingua.id.lv/art/war.46.pdf](https://lingua.id.lv/art/war.46.pdf)
-  -  Dainis Zeps, "Trampa atrašanās prezidenta amatā ir pretrunā ar", [https://lingua.id.lv/art/war.47.pdf](https://lingua.id.lv/art/war.47.pdf)
+  -  Dainis Zeps, "Trampa atrašanās prezidenta amatā ir pretrunā ar “lojalitātes” ideju, saka Grok3", [https://lingua.id.lv/art/war.47.pdf](https://lingua.id.lv/art/war.47.pdf)
    -  Dainis Zeps, "What can save NATO? Stand for Ukraine!", [https://lingua.id.lv/art/war.48.pdf](https://lingua.id.lv/art/war.48.pdf)
    -  Dainis Zeps, "What can save NATO? Stand for Ukraine! Extended with questions for LLMs", [https://lingua.id.lv/art/war.50.pdf](https://lingua.id.lv/art/war.50.pdf)
    -  Dainis Zeps, "What can save NATO? Stand for Ukraine!", [https://lingua.id.lv/art/war.51.pdf](https://lingua.id.lv/art/war.51.pdf)
