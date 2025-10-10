@@ -125,7 +125,7 @@ Organize the following articles under the group Artificial Intelligence:
 ## Literatūras norādes
 
 
-  -  Dainis Zeps, "Aicinājums uz ANO Ģenerālas asamblejas deb", [https://lingua.id.lv/art/war.1.pdf](https://lingua.id.lv/art/war.1.pdf)
+  -  Vidvuds Z. Beldavs, "Aicinājums uz ANO Ģenerālas asamblejas deb", [https://lingua.id.lv/art/war.1.pdf](https://lingua.id.lv/art/war.1.pdf)
   - Dainis Zeps, "Karš izdeldē vājos, gļēvos, glupos", [https://lingua.id.lv/art/war.2.pdf](https://lingua.id.lv/art/war.2.pdf)
   -  Dainis Zeps, "War destroys the weak, the cowardly, the stupid", [https://lingua.id.lv/art/war.3.pdf](https://lingua.id.lv/art/war.3.pdf)
    -  Dainis Zeps, "Karš izdeldē vājos, gļēvos, glupos", [https://lingua.id.lv/art/war.4.pdf](https://lingua.id.lv/art/war.4.pdf)
@@ -138,7 +138,7 @@ Organize the following articles under the group Artificial Intelligence:
   -  Dainis Zeps, "Hronika. Karš. 2024", [https://lingua.id.lv/art/war.11.pdf](https://lingua.id.lv/art/war.11.pdf)
   -  Dainis Zeps, "Війна Росії проти України: розмова з gpt", [https://lingua.id.lv/art/war.14.pdf](https://lingua.id.lv/art/war.14.pdf)
   -  Dainis Zeps, "Krievijas agresīvais karš pret Ukrainu: saruna ar gpt.4o un tās analīze", [https://lingua.id.lv/art/war.15.pdf](https://lingua.id.lv/art/war.15.pdf)
-  -  Dainis Zeps, "nversation about war in Ukraine", [https://lingua.id.lv/art/war.16.pdf](https://lingua.id.lv/art/war.16.pdf)
+  -  Dainis Zeps, "Conversation about war in Ukraine", [https://lingua.id.lv/art/war.16.pdf](https://lingua.id.lv/art/war.16.pdf)
   -  Dainis Zeps, "Otrā saruna ar ChatGPT par", [https://lingua.id.lv/art/war.17.pdf](https://lingua.id.lv/art/war.17.pdf)
   -  Dainis Zeps, "The New World, or The world after Ukraine’s victory", [https://lingua.id.lv/art/war.18.pdf](https://lingua.id.lv/art/war.18.pdf)
   -  Dainis Zeps, "Russia delenda est,", [https://lingua.id.lv/art/war.19.pdf](https://lingua.id.lv/art/war.19.pdf)
@@ -166,7 +166,7 @@ Organize the following articles under the group Artificial Intelligence:
   -  Dainis Zeps, "The war in Ukraine. New conversation with grok3", [https://lingua.id.lv/art/war.41.pdf](https://lingua.id.lv/art/war.41.pdf)
  -  Dainis Zeps, "Karš Ukrainā pret agresor", [https://lingua.id.lv/art/war.42.pdf](https://lingua.id.lv/art/war.42.pdf)
   -  Dainis Zeps, "Vai ASV zaudēs Krievijas glābšanas avantūrā Ukr", [https://lingua.id.lv/art/war.43.pdf](https://lingua.id.lv/art/war.43.pdf)
-  -  Dainis Zeps, "What can make the US stop suppo", [https://lingua.id.lv/art/war.44.pdf](https://lingua.id.lv/art/war.44.pdf)
+  -  Dainis Zeps, "What can make the US stop supporting Russia", [https://lingua.id.lv/art/war.44.pdf](https://lingua.id.lv/art/war.44.pdf)
  -  Dainis Zeps, "ar eskalāciju uz WWIII, kas to dara", [https://lingua.id.lv/art/war.45.pdf](https://lingua.id.lv/art/war.45.pdf)
    -  Dainis Zeps, "The Escalation Toward WWIII: Who is Driving It? A Conversation with ChatGPT", [https://lingua.id.lv/art/war.46.pdf](https://lingua.id.lv/art/war.46.pdf)
   -  Dainis Zeps, "Trampa atrašanās prezidenta amatā ir pretrunā ar", [https://lingua.id.lv/art/war.47.pdf](https://lingua.id.lv/art/war.47.pdf)
@@ -185,13 +185,13 @@ Organize the following articles under the group Artificial Intelligence:
    -  Dainis Zeps, "Real Peace or Political Theater? Western Attempts to End the War in Europe", [https://lingua.id.lv/art/war.63.pdf](https://lingua.id.lv/art/war.63.pdf)
   -  Dainis Zeps, "Did Physics Analogies Anticipate Cryptocurrencies?", [https://lingua.id.lv/art/war.64.pdf](https://lingua.id.lv/art/war.64.pdf)
   -  Dainis Zeps, "Kāda attēla analīze", [https://lingua.id.lv/art/war.65.pdf](https://lingua.id.lv/art/war.65.pdf)
-  -  Dainis Zeps, "Politiskā ķīmija", [https://lingua.id.lv/art/war.66.pdf](https://lingua.id.lv/art/war.66.pdf)
+  -  Dainis Zeps, "Politiskā ķīmija: Pilnīgai Ukrainas uzvarai! #StandWithUkraine", [https://lingua.id.lv/art/war.66.pdf](https://lingua.id.lv/art/war.66.pdf)
   -  Dainis Zeps, "Framework for Reviving Filip Orlik’s 1710 Constitution as a", [https://lingua.id.lv/art/war.69.pdf](https://lingua.id.lv/art/war.69.pdf)
  -  Dainis Zeps, "Bruce Bueno de Mesquita Predictions Analysis - Grok", [https://lingua.id.lv/art/war.71.pdf](https://lingua.id.lv/art/war.71.pdf)
    -  Dainis Zeps, "Aļaska 2025. gada 15. augusts", [https://lingua.id.lv/art/war.72.pdf](https://lingua.id.lv/art/war.72.pdf)
-   -  Dainis Zeps, ""The AI That Invented Times Radio:", [https://lingua.id.lv/art/war.73.pdf](https://lingua.id.lv/art/war.73.pdf)
+   -  Dainis Zeps, "The AI That Invented Times Radio:", [https://lingua.id.lv/art/war.73.pdf](https://lingua.id.lv/art/war.73.pdf)
    -  Dainis Zeps, "Ko gaidīt no ASV un Trampa? #StandWithUkraine", [https://lingua.id.lv/art/war.74.pdf](https://lingua.id.lv/art/war.74.pdf)
-  -  Dainis Zeps, "Nosaukums nav pieejams", [https://lingua.id.lv/art/war.75.pdf](https://lingua.id.lv/art/war.75.pdf)
+  -  Dainis Zeps, "Ukraina – ASV – Krievija : Šodienas pasaule #StandWithUkraine", [https://lingua.id.lv/art/war.75.pdf](https://lingua.id.lv/art/war.75.pdf)
  
 
 
