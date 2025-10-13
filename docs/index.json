@@ -2,7 +2,7 @@
   {
     "slug": "clement",
     "name": "Clemens Alexandrinus GPT",
-    "purpose": "Sagatave patristikai (grieķu/latīņu paralēlteksti)",
+    "purpose": "AL & BL Readings",
     "status": "draft",
     "owner": "DZ",
     "last_edit": "2025-10-04",
@@ -13,7 +13,7 @@
   {
     "slug": "grinbergs",
     "name": "Grinbergs Heritage GPT",
-    "purpose": "Latviešu/EN resursi + oskulācija",
+    "purpose": "Latviešu/EN resursi un materiāli",
     "status": "draft",
     "owner": "DZ",
     "last_edit": "2025-10-04",
@@ -24,7 +24,7 @@
   {
     "slug": "vinberg",
     "name": "Vinberg Algebra GPT",
-    "purpose": "Palīgs darbam ar E. B. Vinberg 'A Course in Algebra'",
+    "purpose": "Lasām E. B. Vinberg 'A Course in Algebra' un pierādām teorēmas",
     "status": "draft",
     "owner": "DZ",
     "last_edit": "2025-10-04",
@@ -46,7 +46,7 @@
   {
     "slug": "ukraina",
     "name": "Vai MI var izbeigt karu? miera konf. projekts",
-    "purpose": "Mēs gribam sākt miera konferenci Ukrainas kara izbeigšanai",
+    "purpose": "Mēs gribam iniciēt miera konferenci Ukrainas kara izbeigšanai",
     "status": "draft",
     "owner": "DZ",
     "last_edit": "2025-10-04",
@@ -79,7 +79,7 @@
   {
     "slug": "person",
     "name": "Dainis Zeps — CV / Profils",
-    "purpose": "Daiņa Zepa dzīve notikumos un dzīves gājums",
+    "purpose": "Daiņa Zepa dzīves gājums n CV, publikāciju liste - war.*",
     "status": "draft",
     "owner": "DZ",
     "last_edit": "2025-10-05",
@@ -90,7 +90,7 @@
   {
     "slug": "difgeo",
     "name": "GOCKELER,SCHOCKER DIFF.GEOMETRY, GAUGE THEORIES",
-    "purpose": "We read book M. GOCKELER T. SCHOCKER DIFFERENTIAL GEOMETRY, GAUGE THEORIES, AND GRAVITY",
+    "purpose": "We read book M. GOCKELER T. SCHOCKER DIFFERENTIAL GEOMETRY, GAUGE THEORIES, AND GRAVITY, and prove theorems",
     "status": "draft",
     "owner": "DZ",
     "last_edit": "2025-10-05",
@@ -134,7 +134,7 @@
   {
     "slug": "pcp",
     "name": "May AI end the war: peace conference project",
-    "purpose": "We want to initiate a peace conference to end the war in Ukraine by simulating its proceedings",
+    "purpose": "We want to initiate a peace conference to end the war in Ukraine",
     "status": "draft",
     "owner": "DZ",
     "last_edit": "2025-10-05",
