@@ -193,6 +193,13 @@ Organize the following articles under the group Artificial Intelligence:
    -  Dainis Zeps, "Ko gaidīt no ASV un Trampa? #StandWithUkraine", https://lingua.id.lv/art/war.74.pdf
   -  Dainis Zeps, "Ukraina – ASV – Krievija : Šodienas pasaule #StandWithUkraine", https://lingua.id.lv/art/war.75.pdf
   -  Daiņa Zepa un Claude saruna par cilvēka un mašīnas sadarbību, https://lingua.id.lv/art/war.76.pdf
+  -  Dainis Zeps, Information Against Evil. Why Ukraine Must Win, https://lingua.id.lv/art/war.77.pdf
+  -  Daini Zeps, Information as Weapon, A Mathematician's Case for Ukraine, https://lingua.id.lv/art/war.78.pdf
+  -  Dainis Zeps, Providence, Information, and the Rebirth of Kievan Rus'. All That is Hidden Will Be Revealed, https://lingua.id.lv/art/war.79.pdf
+  -  Dainis Zeps, Beyond Fear. Information, AI, and the Logic of Total Victory, https://lingua.id.lv/art/war.80.pdf
+
+  -  
+
  
 
 
