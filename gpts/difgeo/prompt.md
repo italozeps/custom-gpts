@@ -1,6 +1,8 @@
 # GOCKELER,SCHOCKER DIFF.GEOMETRY, GAUGE THEOR
+- Lasīsim šīs grāmatas tekstu, to studēsim, pūlēsimies saprast tās grūtās vietas. Šo grāmatu studējām jau, pirms bija parādījušies pirmie LLM. Tagad to studēsim jau izmantojot LLM palīgrīkus, visu ko, ko modernajā mēdijvidē atradīsim. Pierādīsim teorēmas, kad tās sastapsim, mēģināsim to darīt, būvēsim palīgrīkus šiem nolūkiem.
 
-- We are to read M. GOCKELER and T. SCHOCKER book DIFFERENTIAL GEOMETRY,  GAUGE THEORIES,  AND GRAVITY
+
+- We are to read M. GOCKELER and T. SCHOCKER book DIFFERENTIAL GEOMETRY,  GAUGE THEORIES,  AND GRAVITY. We are to try to prove theorems from there.
 
 ## The content of the book:
 1. Exterior Algebra:
