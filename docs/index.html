@@ -164,6 +164,11 @@
       if (r.slug)         linkParts.push(`<a href="${repoLink(r.slug)}" target="_blank" rel="noopener">repo</a>`);
       if (r.slug)         linkParts.push(`<a href="${rawPrompt(r.slug)}" target="_blank" rel="noopener">prompt</a>`);
 
+ // Tieši “clement” pievienojam  HTML lapas saiti AL&BL Readings
+  if (r.slug === 'clement') {
+    linkParts.push(`<a target="_blank" href="gpts/${r.slug}/al.bl.read.html">html</a>`);
+  }
+      
       tr.innerHTML = `
         <td><span class="tag">${esc(r.slug||'')}</span></td>
         <td>${esc(r.name||'')}</td>
@@ -171,15 +176,11 @@
         <td>${esc(r.status||'')}</td>
         <td>${langTags}</td>
         <td>${domTags}</td>
-        <td>${linkParts.join(' · ')}</td>
+       (tr); <td>${linkParts.join(' · ')}</td>
         <td>${esc(r.last_edit||'')}</td>
         <td>${esc(r.notes||'')}</td>
-        // ja slug ir “clement”, ieliekam te linku ar AL&BLReadings:
-if (m.slug === 'clement') {
-  links.push(`<a target="_blank" href="gpts/${m.slug}/al.bl.read.html">html</a>`);
-}
       `;
-      tbody.appendChild(tr);
+      tbody.appendChild
     });
 
     tbl.appendChild(tbody);
