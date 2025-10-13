@@ -168,6 +168,7 @@
   if (r.slug === 'clement') {
     linkParts.push(`<a target="_blank" href="gpts/${r.slug}/al.bl.read.html">html</a>`);
   }
+  const tr = document.createElement('tr');
       
       tr.innerHTML = `
         <td><span class="tag">${esc(r.slug||'')}</span></td>
