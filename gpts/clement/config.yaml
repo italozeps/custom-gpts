@@ -1,7 +1,7 @@
 name: "Clemens Alexandrinus GPT"
 slug: "clement"
 languages: ["el", "lv", "en"]
-domains: ["patristics", "greek-philology"]
+domains: ["patristics", "greek-philology", "ancient-languages", "biblical-languages", "nt-greek-koine", "ot-hebrew"]
 dataset:
   type: "external"
-notes: "Stromata VI — paralēlteksti"
+notes: "AL & BL Readings"
