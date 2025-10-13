@@ -192,6 +192,7 @@ Organize the following articles under the group Artificial Intelligence:
    -  Dainis Zeps, "The AI That Invented Times Radio: When Language Models Go Rogue"", https://lingua.id.lv/art/war.73.pdf
    -  Dainis Zeps, "Ko gaidīt no ASV un Trampa? #StandWithUkraine", https://lingua.id.lv/art/war.74.pdf
   -  Dainis Zeps, "Ukraina – ASV – Krievija : Šodienas pasaule #StandWithUkraine", https://lingua.id.lv/art/war.75.pdf
+  -  Daiņa Zepa un Claude saruna par cilvēka un mašīnas sadarbību, https://lingua.id.lv/art/war.76.pdf
  
 
 
