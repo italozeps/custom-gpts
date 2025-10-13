@@ -164,6 +164,10 @@
       if (r.slug)         linkParts.push(`<a href="${repoLink(r.slug)}" target="_blank" rel="noopener">repo</a>`);
       if (r.slug)         linkParts.push(`<a href="${rawPrompt(r.slug)}" target="_blank" rel="noopener">prompt</a>`);
 
+ // Tieši “clement” pievienojam  HTML lapas saiti AL&BL Readings
+  if (r.slug === 'clement') {
+    linkParts.push(`<a target="_blank" href="gpts/${r.slug}/al.bl.read.html">html</a>`);
+  }
   const tr = document.createElement('tr');
       
       tr.innerHTML = `
