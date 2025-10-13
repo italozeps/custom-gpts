@@ -1,0 +1,33 @@
+name: Publish module HTML to docs/
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "gpts/**/*.html"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Copy HTML files
+        run: |
+          mkdir -p docs/gpts
+          rsync -av --include='*/' --include='*.html' --exclude='*' gpts/ docs/gpts/
+      - name: Commit to docs/
+        run: |
+          if ! git diff --quiet -- docs/gpts; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add docs/gpts
+            git commit -m "Publish module HTML to docs/ [skip ci]"
+            git push
+          else
+            echo "No changes."
+          fi
