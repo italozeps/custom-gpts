@@ -174,6 +174,10 @@
         <td>${linkParts.join(' · ')}</td>
         <td>${esc(r.last_edit||'')}</td>
         <td>${esc(r.notes||'')}</td>
+        // ja slug ir “clement”, ieliekam te linku ar AL&BLReadings:
+if (m.slug === 'clement') {
+  links.push(`<a target="_blank" href="gpts/${m.slug}/al.bl.read.html">html</a>`);
+}
       `;
       tbody.appendChild(tr);
     });
