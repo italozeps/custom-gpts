@@ -51,7 +51,12 @@
         - planetārā izglītība
         - noosfēra
         - providence
-     
+     - Kā te informācija strādātu mūsu skatījumā šajos trīs līmeņos?
+        - planetārā izglītība: tā jau kur mēs aktīvi piedalāmies, gan to uztverot, gan to būvējot, kur jau aktivi darbojas MI.
+        - noosfēra: kas eksistē Vernadska formā, vai kā citādi mums nezināti, vai to veidojam jau kopā ar MI, kas taps par ko mums vēl neapjaustu.
+        - providence: kas darbojas notikumos, kas kā ziņas nonāk pie mums, kurai ejam pretī, ja sapratīsim vairāk ko par noosfēru.
+      
+        - 
 # Vai MI var izbeigt karu? miera konf. projekts
 
 Mēs gribam sākt miera konferenci Ukrainas kara izbeigšanai, imitējot tās darbību un to veicot soli pēc soļa
