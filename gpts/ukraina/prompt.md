@@ -31,18 +31,7 @@
    - Te apstāsimies kādā metodoloģiskā iestarpinājumā, lai apskatītu kādus informācijas aspektu, kas mums būtu svarīgi
    - Informācija mūs interesējošajā apveidā sastāvētu no divi daļām - 1) informācijas (ziņu) plūsmas, un - 2) informācijas apjēgšanas.
    - Informācijas apjēgšanas aspektā pievienosim Nikola Teslas domu, ko patapinām no Philosopy of Physics,  @PhilosophyOfPhy, no kurienes arī paša Teslas attēls.
-     ### Education should not be the mechanical learning of subjects, but training of the mind to think
-     - Informāciju, ko uztveram kā ziņu plūsmu, un mūsu konkrētajā situācijā ap Krievijas agresiju pret Ukrainu sakarā, mums ir arī vēl jāspēj izvērtēt, jāspēj to apjēgt, lai to tālāk izmantotu mūsu argementācijās, diskursos un tamlīdzīgi. Un te mums jāvadās no šīs Nikola Teslas domas, ko te citējam. Šodien mēs ņemsim vēl palīgā rīkus, kādi Nikola Teslas laikā nebija, proti, mākslīgo intelektu, tāpēc mūsu tēzei - Informācija cīņā pret Ļaunumu - pievienojas mākslīgā intelekta pienesums, un to apzīmējam ar vārdie MI cīņā pet Ļaunumu, AI against Evil, un tamlīdzīgi.
-     
-
-<img width="350" height="800" alt="image" src="https://github.com/user-attachments/assets/62abdafe-9928-4595-94fe-724158ba666b" />
-     &nbsp;&nbsp;    - Vēl varam tālāk jautātL kurā aspektā informācija ir kā ierocis cīņā pret ļaunumu, pirmajā ziņu plūsmas nozīmē vai informācija jau sakārtojusies mūsu loģiskajā apjēgšanas spējas gaismā?
-          - Un te mums svarīgi aptvert, ka abi informācijas aspekti piedalās šajā funkcijā,- Informācija pret Ļaunumu:
-              - Ir svarīgi mums informāciju aptvert, apjēgt, spēt izanalizēt, spēt pielietot tālāk: tāpēc viens informācijas aspekts: tās apjēgšana, obligāti piedalās tēzē, Informācija pret Ļaunumu, bet pēc tam, kad esam aptvēruši informācijas saturu, mēs pammanāk, ka pamatā tomēr bija ziņu plūsma, notikumi, vēsture, un kas to veido un realizē, un, bez tā arī providence. 
-             - Lai pilnīgāk raksturotu, minēsim visus trīs
-                   - planetārā izglītība
-                   - noosfēra
-                   - providence
+    
 
 
 ### Education should not be the mechanical learning of subjects, but training of the mind to think
