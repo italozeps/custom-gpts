@@ -15,7 +15,10 @@
                - Militāro mācību veikšana bet ne tikai pašās mītnes zemē, teiksim, NATO rāmjos, bet arī pašā Ukrainā vai pat kādā pierobežas zonā ap Ukrainu, kas veidotu buferzonu starp Krieviju un Ukrainu, Krievijas militārās iesaistes mazināšanai pret Ukrainu.
                - Aizlieguma zonu veidošana Krievijas aviācijai vai nu virs Ukrainas, tās daļām, vai pār Krievijas pierobežas daļām, gan, teiksim, specifiski pret Krimu un Krievijas okupētajām daļām Ukrainā. 
 
- - 
+
+ ## Informācijas formas karā pret Krieviju, lai to uzvarētu
+ - Bez informācijas kopumā, ko apzīmējām kā Informācija cīņā pret Ļaunumu, vēl jāizdala atsevišķi specifiskās formas:
+    - Cīņa pret 
 
 
 
