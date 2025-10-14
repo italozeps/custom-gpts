@@ -2,7 +2,13 @@
 - Kā mums saprast šos vārdus - Informācija pret Ļaunumu. Protams, mēs runāsim par karu, kas šobrīd notiek Eiropā, ko Krievija ir izraisījusi pret suverēnu savu kaimiņvalsti Urkainu. Mēs runāsim par to, ka mums jāatbalsta Ukraina, ka mums jāpalīdz Ukraianai - gan militāri, gan politiski, gan iestājoties par Ukrainu it visur. Palidzības formām jābūt neierobežoti daudz. Bet visam pāri viens apzīmējums - informācija cīņā pret Ļaunumu.
 - Τὸ ὅλον τοῦ μέρους μείζον - tas ir teiciens grieķu valodā, skan apmēram - to holon tū meros meizon! un nozīmē - Veselums ir lielāks par tā daļu. - Vēl citādi mēs raksturotu domu, kas te ietverta, - Veselums sastāv no daudzām daļām. Veselumu veido tā daudzās daļas. Mēs šo teicienu izmantosim, lai mēģinātu raksturot - ko nozīmē vārdi Informācija cīņā pret ļaunumu:
    - Kas būs viss veselums? To apzīmēsim ar vārdiem - Ukrainas uzvara pār Krieviju. Un kas būs sastāvdaļas? Tās būs tās daļas, kuras veidos šo veselumu, - uzvaru. Tie būs palīdzības veidi. Tie būs notikumi, kas novedīs pie uzvaras. Tie būs spēki, kas veidos šo uzvaru - pati Ukraina, NATO, Eiropas valstis.
-   - 
+   - Kā mēs te izmantosim vārdus - Informācija cīņā pret ļaunumu?
+      - Šie vārdi būs apzīmējums veselumam - Uzvara, un šī veselu daļas būs visi apstākļi, kas veidos šo veselumu - Uzvara.
+         - Veselumu apzīmē vārdi - Informācija cīņā pret ļaunumu, kur veselumu sastāda tā detalizējums, - palīzība, atbalsts, notikumi, politiskie spēki, utml.
+         - Būsim vēl specifiskāki un runāsim par matemātiskām funkcijām:
+            - Mums ir viena integrāla funkcija un daudzas diferenciālas funkcijas: integrālā funkcija ir kā nosaukums diferenciālo funkciju kopumam, kas veido veselumu:
+            - Integrālo funkciju representēsim ko nosaukumu - Informācija cīņā pret ļaunumu, kur diferenciālās funkcijas veidos daudzās palīdzības formas, daudzie notikumi, viss daudzums, kas veidos veselumu - Uzvara, Ukrainas Uzvara.
+            - 
 
 
 
