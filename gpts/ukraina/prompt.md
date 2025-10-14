@@ -36,8 +36,6 @@
      
 
 <img width="350" height="800" alt="image" src="https://github.com/user-attachments/assets/62abdafe-9928-4595-94fe-724158ba666b" />
-
-
      - Vēl varam tālāk jautātL kurā aspektā informācija ir kā ierocis cīņā pret ļaunumu, pirmajā ziņu plūsmas nozīmē vai informācija jau sakārtojusies mūsu loģiskajā apjēgšanas spējas gaismā?
           - Un te mums svarīgi aptvert, ka abi informācijas aspekti piedalās šajā funkcijā,- Informācija pret Ļaunumu:
               - Ir svarīgi mums informāciju aptvert, apjēgt, spēt izanalizēt, spēt pielietot tālāk: tāpēc viens informācijas aspekts: tās apjēgšana, obligāti piedalās tēzē, Informācija pret Ļaunumu, bet pēc tam, kad esam aptvēruši informācijas saturu, mēs pammanāk, ka pamatā tomēr bija ziņu plūsma, notikumi, vēsture, un kas to veido un realizē, un, bez tā arī providence. 
