@@ -36,6 +36,7 @@
      
 
 <img width="350" height="800" alt="image" src="https://github.com/user-attachments/assets/62abdafe-9928-4595-94fe-724158ba666b" />
+    
     &nbsp;&nbsp;
      - Vēl varam tālāk jautātL kurā aspektā informācija ir kā ierocis cīņā pret ļaunumu, pirmajā ziņu plūsmas nozīmē vai informācija jau sakārtojusies mūsu loģiskajā apjēgšanas spējas gaismā?
           - Un te mums svarīgi aptvert, ka abi informācijas aspekti piedalās šajā funkcijā,- Informācija pret Ļaunumu:
