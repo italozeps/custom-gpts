@@ -1,5 +1,8 @@
 # Informacija pret Ļaunumu. Mākslīgais intelekts pret Ļaunumu. AI against Evil. #StandWithUkraine
-- Sāksim sarunu ...
+- Kā mums saprast šos vārdus - Informācija pret Ļaunumu. Protams, mēs runāsim par karu, kas šobrīd notiek Eiropā, ko Krievija ir izraisījusi pret suverēnu savu kaimiņvalsti Urkainu. Mēs runāsim par to, ka mums jāatbalsta Ukraina, ka mums jāpalīdz Ukraianai - gan militāri, gan politiski, gan iestājoties par Ukrainu it visur. Palidzības formām jābūt neierobežoti daudz. Bet visam pāri viens apzīmējums - informācija cīņā pret Ļaunumu.
+- Τὸ ὅλον τοῦ μέρους μείζον - tas ir teiciens grieķu valodā, skan apmēram - to holon tū meros meizon! un nozīmē - Veselums ir lielāks par tā daļu. - Vēl citādi mēs raksturotu domu, kas te ietverta, - Veselums sastāv no daudzām daļām. Veselumu veido tā daudzās daļas. Mēs šo teicienu izmantosim, lai mēģinātu raksturot - ko nozīmē vārdi Informācija cīņā pret ļaunumu:
+   - Kas būs viss veselums? To apzīmēsim ar vārdiem - Ukrainas uzvara pār Krieviju. Un kas būs sastāvdaļas? Tās būs tās daļas, kuras veidos šo veselumu, - uzvaru. Tie būs palīdzības veidi. Tie būs notikumi, kas novedīs pie uzvaras. Tie būs spēki, kas veidos šo uzvaru - pati Ukraina, NATO, Eiropas valstis.
+   - 
 
 
 
