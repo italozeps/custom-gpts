@@ -27,6 +27,11 @@
                - Kā cīnīties pret šādu slēpto propagandu? - Nav jāatbild uz Krievijas it kā nejauši izmestām replikām, aiz kurām ir smalki iestrādātie propagandas triki.
                - Var tikai brīnīties, kā iespējams, ka tik asiņains režīms kā Krievijas var atļauties tā 'nevainīgi' diskutēt par Rietumu vērtībām ar Rietumiem, kur Rietumu pārstāvji iesaistās diskursā, it kā argumentē, tā iekrītot kā zirnēkļa tīklā, kur Krievijas mēdiji to vien tik gaida, lai Rietumu diskursa elementus, jau pārstrādātā veidā, iebarotu savai apdullinātajai antisabiedribai. 
 
+## Par informācijas dabu un tās organizējošām funkcijām
+   - Te apstāsimies kādā metodoloģiskā iestarpinājumā, lai apskatītu kādus informācijas aspektu, kas mums būtu svarīgi
+   - Informācija mūs interesējošajā apveidā sastāvētu no divi daļām - 1) informācijas (ziņu) plūsmas, un - 2) informācijas apjēgšanas.
+   - Informācijas apjēgšanas aspektā pievienosim Nikola Teslas domu, ko patapinām no Philosopy of Physics,  @PhilosophyOfPhy, no kurienes arī paša Teslas attēls.
+     ### Education should not be the mechanical learning of subjects, but training of the mind to think
 
 <img width="350" height="800" alt="image" src="https://github.com/user-attachments/assets/62abdafe-9928-4595-94fe-724158ba666b" />
 
