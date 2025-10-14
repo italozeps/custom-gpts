@@ -28,6 +28,7 @@
                - Var tikai brīnīties, kā iespējams, ka tik asiņains režīms kā Krievijas var atļauties tā 'nevainīgi' diskutēt par Rietumu vērtībām ar Rietumiem, kur Rietumu pārstāvji iesaistās diskursā, it kā argumentē, tā iekrītot kā zirnēkļa tīklā, kur Krievijas mēdiji to vien tik gaida, lai Rietumu diskursa elementus, jau pārstrādātā veidā, iebarotu savai apdullinātajai antisabiedribai. 
 
 
+<img width="623" height="800" alt="image" src="https://github.com/user-attachments/assets/62abdafe-9928-4595-94fe-724158ba666b" />
 
 
 
