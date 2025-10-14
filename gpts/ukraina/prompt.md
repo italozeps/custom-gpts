@@ -18,7 +18,14 @@
 
  ## Informācijas formas karā pret Krieviju, lai to uzvarētu
  - Bez informācijas kopumā, ko apzīmējām kā Informācija cīņā pret Ļaunumu, vēl jāizdala atsevišķi specifiskās formas:
-    - Cīņa pret 
+    - Cīņa pret pret Krievijas dezinformāciju visās tās formās (kas jau reāli eksistē un darojas un tiek darbinātas).
+    - Papildus jāizprot citas formas, kur vēl nav vai tikai veidojas un tiek mēģināts tās izprast un specificēt:
+       - Piemēram, Krievijas piekoptā kodolšantāža, tās dažādās formas, pie kam dažādos līmeņos, - propagandas avotos un specifiski, lokāli - caur skolām, skolotājiem, caur valsts institūcijām Krievijas iekšienē kā arī tās, kas tiek sekmētas un piekoptas ārzemēs.
+       - Īpaši jāizprot Krievijas propagandas semantika, kur tā tieši nekvalificējas kā propaganda, bet Krievijas vadošo personāžu diskurss ar Rietumu pārstāvjiem:
+          -Rietums jāmācās saprast, ka jebkurš diskurss ar Krieviju, tās pārstāvjiem jāuztver kā propagandas rīks no Krievijas puses, kurš vērsts uz dubultauditoriju, proti, uz savu iekšējo, un uz ārējo, uz Rietumu pusi.
+            - šis propagandas veids ir īpaši bīstams un tas vāji tiek apzināts, kur bieži Rietumos smejas it kā par Krievijas muļķību, bet aiz 'muļķībām' ir iešifrēta smalka propaganda saviem iekšējiem tās uztvērējiem, kur Rietumu pārstāvjiem šie diskursa elementi rūpīgi būtu jāpēta un no tiem jāizatvasina, kas tiek mērkēts ieksējajai auditorijai un kas tiek sūtīts Rietumu sabiedrībai tās apmuļķoāanai.
+               - Kā cīnīties pret šādu slēpto propagandu? - Nav jāatbild uz Krievijas it kā nejauši izmestām replikām, aiz kurām ir smalki iestrādātie propagandas triki.
+               - Var tikai brīnīties, kā iespējams, ka tik asiņains režīms kā Krievijas var atļauties tā 'nevainīgi' diskutēt par Rietumu vērtībām ar Rietumiem, kur Rietumu pārstāvji iesaistās diskursā, it kā argumentē, tā iekrītot kā zirnēkļa tīklā, kur Krievijas mēdiji to vien tik gaida, lai Rietumu diskursa elementus, jau pārstrādātā veidā, iebarotu savai apdullinātajai antisabiedribai. 
 
 
 
