@@ -8,7 +8,14 @@
          - Būsim vēl specifiskāki un runāsim par matemātiskām funkcijām:
             - Mums ir viena integrāla funkcija un daudzas diferenciālas funkcijas: integrālā funkcija ir kā nosaukums diferenciālo funkciju kopumam, kas veido veselumu:
             - Integrālo funkciju representēsim ko nosaukumu - Informācija cīņā pret ļaunumu, kur diferenciālās funkcijas veidos daudzās palīdzības formas, daudzie notikumi, viss daudzums, kas veidos veselumu - Uzvara, Ukrainas Uzvara.
-            - 
+            - diferenciālās funkcijas, ja gribam raksturot tieši palīdzību, teiksim, no NATO, no Eiropas, tām jābūt-
+               - militārā palīdzība, kāda jau visu kara laiku notiek Ukrainai, tās armijai un citādi.
+               - debesu aizvēršana pār Ukrainu, ko veiktu sabiedroto aviācija, kas tā aizsargātu Ukrainas debesis pret Krievijas uzlidojumiem, lidmašīnām, droniem, raķetēm, artilērijas apšaudēm, utt.
+               - NATO un sabiedroto karaspēka iesaistīšanās Ukrainā, tās karadarbībā visādajos iespējamajos variantos.
+               - Militāro mācību veikšana bet ne tikai pašās mītnes zemē, teiksim, NATO rāmjos, bet arī pašā Ukrainā vai pat kādā pierobežas zonā ap Ukrainu, kas veidotu buferzonu starp Krieviju un Ukrainu, Krievijas militārās iesaistes mazināšanai pret Ukrainu.
+               - Aizlieguma zonu veidošana Krievijas aviācijai vai nu virs Ukrainas, tās daļām, vai pār Krievijas pierobežas daļām, gan, teiksim, specifiski pret Krimu un Krievijas okupētajām daļām Ukrainā. 
+
+ - 
 
 
 
