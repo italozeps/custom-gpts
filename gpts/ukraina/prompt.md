@@ -1,3 +1,24 @@
+# Informacija pret Ļaunumu. Mākslīgais intelekts pret Ļaunumu. AI against Evil. #StandWithUkraine
+- Sāksim sarunu ...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Vai MI var izbeigt karu? miera konf. projekts
 
 Mēs gribam sākt miera konferenci Ukrainas kara izbeigšanai, imitējot tās darbību un to veicot soli pēc soļa
