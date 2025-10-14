@@ -3,7 +3,7 @@
 * How should we understand these words — *Information Against Evil*?
   Of course, we will talk about the war now taking place in Europe — the one Russia has unleashed against its sovereign neighbor, Ukraine.
   We will talk about the necessity to support Ukraine, to help it — militarily, politically, and by standing for it everywhere possible.
-  The forms of help shouldn't be limitless.
+  The forms of help should be limitless.
   But above all stands one designation — *Information in the Fight Against Evil*.
 
 * **Τὸ ὅλον τοῦ μέρους μείζον** — this Greek saying sounds roughly as *to holon tou merous meizon* and means *The Whole is greater than its part.*
