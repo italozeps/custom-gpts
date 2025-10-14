@@ -43,6 +43,21 @@
                    - planetārā izglītība
                    - noosfēra
                    - providence
+
+
+### Education should not be the mechanical learning of subjects, but training of the mind to think
+
+- Informāciju, ko uztveram kā ziņu plūsmu, un mūsu konkrētajā situācijā ap Krievijas agresiju pret Ukrainu sakarā, mums ir arī vēl jāspēj izvērtēt, jāspēj to apjēgt, lai to tālāk izmantotu mūsu argumentācijās, diskursos un tamlīdzīgi.  
+  Un te mums jāvadās no šīs Nikola Teslas domas, ko te citējam.  
+  Šodien mēs ņemsim vēl palīgā rīkus, kādi Nikola Teslas laikā nebija, proti, mākslīgo intelektu,  
+  tāpēc mūsu tēzei — **Informācija cīņā pret Ļaunumu** — pievienojas mākslīgā intelekta pienesums,  
+  un to apzīmējam ar vārdiem *MI cīņā pret Ļaunumu* / *AI against Evil*.
+
+<img width="350" height="800" alt="image" src="https://github.com/user-attachments/assets/62abdafe-9928-4595-94fe-724158ba666b" />
+
+- Vēl varam tālāk jautāt: kurā aspektā informācija ir kā ierocis cīņā pret ļaunumu —  
+  pirmajā, ziņu plūsmas nozīmē, vai tajā, kur informācija jau sakārtota mūsu loģiskās apjēgšanas gaismā?
+
      
 # Vai MI var izbeigt karu? miera konf. projekts
 
