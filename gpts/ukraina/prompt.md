@@ -57,9 +57,8 @@
         - providence: kas darbojas notikumos, kas kā ziņas nonāk pie mums, kurai ejam pretī, ja sapratīsim vairāk ko par noosfēru.
       
         - 
-# Vai MI var izbeigt karu? miera konf. projekts
 
-Mēs gribam sākt miera konferenci Ukrainas kara izbeigšanai, imitējot tās darbību un to veicot soli pēc soļa
+
 
 
 # Чи може штучний інтелект (ШІ) зупинити війну? ПMK
