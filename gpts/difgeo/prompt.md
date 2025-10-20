@@ -63,3 +63,31 @@
    -  gravitational anomalies.
 13. Anomalies from Graphs:
    - Discusses calculations of anomalies in quantum field theory.
+
+
+# Loring W. Tu Differential Geometry
+
+Contents
+Preface v
+Chapter 1 Curvature and Vector Fields 1
+§1 Riemannian Manifolds ......................................... 2
+1.1 Inner Products on a Vector Space ........................... 2
+1.2 Representations of Inner Products by
+Symmetric Matrices ...................................... 3
+1.3 Riemannian Metrics ...................................... 4
+1.4 Existence of a Riemannian Metric .......................... 6
+Problems ...................................................... 7
+§2 Curves ....................................................... 9
+2.1 Regular Curves .......................................... 9
+2.2 Arc Length Parametrization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+2.3 Signed Curvature of a Plane Curve . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+2.4 Orientation and Curvature . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 13
+Problems . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+§3 Surfaces in Space . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17
+3.1 Principal, Mean, and Gaussian Curvatures. . . . . . . . . . . . . . . . . . . . 17
+3.2 Gauss’s Theorema Egregium . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 19
+3.3 The Gauss–Bonnet Theorem . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 20
+Problems . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 21
+§4 Directional Derivatives in Euclidean Space . . . . . . . . . . . . . . . . . . . . . . . 22
+4.1 Directional Derivatives in Euclidean Space . . . . . . . . . . . . . . . . . . . 22
+4.2 Other Properties of the Directional Derivative . . . . . . . . . . . . . . . . . 24
