@@ -1,2 +1,2 @@
-#AI against Evil/ Māksļiģais intelekts pret Ļaunumu
+# AI against Evil/ Mākslīgais intelekts pret Ļaunumu
 - Te mēs runāsim par...
