@@ -64,3 +64,21 @@ Markdown:
 
 
 
+# Manas idejas
+## Lūk, par RAG
+## Ideja: Uz universālu RAG — bez iepriekšējas tīrīšanas
+
+> "Ņemt datus kā tie ir, palielināt AI jaudu un ļaut AI pašam izveidot RAG-ready struktūru." – Dainis Zeps, 2025
+
+### Iespējamie risinājumi:
+- LLM kā strukturēšanas agents
+- Automātisks chunking, metadatu veidošana
+- Prompt-engineered on-the-fly embedding
+- Atteikšanās no fiksētiem datu indeksiem
+
+### Potenciālais nosaukums:
+**Self-RAG** | **AutoRAG** | **Dynamic RAG Agent**
+
+
+
+
