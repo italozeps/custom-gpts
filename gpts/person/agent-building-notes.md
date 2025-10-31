@@ -62,5 +62,5 @@ Markdown:
 
 <img width="720" height="900" alt="image" src="https://github.com/user-attachments/assets/a7470206-57a3-4488-86c0-d5bed21a0254" />
 
-> <img width="720" height="900" alt="image" src="https://github.com/user-attachments/assets/49f20a62-c5a6-4cb5-afb2-abbafc6115c0" />
+
 
