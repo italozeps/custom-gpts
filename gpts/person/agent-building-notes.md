@@ -81,37 +81,7 @@ Markdown:
 
 # Par balss aģentiem
 
-📋 Voice AI Agent profilu saraksts:
 
-AIVA – The All‑In‑One Platform for Voice AI agents & everything audio. 
-X (formerly Twitter)
-
-Retell AI – “Every month we power 30M+ calls for 20,000+ businesses worldwide — reimagining call centers with AI voice agents that sound human and scale …” 
-X (formerly Twitter)
-
-Parloa – “IKEA’s voice agent is designed to improve customer service. It's always available and frees human co‑workers…” 
-X (formerly Twitter)
-
-CerebriumAI – “We’ve teamed up … to help developers build ultra‑low latency AI voice agents — with real‑time conversations under 300ms.” 
-X (formerly Twitter)
-
-echowin – “AI Voice Agent Builder Platform that lets you automate calls, website chatbot & Discord. Build your AI Workforce…” 
-X (formerly Twitter)
-
-Speechmatics – “Defining the future of voice tech, helping machines understand every voice in real time, across languages, accents, and domains.” 
-X (formerly Twitter)
-
-Nurix AI – “Meet NuRep, the AI agent that speaks in your brand voice. Built‑in guidelines. Brand Voice Intelligence.” 
-X (formerly Twitter)
-
-VoiceGenie – “Voice AI Agents for Sales, Support & Operations.” 
-X (formerly Twitter)
-
-Potential – “AI is transforming healthcare—and voice agents are leading the charge… From scheduling appointments and reducing no‑shows…” 
-X (formerly Twitter)
-
-LiveKit – “Open source framework and cloud platform for building voice, video, and physical AI apps.” 
-X (formerly Twitter)
 
 ✅ Ieteikums, kā iekļaut savā repozitorijā:
 ## Voice AI Agents – profilu iedvesma
