@@ -45,3 +45,8 @@ https://x.com/snappyprompts/status/1983893491311898746
 https://x.com/AndrewYNg/status/1983946706564563171
 
 https://x.com/Hesamation/status/1984014669804093444
+
+### https://x.com/techNmak/status/1983965211569877199
+
+<img width="648" height="900" alt="image" src="https://github.com/user-attachments/assets/9b26cec6-e2f1-459b-8810-32d707a3a341" />
+
