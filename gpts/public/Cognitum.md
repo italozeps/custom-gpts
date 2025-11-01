@@ -1,3 +1,5 @@
+#  Rakasts kopā ar gpt
+
 # The Cognitum Hypothesis in the Age of Artificial Intelligence  
 ### From Universal Mind to Synthetic Reflection  
 **Dainis Zeps, 2005–2025**
