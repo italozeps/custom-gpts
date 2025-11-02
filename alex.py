@@ -2,11 +2,13 @@
 # -*- coding: utf-8 -*-
 
 """
-alex.py — ģenerē statisku HTML ar 5 LLM pogām (Perplexity, Claude, Gemini, Mistral, DeepSeek)
+alex.py — ģenerē statisku HTML ar 5 LLM pogām:
+- Perplexity (prefill ?q=)
+- You.com   (prefill ?q=)
+- ChatGPT, Gemini, Mistral (kopē promptu → atver čatu)
+
 CSV (UTF-8): kolonnas title,url,note
 Konfigurācija (YAML): lists: [title, subtitle, src, out_html, prompt]
-- Perplexity: ?q=… (prefill)
-- Claude/Gemini/Mistral/DeepSeek: kopē promptu → atver čatu (Base64 + delegated click)
 """
 
 import argparse
@@ -23,18 +25,21 @@ try:
 except ImportError:
     raise SystemExit("Missing dependency pyyaml. Install it with: python -m pip install pyyaml")
 
+# -------- LLM saraksts --------
 LLMS = [
     ("Perplexity", "https://www.perplexity.ai/search?q={Q}", False),
-    ("Claude",     "https://claude.ai/new",                  True),
+    ("ChatGPT",    "https://chat.openai.com/",               True),
     ("Gemini",     "https://gemini.google.com/app",          True),
     ("Mistral",    "https://chat.mistral.ai/chat",           True),
-    ("DeepSeek",   "https://chat.deepseek.com/",             True),
+    ("You.com",    "https://you.com/search?q={Q}",           False),
 ]
 
+# -------- Palīgfunkcijas --------
 def esc(s: str) -> str:
     return html.escape(s or "", quote=True)
 
 def normalize_url(u: str) -> str:
+    """Ja URL trūkst http/https, pievieno https://"""
     u = (u or "").strip()
     if not u:
         return u
@@ -66,6 +71,7 @@ def read_csv(path: Path):
 def full_prompt(prompt: str, url: str) -> str:
     return prompt.replace("{URL}", url) if "{URL}" in prompt else f"{prompt} {url}"
 
+# -------- HTML ģenerēšana --------
 def render_html(title: str, subtitle: str, prompt: str, rows):
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     prompt_show = esc(prompt).replace("{", "&#123;").replace("}", "&#125;")
@@ -144,17 +150,19 @@ document.addEventListener('click', function(e) {{
         url_norm = normalize_url(r["url"])
         fp = full_prompt(prompt, url_norm)
         q  = quote_plus(fp)
+
         btns = []
         for label, base, needs_copy in LLMS:
-            if "{Q}" in base:
-                href = base.replace("{Q}", q)  # Perplexity ar ?q=
+            if "{Q}" in base:  # Perplexity / You.com ar ?q= prefill
+                href = base.replace("{Q}", q)
                 btns.append(f'<a class="btn" href="{esc(href)}" rel="noopener noreferrer">{esc(label)}</a>')
-            else:
+            else:  # ChatGPT / Gemini / Mistral — kopē → atver
                 b64 = base64.b64encode(fp.encode("utf-8")).decode("ascii")
                 btns.append(
                     f'<a class="btn" href="{esc(base)}" rel="noopener noreferrer" '
                     f'data-llm="1" data-prompt-b64="{esc(b64)}">{esc(label)}</a>'
                 )
+
         parts.append(f"""
   <div class="card">
     <h3>{esc(r["title"])}</h3>
@@ -173,6 +181,7 @@ document.addEventListener('click', function(e) {{
 """)
     return "".join(parts)
 
+# -------- Galvenais --------
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", required=True, help="Path to alex_config.yaml")
