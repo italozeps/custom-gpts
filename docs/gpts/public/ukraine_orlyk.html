@@ -1,134 +1,125 @@
-<!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
+<!doctype html>
+<html lang="en"><meta charset="utf-8">
 <title>Eksperiments E. Grīnberga Semināram — raksti par  Ukrainu un par  Orlika konstitūciju arī</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-body{font-family:system-ui;background:#0f172a;color:#e5e7eb;margin:0;padding:2rem}
-.card{background:#111827;border-radius:12px;padding:1rem;margin-bottom:1rem;border:1px solid #1f2937}
-.title{font-weight:700;font-size:18px;margin-bottom:.5rem}
-.btns{display:flex;gap:8px;flex-wrap:wrap}
-a.btn{padding:6px 10px;border-radius:8px;background:#1f2937;text-decoration:none;color:#e5e7eb}
-a.btn:hover{background:#374151}
-blockquote{margin:.5rem 0;color:#9ca3af;border-left:3px solid #334155;padding-left:.5rem}
-</style></head>
-<body>
+  :root {
+    --maxw: 980px;
+    --border: #e9e9e9;
+    --muted: #6b7280;
+  }
+  body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 2rem auto; max-width: var(--maxw); padding: 0 1rem; }
+  h1 { margin: 0 0 .25rem 0; font-size: 1.6rem; }
+  .muted { color: var(--muted); margin: 0 0 1rem 0; }
+  .grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+  @media (min-width: 740px) { .grid { grid-template-columns: 1fr 1fr; } }
+  .card { border: 1px solid var(--border); border-radius: 12px; padding: 1rem; }
+  .card h3 { margin: 0 0 .5rem 0; font-size: 1.05rem; }
+  .note { margin: 0 0 .5rem 0; color: var(--muted); }
+  .link a { word-break: break-all; }
+  .btns { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.6rem; }
+  .btn { display:inline-block; padding:.4rem .6rem; border-radius:.5rem; text-decoration:none; border:1px solid #d1d5db; }
+  .btn:hover { background:#f5f5f5; }
+  footer { margin-top: 2rem; font-size: .9rem; color: var(--muted); }
+  code.prompt { white-space: pre-wrap; }
+</style>
 <h1>Eksperiments E. Grīnberga Semināram — raksti par  Ukrainu un par  Orlika konstitūciju arī</h1>
-<p>Daži (šobrīd jau astoņi) raksti no D. Zepa portfolio (Zenodo u.c.); pogas atver LLM ar jau sagatavotu uzdevumu.</p>
-<div class="card">
-  <div class="title">Framework for Reviving Filip Orlik's 1710 Constitution as a Governance Model for a Post-Russia Kievan Rus'</div>
-  <blockquote>Koncepcija par Ukrainas valsts atjaunošanu, izmantojot Orlika konstitūciju pēc Krievijas sabrukuma.</blockquote>
-  <div class="btns">
-    <a class="btn" href="https://www.perplexity.ai/search?q=For%20%28https%3A%2F%2Fzenodo.org%2Frecords%2F16484131%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Perplexity</a>
-    <a class="btn" href="https://claude.ai/new?q=For%20%28https%3A%2F%2Fzenodo.org%2Frecords%2F16484131%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Claude</a>
-    <a class="btn link" href="https://zenodo.org/records/16484131" target="_blank">Original link</a>
+<p class="muted">Daži (šobrīd jau astoņi) raksti no D. Zepa portfolio (Zenodo u.c.); pogas atver LLM ar jau sagatavotu uzdevumu.</p>
+<div class="grid">
+
+  <div class="card">
+    <h3>Framework for Reviving Filip Orlik&#x27;s 1710 Constitution as a Governance Model for a Post-Russia Kievan Rus&#x27;</h3>
+    <p class="note">Koncepcija par Ukrainas valsts atjaunošanu, izmantojot Orlika konstitūciju pēc Krievijas sabrukuma.</p>
+    <p class="link"><a href="https://zenodo.org/records/16484131" target="_blank" rel="noopener noreferrer">https://zenodo.org/records/16484131</a></p>
+    <div class="btns"><a class="btn" href="https://www.perplexity.ai/search?q=For+%28https%3A%2F%2Fzenodo.org%2Frecords%2F16484131%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Perplexity</a> <a class="btn" href="https://claude.ai/new?prompt=For+%28https%3A%2F%2Fzenodo.org%2Frecords%2F16484131%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Claude</a> <a class="btn" href="https://gemini.google.com/app?q=For+%28https%3A%2F%2Fzenodo.org%2Frecords%2F16484131%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Gemini</a> <a class="btn" href="https://chat.mistral.ai/chat?message=For+%28https%3A%2F%2Fzenodo.org%2Frecords%2F16484131%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Mistral</a> <a class="btn" href="https://chat.deepseek.com/?q=For+%28https%3A%2F%2Fzenodo.org%2Frecords%2F16484131%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">DeepSeek</a></div>
+  </div>
+
+  <div class="card">
+    <h3>Political Chemistry: for Total Ukrainian Victory! #StandWithUkraine</h3>
+    <p class="note">Eseja par politiskās &#x27;ķīmijas&#x27; principiem pilnīgai Ukrainas uzvarai.</p>
+    <p class="link"><a href="https://zenodo.org/records/15569946" target="_blank" rel="noopener noreferrer">https://zenodo.org/records/15569946</a></p>
+    <div class="btns"><a class="btn" href="https://www.perplexity.ai/search?q=For+%28https%3A%2F%2Fzenodo.org%2Frecords%2F15569946%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Perplexity</a> <a class="btn" href="https://claude.ai/new?prompt=For+%28https%3A%2F%2Fzenodo.org%2Frecords%2F15569946%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Claude</a> <a class="btn" href="https://gemini.google.com/app?q=For+%28https%3A%2F%2Fzenodo.org%2Frecords%2F15569946%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Gemini</a> <a class="btn" href="https://chat.mistral.ai/chat?message=For+%28https%3A%2F%2Fzenodo.org%2Frecords%2F15569946%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Mistral</a> <a class="btn" href="https://chat.deepseek.com/?q=For+%28https%3A%2F%2Fzenodo.org%2Frecords%2F15569946%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">DeepSeek</a></div>
+  </div>
+
+  <div class="card">
+    <h3>The New World, or The world after Ukraine’s victory</h3>
+    <p class="note">We are talking about the world after Ukraine&#x27;s victory in the war against Russia. Russia must be defeated, Ukraine must win, and the world after this victory can acquire the name New World</p>
+    <p class="link"><a href="https://lingua.id.lv/art/war.18.pdf" target="_blank" rel="noopener noreferrer">https://lingua.id.lv/art/war.18.pdf</a></p>
+    <div class="btns"><a class="btn" href="https://www.perplexity.ai/search?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.18.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Perplexity</a> <a class="btn" href="https://claude.ai/new?prompt=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.18.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Claude</a> <a class="btn" href="https://gemini.google.com/app?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.18.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Gemini</a> <a class="btn" href="https://chat.mistral.ai/chat?message=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.18.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Mistral</a> <a class="btn" href="https://chat.deepseek.com/?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.18.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">DeepSeek</a></div>
+  </div>
+
+  <div class="card">
+    <h3>Jaunā Minhene, kurp tā vedīs? Papildināts 21.02.2025</h3>
+    <p class="note">Saruna, kuras aktualitāte nemazinās, bet tikai pieaug. Jā, viss sarežģās, sapiņķerējas. Bet vai mums nav jāizdala galvenās idejas?</p>
+    <p class="link"><a href="https://lingua.id.lv/art/war.40.pdf" target="_blank" rel="noopener noreferrer">https://lingua.id.lv/art/war.40.pdf</a></p>
+    <div class="btns"><a class="btn" href="https://www.perplexity.ai/search?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.40.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Perplexity</a> <a class="btn" href="https://claude.ai/new?prompt=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.40.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Claude</a> <a class="btn" href="https://gemini.google.com/app?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.40.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Gemini</a> <a class="btn" href="https://chat.mistral.ai/chat?message=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.40.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Mistral</a> <a class="btn" href="https://chat.deepseek.com/?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.40.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">DeepSeek</a></div>
+  </div>
+
+  <div class="card">
+    <h3>Daiņa Zeps saruna ar Claude par cilvēka un mašīnas attiecībām AI kontekstā</h3>
+    <p class="note">Saruna ar claude pēc tam, kad Claude bija izveidojusi savu rakstu par D.Z.uzdotiem jautājumiem</p>
+    <p class="link"><a href="https://lingua.id.lv/art/war.76.pdf" target="_blank" rel="noopener noreferrer">https://lingua.id.lv/art/war.76.pdf</a></p>
+    <div class="btns"><a class="btn" href="https://www.perplexity.ai/search?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.76.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Perplexity</a> <a class="btn" href="https://claude.ai/new?prompt=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.76.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Claude</a> <a class="btn" href="https://gemini.google.com/app?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.76.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Gemini</a> <a class="btn" href="https://chat.mistral.ai/chat?message=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.76.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Mistral</a> <a class="btn" href="https://chat.deepseek.com/?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.76.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">DeepSeek</a></div>
+  </div>
+
+  <div class="card">
+    <h3>Ukraina – ASV – Krievija : Šodienas pasaule #StandWithUkraine</h3>
+    <p class="note">Ukraine must win in the war against aggressor. How to persuade world about this? We use #StandWithUkraine, #AUAgainstEvil</p>
+    <p class="link"><a href="https://lingua.id.lv/art/war.75.pdf" target="_blank" rel="noopener noreferrer">https://lingua.id.lv/art/war.75.pdf</a></p>
+    <div class="btns"><a class="btn" href="https://www.perplexity.ai/search?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.75.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Perplexity</a> <a class="btn" href="https://claude.ai/new?prompt=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.75.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Claude</a> <a class="btn" href="https://gemini.google.com/app?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.75.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Gemini</a> <a class="btn" href="https://chat.mistral.ai/chat?message=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.75.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Mistral</a> <a class="btn" href="https://chat.deepseek.com/?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.75.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">DeepSeek</a></div>
+  </div>
+
+  <div class="card">
+    <h3>Information against Evil. How information and AI might impact Ukrainian’s war outcome?</h3>
+    <p class="note">We stand for Victory of Ukraine. Saying Information against Evil we hope that AI learns how to make war against Evil</p>
+    <p class="link"><a href="https://lingua.id.lv/art/war.62.pdf" target="_blank" rel="noopener noreferrer">https://lingua.id.lv/art/war.62.pdf</a></p>
+    <div class="btns"><a class="btn" href="https://www.perplexity.ai/search?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.62.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Perplexity</a> <a class="btn" href="https://claude.ai/new?prompt=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.62.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Claude</a> <a class="btn" href="https://gemini.google.com/app?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.62.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Gemini</a> <a class="btn" href="https://chat.mistral.ai/chat?message=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.62.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Mistral</a> <a class="btn" href="https://chat.deepseek.com/?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.62.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">DeepSeek</a></div>
+  </div>
+
+  <div class="card">
+    <h3>The New World, or The world after Ukraine&#x27;s victory</h3>
+    <p class="note">We are talking about the world after Ukraine&#x27;s victory in the war against Russia. Russia must be defeated, Ukraine must win, and the world after this victory can acquire the name New World.</p>
+    <p class="link"><a href="https://lingua.id.lv/art/war.18.pdf" target="_blank" rel="noopener noreferrer">https://lingua.id.lv/art/war.18.pdf</a></p>
+    <div class="btns"><a class="btn" href="https://www.perplexity.ai/search?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.18.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Perplexity</a> <a class="btn" href="https://claude.ai/new?prompt=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.18.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Claude</a> <a class="btn" href="https://gemini.google.com/app?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.18.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Gemini</a> <a class="btn" href="https://chat.mistral.ai/chat?message=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.18.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Mistral</a> <a class="btn" href="https://chat.deepseek.com/?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.18.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">DeepSeek</a></div>
+  </div>
+
+  <div class="card">
+    <h3>Jaunā Minhene, kurp tā vedīs? Papildināts 21.02.2025</h3>
+    <p class="note">Saruna, kuras aktualitāte nemazinās, bet tikai pieaug. Jā, viss sarežģās; bet vai mums nav jādala galvenās idejas?</p>
+    <p class="link"><a href="https://lingua.id.lv/art/war.40.pdf" target="_blank" rel="noopener noreferrer">https://lingua.id.lv/art/war.40.pdf</a></p>
+    <div class="btns"><a class="btn" href="https://www.perplexity.ai/search?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.40.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Perplexity</a> <a class="btn" href="https://claude.ai/new?prompt=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.40.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Claude</a> <a class="btn" href="https://gemini.google.com/app?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.40.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Gemini</a> <a class="btn" href="https://chat.mistral.ai/chat?message=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.40.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Mistral</a> <a class="btn" href="https://chat.deepseek.com/?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.40.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">DeepSeek</a></div>
+  </div>
+
+  <div class="card">
+    <h3>Daiņa Zeps saruna ar Claude par cilvēka un mašīnas attiecībām AI kontekstā</h3>
+    <p class="note">Saruna ar Claude pēc tam, kad Claude bija izveidojusi savu rakstu par D. Zepa uzdotiem jautājumiem.</p>
+    <p class="link"><a href="https://lingua.id.lv/art/war.76.pdf" target="_blank" rel="noopener noreferrer">https://lingua.id.lv/art/war.76.pdf</a></p>
+    <div class="btns"><a class="btn" href="https://www.perplexity.ai/search?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.76.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Perplexity</a> <a class="btn" href="https://claude.ai/new?prompt=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.76.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Claude</a> <a class="btn" href="https://gemini.google.com/app?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.76.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Gemini</a> <a class="btn" href="https://chat.mistral.ai/chat?message=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.76.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Mistral</a> <a class="btn" href="https://chat.deepseek.com/?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.76.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">DeepSeek</a></div>
+  </div>
+
+  <div class="card">
+    <h3>Ukraina – ASV – Krievija : Šodienas pasaule #StandWithUkraine</h3>
+    <p class="note">Ukraine must win in the war against the aggressor. How to persuade the world about this? We use #StandWithUkraine, #AIAgainstEvil.</p>
+    <p class="link"><a href="https://lingua.id.lv/art/war.75.pdf" target="_blank" rel="noopener noreferrer">https://lingua.id.lv/art/war.75.pdf</a></p>
+    <div class="btns"><a class="btn" href="https://www.perplexity.ai/search?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.75.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Perplexity</a> <a class="btn" href="https://claude.ai/new?prompt=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.75.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Claude</a> <a class="btn" href="https://gemini.google.com/app?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.75.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Gemini</a> <a class="btn" href="https://chat.mistral.ai/chat?message=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.75.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Mistral</a> <a class="btn" href="https://chat.deepseek.com/?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.75.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">DeepSeek</a></div>
+  </div>
+
+  <div class="card">
+    <h3>Information against Evil. How information and AI might impact Ukraine&#x27;s war outcome?</h3>
+    <p class="note">We stand for Victory of Ukraine. Saying &#x27;Information against Evil&#x27; we hope that AI learns how to act against Evil.</p>
+    <p class="link"><a href="https://lingua.id.lv/art/war.62.pdf" target="_blank" rel="noopener noreferrer">https://lingua.id.lv/art/war.62.pdf</a></p>
+    <div class="btns"><a class="btn" href="https://www.perplexity.ai/search?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.62.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Perplexity</a> <a class="btn" href="https://claude.ai/new?prompt=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.62.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Claude</a> <a class="btn" href="https://gemini.google.com/app?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.62.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Gemini</a> <a class="btn" href="https://chat.mistral.ai/chat?message=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.62.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Mistral</a> <a class="btn" href="https://chat.deepseek.com/?q=For+%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.62.pdf%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">DeepSeek</a></div>
+  </div>
+
+  <div class="card">
+    <h3>Providence, Information, and the Rebirth of Kievan Rus&#x27;. All That is Hidden Will Be Revealed</h3>
+    <p class="note">Article written/composed with Claude, must be examined, and not all accepted there</p>
+    <p class="link"><a href="zenodo.org/records/17306315" target="_blank" rel="noopener noreferrer">zenodo.org/records/17306315</a></p>
+    <div class="btns"><a class="btn" href="https://www.perplexity.ai/search?q=For+%28zenodo.org%2Frecords%2F17306315%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Perplexity</a> <a class="btn" href="https://claude.ai/new?prompt=For+%28zenodo.org%2Frecords%2F17306315%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Claude</a> <a class="btn" href="https://gemini.google.com/app?q=For+%28zenodo.org%2Frecords%2F17306315%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Gemini</a> <a class="btn" href="https://chat.mistral.ai/chat?message=For+%28zenodo.org%2Frecords%2F17306315%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">Mistral</a> <a class="btn" href="https://chat.deepseek.com/?q=For+%28zenodo.org%2Frecords%2F17306315%29%3A+summarize+in+3+key+points+and+one+short+comment+on+its+significance+for+Ukrainian+victory+and+post-Russian+political+order." target="_blank" rel="noopener noreferrer">DeepSeek</a></div>
   </div>
 </div>
-<div class="card">
-  <div class="title">Political Chemistry: for Total Ukrainian Victory! #StandWithUkraine</div>
-  <blockquote>Eseja par politiskās 'ķīmijas' principiem pilnīgai Ukrainas uzvarai.</blockquote>
-  <div class="btns">
-    <a class="btn" href="https://www.perplexity.ai/search?q=For%20%28https%3A%2F%2Fzenodo.org%2Frecords%2F15569946%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Perplexity</a>
-    <a class="btn" href="https://claude.ai/new?q=For%20%28https%3A%2F%2Fzenodo.org%2Frecords%2F15569946%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Claude</a>
-    <a class="btn link" href="https://zenodo.org/records/15569946" target="_blank">Original link</a>
-  </div>
-</div>
-<div class="card">
-  <div class="title">The New World, or The world after Ukraine’s victory</div>
-  <blockquote>We are talking about the world after Ukraine's victory in the war against Russia. Russia must be defeated, Ukraine must win, and the world after this victory can acquire the name New World</blockquote>
-  <div class="btns">
-    <a class="btn" href="https://www.perplexity.ai/search?q=For%20%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.18.pdf%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Perplexity</a>
-    <a class="btn" href="https://claude.ai/new?q=For%20%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.18.pdf%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Claude</a>
-    <a class="btn link" href="https://lingua.id.lv/art/war.18.pdf" target="_blank">Original link</a>
-  </div>
-</div>
-<div class="card">
-  <div class="title">Jaunā Minhene, kurp tā vedīs? Papildināts 21.02.2025</div>
-  <blockquote>Saruna, kuras aktualitāte nemazinās, bet tikai pieaug. Jā, viss sarežģās, sapiņķerējas. Bet vai mums nav jāizdala galvenās idejas?</blockquote>
-  <div class="btns">
-    <a class="btn" href="https://www.perplexity.ai/search?q=For%20%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.40.pdf%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Perplexity</a>
-    <a class="btn" href="https://claude.ai/new?q=For%20%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.40.pdf%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Claude</a>
-    <a class="btn link" href="https://lingua.id.lv/art/war.40.pdf" target="_blank">Original link</a>
-  </div>
-</div>
-<div class="card">
-  <div class="title">Daiņa Zeps saruna ar Claude par cilvēka un mašīnas attiecībām AI kontekstā</div>
-  <blockquote>Saruna ar claude pēc tam, kad Claude bija izveidojusi savu rakstu par D.Z.uzdotiem jautājumiem</blockquote>
-  <div class="btns">
-    <a class="btn" href="https://www.perplexity.ai/search?q=For%20%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.76.pdf%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Perplexity</a>
-    <a class="btn" href="https://claude.ai/new?q=For%20%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.76.pdf%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Claude</a>
-    <a class="btn link" href="https://lingua.id.lv/art/war.76.pdf" target="_blank">Original link</a>
-  </div>
-</div>
-<div class="card">
-  <div class="title">Ukraina – ASV – Krievija : Šodienas pasaule #StandWithUkraine</div>
-  <blockquote>Ukraine must win in the war against aggressor. How to persuade world about this? We use #StandWithUkraine, #AUAgainstEvil</blockquote>
-  <div class="btns">
-    <a class="btn" href="https://www.perplexity.ai/search?q=For%20%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.75.pdf%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Perplexity</a>
-    <a class="btn" href="https://claude.ai/new?q=For%20%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.75.pdf%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Claude</a>
-    <a class="btn link" href="https://lingua.id.lv/art/war.75.pdf" target="_blank">Original link</a>
-  </div>
-</div>
-<div class="card">
-  <div class="title">Information against Evil. How information and AI might impact Ukrainian’s war outcome?</div>
-  <blockquote>We stand for Victory of Ukraine. Saying Information against Evil we hope that AI learns how to make war against Evil</blockquote>
-  <div class="btns">
-    <a class="btn" href="https://www.perplexity.ai/search?q=For%20%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.62.pdf%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Perplexity</a>
-    <a class="btn" href="https://claude.ai/new?q=For%20%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.62.pdf%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Claude</a>
-    <a class="btn link" href="https://lingua.id.lv/art/war.62.pdf" target="_blank">Original link</a>
-  </div>
-</div>
-<div class="card">
-  <div class="title">The New World, or The world after Ukraine's victory</div>
-  <blockquote>We are talking about the world after Ukraine's victory in the war against Russia. Russia must be defeated, Ukraine must win, and the world after this victory can acquire the name New World.</blockquote>
-  <div class="btns">
-    <a class="btn" href="https://www.perplexity.ai/search?q=For%20%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.18.pdf%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Perplexity</a>
-    <a class="btn" href="https://claude.ai/new?q=For%20%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.18.pdf%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Claude</a>
-    <a class="btn link" href="https://lingua.id.lv/art/war.18.pdf" target="_blank">Original link</a>
-  </div>
-</div>
-<div class="card">
-  <div class="title">Jaunā Minhene, kurp tā vedīs? Papildināts 21.02.2025</div>
-  <blockquote>Saruna, kuras aktualitāte nemazinās, bet tikai pieaug. Jā, viss sarežģās; bet vai mums nav jādala galvenās idejas?</blockquote>
-  <div class="btns">
-    <a class="btn" href="https://www.perplexity.ai/search?q=For%20%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.40.pdf%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Perplexity</a>
-    <a class="btn" href="https://claude.ai/new?q=For%20%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.40.pdf%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Claude</a>
-    <a class="btn link" href="https://lingua.id.lv/art/war.40.pdf" target="_blank">Original link</a>
-  </div>
-</div>
-<div class="card">
-  <div class="title">Daiņa Zeps saruna ar Claude par cilvēka un mašīnas attiecībām AI kontekstā</div>
-  <blockquote>Saruna ar Claude pēc tam, kad Claude bija izveidojusi savu rakstu par D. Zepa uzdotiem jautājumiem.</blockquote>
-  <div class="btns">
-    <a class="btn" href="https://www.perplexity.ai/search?q=For%20%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.76.pdf%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Perplexity</a>
-    <a class="btn" href="https://claude.ai/new?q=For%20%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.76.pdf%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Claude</a>
-    <a class="btn link" href="https://lingua.id.lv/art/war.76.pdf" target="_blank">Original link</a>
-  </div>
-</div>
-<div class="card">
-  <div class="title">Ukraina – ASV – Krievija : Šodienas pasaule #StandWithUkraine</div>
-  <blockquote>Ukraine must win in the war against the aggressor. How to persuade the world about this? We use #StandWithUkraine, #AIAgainstEvil.</blockquote>
-  <div class="btns">
-    <a class="btn" href="https://www.perplexity.ai/search?q=For%20%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.75.pdf%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Perplexity</a>
-    <a class="btn" href="https://claude.ai/new?q=For%20%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.75.pdf%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Claude</a>
-    <a class="btn link" href="https://lingua.id.lv/art/war.75.pdf" target="_blank">Original link</a>
-  </div>
-</div>
-<div class="card">
-  <div class="title">Information against Evil. How information and AI might impact Ukraine's war outcome?</div>
-  <blockquote>We stand for Victory of Ukraine. Saying 'Information against Evil' we hope that AI learns how to act against Evil.</blockquote>
-  <div class="btns">
-    <a class="btn" href="https://www.perplexity.ai/search?q=For%20%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.62.pdf%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Perplexity</a>
-    <a class="btn" href="https://claude.ai/new?q=For%20%28https%3A%2F%2Flingua.id.lv%2Fart%2Fwar.62.pdf%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Claude</a>
-    <a class="btn link" href="https://lingua.id.lv/art/war.62.pdf" target="_blank">Original link</a>
-  </div>
-</div>
-<div class="card">
-  <div class="title">Providence, Information, and the Rebirth of Kievan Rus'. All That is Hidden Will Be Revealed</div>
-  <blockquote>Article written/composed with Claude, must be examined, and not all accepted there</blockquote>
-  <div class="btns">
-    <a class="btn" href="https://www.perplexity.ai/search?q=For%20%28zenodo.org%2Frecords%2F17306315%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Perplexity</a>
-    <a class="btn" href="https://claude.ai/new?q=For%20%28zenodo.org%2Frecords%2F17306315%29%3A%20summarize%20in%203%20key%20points%20and%20one%20short%20comment%20on%20its%20significance%20for%20Ukrainian%20victory%20and%20post-Russian%20political%20order." target="_blank">Open in Claude</a>
-    <a class="btn link" href="zenodo.org/records/17306315" target="_blank">Original link</a>
-  </div>
-</div>
-<footer><small>Prompt: For ({URL}): summarize in 3 key points and one short comment on its significance for Ukrainian victory and post-Russian political order.<br>Updated 2025-11-02 13:16 UTC</small></footer>
-</body></html>
+<footer>
+  <p><strong>Prompt:</strong> <code class="prompt">For (&#123;URL&#125;): summarize in 3 key points and one short comment on its significance for Ukrainian victory and post-Russian political order.</code></p>
+  <p>Updated 2025-11-02 14:14 UTC</p>
+</footer>
+</html>
