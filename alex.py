@@ -62,16 +62,17 @@ def render_html(title: str, subtitle: str, prompt: str, rows):
 <title>{esc(title)}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
-function copyPrompt(txt){{
-  if(!navigator.clipboard) return;
-  navigator.clipboard.writeText(txt).then(()=>{
-    const n=document.createElement('div');
-    n.textContent='Prompt copied. Paste in the chat (Ctrl+V).';
+function copyPrompt(txt) {{
+  if (!navigator.clipboard) return;
+  navigator.clipboard.writeText(txt).then(() => {{
+    const n = document.createElement('div');
+    n.textContent = 'Prompt copied. Paste in the chat (Ctrl+V).';
     n.style.position='fixed'; n.style.bottom='16px'; n.style.right='16px';
     n.style.background='#111'; n.style.color='#fff'; n.style.padding='8px 12px';
     n.style.borderRadius='8px'; n.style.opacity='0.95'; n.style.zIndex='9999';
-    document.body.appendChild(n); setTimeout(()=>n.remove(),1800);
-  }});
+    document.body.appendChild(n);
+    setTimeout(() => n.remove(), 1800);
+  }}).catch(()=>{{}});
 }}
 </script>
 <style>
@@ -89,7 +90,7 @@ function copyPrompt(txt){{
   .btn {{ display:inline-block; padding:.4rem .6rem; border-radius:.5rem; text-decoration:none; border:1px solid #d1d5db; }}
   .btn:hover {{ background:#f5f5f5; }}
   footer {{ margin-top:2rem; font-size:.9rem; color:var(--muted); }}
-  code.prompt {{ white-space:pre-wrap; }}
+  code.prompt {{ white-space: pre-wrap; }}
 </style>
 <h1>{esc(title)}</h1>
 <p class="muted">{esc(subtitle)}</p>
