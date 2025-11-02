@@ -13,35 +13,41 @@ function toast(msg) {
   setTimeout(() => n.remove(), 1800);
 }
 
-// Kopē → tad atver. Ja clipboard nav pieejams, atver un parādi promptu ar alert.
-function openLLM(href, txt, ev) {
-  try {
-    if (ev && ev.preventDefault) ev.preventDefault();
-    if (!navigator.clipboard || window.isSecureContext === false) {
-      // file:// vai nesecure – tomēr atver čatu un parādi lietotājam promptu
-      window.open(href, '_blank', 'noopener');
-      setTimeout(() => {
-        try { window.focus(); } catch (_e) {}
-        alert('Paste this into the chat (Ctrl+V):\n\n' + txt);
-      }, 50);
-      return false;
-    }
-    return navigator.clipboard.writeText(txt).then(() => {
-      toast('Prompt copied. Paste in the chat (Ctrl+V).');
-      setTimeout(() => window.open(href, '_blank', 'noopener'), 50);
-      return false;
-    }).catch((_e) => {
-      window.open(href, '_blank', 'noopener');
-      setTimeout(() => alert('Paste this into the chat (Ctrl+V):\n\n' + txt), 50);
-      return false;
-    });
-  } catch (_e) {
-    window.open(href, '_blank', 'noopener');
-    setTimeout(() => alert('Paste this into the chat (Ctrl+V):\n\n' + txt), 50);
-    return false;
+function b64decode(b64) {
+  try { return decodeURIComponent(escape(atob(b64))); } catch (e) {
+    // fallback veciem pārlūkiem
+    return atob(b64);
   }
 }
+
+// Delegēts klikšķis visām LLM pogām (izņemot Perplexity ar ?q=)
+document.addEventListener('click', function(e) {
+  const a = e.target.closest('a[data-llm="1"]');
+  if (!a) return;
+  const href = a.getAttribute('href');
+  const b64  = a.getAttribute('data-prompt-b64');
+  if (!b64) return;
+  e.preventDefault();
+
+  const txt = b64decode(b64);
+
+  // clipboard → tad atver čatu; ja nevar, parādi promptu un atver
+  const openChat = () => window.open(href, '_blank', 'noopener');
+  if (!navigator.clipboard || window.isSecureContext === false) {
+    openChat();
+    setTimeout(() => alert('Paste this into the chat (Ctrl+V):\n\n' + txt), 50);
+    return;
+  }
+  navigator.clipboard.writeText(txt).then(() => {
+    toast('Prompt copied. Paste in the chat (Ctrl+V).');
+    setTimeout(openChat, 50);
+  }).catch(() => {
+    openChat();
+    setTimeout(() => alert('Paste this into the chat (Ctrl+V):\n\n' + txt), 50);
+  });
+}, true);
 </script>
+
 
 <style>
   :root { --maxw: 950px; --border:#e5e7eb; --muted:#6b7280; }
@@ -122,6 +128,6 @@ function openLLM(href, txt, ev) {
 </div>
 <footer>
   <p><strong>Prompt:</strong> <code class="prompt">For (&#123;URL&#125;): summarize in 3 key points and one short comment on its significance for Ukrainian victory and post-Russian political order.</code></p>
-  <p>Updated 2025-11-02 18:50 UTC</p>
+  <p>Updated 2025-11-02 19:03 UTC</p>
 </footer>
 </html>
