@@ -1,88 +1,192 @@
 #!/usr/bin/env python3
-import argparse, csv, json, os, sys, urllib.parse, pathlib
-from typing import List, Dict, Any
+# -*- coding: utf-8 -*-
+
+"""
+alex.py — statiskas HTML lapas ģenerators no CSV saraksta, ar LLM pogām.
+
+Atbalsta:
+- Konfigurāciju no alex_config.yaml (lists: [title, subtitle, src, out_html, prompt])
+- CSV (UTF-8) ar kolonnām: title,url,note
+- LLM pogas: Perplexity, Claude, Gemini, Mistral, DeepSeek, (opc.) ChatGPT
+
+Lietošana (lokāli):
+    python alex.py --config alex_config.yaml --root .
+
+GitHub Actions gadījumā pietiek iestumt izmaiņas alex_config.yaml / data/*.csv,
+workflow to palaidīs automātiski un ielikts docs/… HTML.
+"""
+
+import argparse
+import csv
+import html
+import os
+from pathlib import Path
+from urllib.parse import quote_plus
+from datetime import datetime, timezone
 
 try:
-    import yaml  # pyyaml
-except Exception:
-    yaml = None
+    import yaml
+except ImportError:
+    raise SystemExit("Missing dependency pyyaml. Install it with: pip install pyyaml")
 
-DEFAULT_PROMPT = "Summarize and briefly comment on this source ({URL}). Give 3 bullet takeaways and a 1-paragraph context. Note any obvious biases or missing angles."
 
-def perplexity_link(url: str, prompt: str) -> str:
-    p = prompt.replace("{URL}", url)
-    return "https://www.perplexity.ai/search?q=" + urllib.parse.quote(p, safe="")
+# ---------- Palīgfunkcijas ----------
 
-def claude_link(url: str, prompt: str) -> str:
-    p = prompt.replace("{URL}", url)
-    return "https://claude.ai/new?q=" + urllib.parse.quote(p, safe="")
-
-def read_csv(path: str) -> List[Dict[str, str]]:
-    out = []
-    with open(path, newline="", encoding="utf-8") as f:
+def read_csv(path: Path):
+    rows = []
+    with path.open(newline="", encoding="utf-8") as f:
         rdr = csv.DictReader(f)
-        for r in rdr:
+        for i, r in enumerate(rdr, 1):
             title = (r.get("title") or "").strip()
             url = (r.get("url") or "").strip()
             note = (r.get("note") or "").strip()
-            if not title or not url:
+            if not url:
+                # ignorē tukšu rindu
                 continue
-            out.append({"title": title, "url": url, "note": note})
-    return out
+            # ja nav title, izmanto URL
+            if not title:
+                title = url
+            rows.append({"title": title, "url": url, "note": note})
+    return rows
 
-def emit_html(title: str, subtitle: str, prompt: str, rows: List[Dict[str,str]], out_path: str):
-    from datetime import datetime, timezone
-    def html_escape(s): return s.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;").replace('"',"&quot;")
-    def build_item(r):
-        note = f"<blockquote>{html_escape(r['note'])}</blockquote>" if r.get('note') else ""
-        return f'''<div class="card">
-  <div class="title">{html_escape(r['title'])}</div>
-  {note}
-  <div class="btns">
-    <a class="btn" href="{perplexity_link(r['url'], prompt)}" target="_blank">Open in Perplexity</a>
-    <a class="btn" href="{claude_link(r['url'], prompt)}" target="_blank">Open in Claude</a>
-    <a class="btn link" href="{r['url']}" target="_blank">Original link</a>
-  </div>
-</div>'''
-    items = "\n".join(build_item(r) for r in rows)
-    html = f"""<!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
-<title>{html_escape(title)}</title>
+
+def ensure_parent_dir(out_path: Path):
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+
+
+def build_llm_links(url: str, prompt: str):
+    """
+    Veido (label, href) sarakstu visām LLM pogām.
+    Ja prompt satur {URL}, aizstāj to; citādi pievieno URL teikuma beigās.
+    """
+    msg = prompt.replace("{URL}", url) if "{URL}" in prompt else f"{prompt} {url}"
+
+    links = [
+        ("Perplexity", f"https://www.perplexity.ai/search?q={quote_plus(msg)}"),
+        ("Claude",     f"https://claude.ai/new?prompt={quote_plus(msg)}"),
+        ("Gemini",     f"https://gemini.google.com/app?q={quote_plus(msg)}"),
+        ("Mistral",    f"https://chat.mistral.ai/chat?message={quote_plus(msg)}"),
+        ("DeepSeek",   f"https://chat.deepseek.com/?q={quote_plus(msg)}"),
+        # Ja gribi, atkomentē arī ChatGPT:
+        # ("ChatGPT",    "https://chat.openai.com/"),
+    ]
+    return links
+
+
+def escape(s: str) -> str:
+    """Drošības pēc HTML-escape (arī lai { } neradītu problēmas)."""
+    return html.escape(s, quote=True)
+
+
+def render_html(title: str, subtitle: str, prompt: str, items: list[dict]):
+    head = f"""<!doctype html>
+<html lang="en"><meta charset="utf-8">
+<title>{escape(title)}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-body{{font-family:system-ui;background:#0f172a;color:#e5e7eb;margin:0;padding:2rem}}
-.card{{background:#111827;border-radius:12px;padding:1rem;margin-bottom:1rem;border:1px solid #1f2937}}
-.title{{font-weight:700;font-size:18px;margin-bottom:.5rem}}
-.btns{{display:flex;gap:8px;flex-wrap:wrap}}
-a.btn{{padding:6px 10px;border-radius:8px;background:#1f2937;text-decoration:none;color:#e5e7eb}}
-a.btn:hover{{background:#374151}}
-blockquote{{margin:.5rem 0;color:#9ca3af;border-left:3px solid #334155;padding-left:.5rem}}
-</style></head>
-<body>
-<h1>{html_escape(title)}</h1>
-<p>{html_escape(subtitle)}</p>
-{items}
-<footer><small>Prompt: {html_escape(prompt)}<br>Updated {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}</small></footer>
-</body></html>"""
-    os.makedirs(os.path.dirname(out_path) or ".", exist_ok=True)
-    with open(out_path, "w", encoding="utf-8") as f: f.write(html)
-    print(f"Wrote HTML -> {out_path}")
+  :root {{
+    --maxw: 980px;
+    --border: #e9e9e9;
+    --muted: #6b7280;
+  }}
+  body {{ font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 2rem auto; max-width: var(--maxw); padding: 0 1rem; }}
+  h1 {{ margin: 0 0 .25rem 0; font-size: 1.6rem; }}
+  .muted {{ color: var(--muted); margin: 0 0 1rem 0; }}
+  .grid {{ display: grid; grid-template-columns: 1fr; gap: 1rem; }}
+  @media (min-width: 740px) {{ .grid {{ grid-template-columns: 1fr 1fr; }} }}
+  .card {{ border: 1px solid var(--border); border-radius: 12px; padding: 1rem; }}
+  .card h3 {{ margin: 0 0 .5rem 0; font-size: 1.05rem; }}
+  .note {{ margin: 0 0 .5rem 0; color: var(--muted); }}
+  .link a {{ word-break: break-all; }}
+  .btns {{ display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.6rem; }}
+  .btn {{ display:inline-block; padding:.4rem .6rem; border-radius:.5rem; text-decoration:none; border:1px solid #d1d5db; }}
+  .btn:hover {{ background:#f5f5f5; }}
+  footer {{ margin-top: 2rem; font-size: .9rem; color: var(--muted); }}
+  code.prompt {{ white-space: pre-wrap; }}
+</style>
+<h1>{escape(title)}</h1>
+<p class="muted">{escape(subtitle)}</p>
+<div class="grid">
+"""
+    parts = [head]
+
+    for it in items:
+        # LLM pogas
+        btns = []
+        for label, href in build_llm_links(it["url"], prompt):
+            btns.append(f'<a class="btn" href="{href}" target="_blank" rel="noopener noreferrer">{escape(label)}</a>')
+        buttons_html = " ".join(btns)
+
+        parts.append(f"""
+  <div class="card">
+    <h3>{escape(it['title'])}</h3>
+    <p class="note">{escape(it.get('note',''))}</p>
+    <p class="link"><a href="{escape(it['url'])}" target="_blank" rel="noopener noreferrer">{escape(it['url'])}</a></p>
+    <div class="btns">{buttons_html}</div>
+  </div>
+""")
+
+    updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    prompt_show = escape(prompt).replace("{", "&#123;").replace("}", "&#125;")
+    parts.append(f"""</div>
+<footer>
+  <p><strong>Prompt:</strong> <code class="prompt">{prompt_show}</code></p>
+  <p>Updated {updated}</p>
+</footer>
+</html>
+""")
+    return "".join(parts)
+
+
+# ---------- Galvenais cikls ----------
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--config", required=True)
-    ap.add_argument("--root", default=".")
+    ap.add_argument("--config", required=True, help="Path to alex_config.yaml")
+    ap.add_argument("--root", default=".", help="Project root (paths in config are relative to this)")
     args = ap.parse_args()
-    if yaml is None:
-        print("Missing dependency pyyaml. Install it with: pip install pyyaml")
-        sys.exit(2)
-    with open(args.config, "r", encoding="utf-8") as f:
-        cfg = yaml.safe_load(f)
-    for lst in cfg.get("lists", []):
-        csv_path = os.path.join(args.root, lst["src"])
+
+    root = Path(args.root).resolve()
+    cfg_path = (root / args.config).resolve()
+
+    if not cfg_path.exists():
+        raise SystemExit(f"Config file not found: {cfg_path}")
+
+    with cfg_path.open("r", encoding="utf-8") as f:
+        cfg = yaml.safe_load(f) or {}
+
+    lists = cfg.get("lists") or []
+    if not lists:
+        raise SystemExit("No 'lists' found in alex_config.yaml")
+
+    for block in lists:
+        title = block.get("title", "Untitled")
+        subtitle = block.get("subtitle", "")
+        src_rel = block.get("src")
+        out_rel = block.get("out_html")
+        prompt = block.get("prompt", "For ({URL}): summarize in 3 key points and 1-line significance.")
+
+        if not src_rel or not out_rel:
+            print(f"[skip] Missing 'src' or 'out_html' in block titled: {title}")
+            continue
+
+        csv_path = (root / src_rel).resolve()
+        out_path = (root / out_rel).resolve()
+
+        if not csv_path.exists():
+            print(f"[warn] Source not found: {csv_path}")
+            continue
+
+        # CSV (UTF-8)
         rows = read_csv(csv_path)
-        emit_html(lst["title"], lst.get("subtitle",""), lst["prompt"], rows,
-                  os.path.join(args.root, lst["out_html"]))
+        if not rows:
+            print(f"[warn] No rows in {csv_path}")
+            continue
+
+        html_str = render_html(title, subtitle, prompt, rows)
+        ensure_parent_dir(out_path)
+        out_path.write_text(html_str, encoding="utf-8")
+        print(f"Wrote HTML -> {out_path}")
 
 if __name__ == "__main__":
     main()
-
