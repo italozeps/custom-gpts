@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-alex.py — īsais variants: ģenerē statisku HTML ar 5 LLM pogām.
+alex.py — ģenerē statisku HTML ar 5 LLM pogām (Perplexity, Claude, Gemini, Mistral, DeepSeek)
 CSV (UTF-8): kolonnas title,url,note
 Konfigurācija (YAML): lists: [title, subtitle, src, out_html, prompt]
 - Perplexity: ?q=… (prefill)
@@ -14,31 +14,15 @@ import csv
 import html
 import json
 from pathlib import Path
-from urllib.parse import quote_plus
+from urllib.parse import quote_plus, urlparse
 from datetime import datetime, timezone
-
-
-from urllib.parse import urlparse
-
-def normalize_url(u: str) -> str:
-    u = u.strip()
-    if not u:
-        return u
-    p = urlparse(u)
-    if not p.scheme:  # nav http/https
-        u = "https://" + u
-    return u
-
-# read_csv iekšā:
-url = normalize_url((r.get("url") or "").strip())
-
 
 try:
     import yaml
 except ImportError:
     raise SystemExit("Missing dependency pyyaml. Install it with: pip install pyyaml")
 
-# ---------- Palīgfunkcijas ----------
+# ---------- LLM konfigurācija ----------
 
 LLMS = [
     ("Perplexity", "https://www.perplexity.ai/search?q={Q}", False),
@@ -48,15 +32,28 @@ LLMS = [
     ("DeepSeek",   "https://chat.deepseek.com/",             True),
 ]
 
+# ---------- Palīgfunkcijas ----------
+
 def esc(s: str) -> str:
     return html.escape(s or "", quote=True)
+
+def normalize_url(u: str) -> str:
+    """Ja URL trūkst http/https, pievieno https:// automātiski"""
+    u = u.strip()
+    if not u:
+        return u
+    p = urlparse(u)
+    if not p.scheme:
+        u = "https://" + u
+        print(f"[warn] URL without scheme, assumed https:// -> {u}")
+    return u
 
 def read_csv(path: Path):
     items = []
     with path.open(newline="", encoding="utf-8") as f:
         rdr = csv.DictReader(f)
         for r in rdr:
-            url = (r.get("url") or "").strip()
+            url = normalize_url((r.get("url") or "").strip())
             if not url:
                 continue
             title = (r.get("title") or "").strip() or url
@@ -119,17 +116,15 @@ function copyPrompt(txt) {{
         q  = quote_plus(fp)
         btns = []
         for label, base, needs_copy in LLMS:
-            if "{Q}" in base:  # Perplexity ar prefill
+            if "{Q}" in base:
                 href = base.replace("{Q}", q)
                 btns.append(f'<a class="btn" href="{esc(href)}" target="_blank" rel="noopener noreferrer">{esc(label)}</a>')
             else:
-                # Atver čatu + kopē promptu
-                js_arg = json.dumps(fp)  # droši JS stringā
+                js_arg = json.dumps(fp)
                 btns.append(
                     f'<a class="btn" href="{esc(base)}" target="_blank" rel="noopener noreferrer" '
                     f'onclick="copyPrompt({esc(js_arg)})">{esc(label)}</a>'
                 )
-        # Oriģinālā saite kā atsevišķa poga
         btns.append(f'<a class="btn" href="{esc(r["url"])}" target="_blank" rel="noopener noreferrer">Original link</a>')
 
         parts.append(f"""
