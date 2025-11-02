@@ -82,19 +82,46 @@ def render_html(title: str, subtitle: str, prompt: str, rows):
 <title>{esc(title)}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
-function copyPrompt(txt) {{
-  if (!navigator.clipboard) return;
-  navigator.clipboard.writeText(txt).then(() => {{
-    const n = document.createElement('div');
-    n.textContent = 'Prompt copied. Paste in the chat (Ctrl+V).';
-    n.style.position='fixed'; n.style.bottom='16px'; n.style.right='16px';
-    n.style.background='#111'; n.style.color='#fff'; n.style.padding='8px 12px';
-    n.style.borderRadius='8px'; n.style.opacity='0.95'; n.style.zIndex='9999';
-    document.body.appendChild(n);
-    setTimeout(() => n.remove(), 1800);
-  }}).catch(()=>{{}});
+function toast(msg) {{
+  const n = document.createElement('div');
+  n.textContent = msg;
+  n.style.position='fixed'; n.style.bottom='16px'; n.style.right='16px';
+  n.style.background='#111'; n.style.color='#fff'; n.style.padding='8px 12px';
+  n.style.borderRadius='8px'; n.style.opacity='0.95'; n.style.zIndex='9999';
+  document.body.appendChild(n);
+  setTimeout(() => n.remove(), 1800);
+}}
+
+// Kopē → tad atver. Ja clipboard nav pieejams, atver un parādi promptu ar alert.
+function openLLM(href, txt, ev) {{
+  try {{
+    if (ev && ev.preventDefault) ev.preventDefault();
+    if (!navigator.clipboard || window.isSecureContext === false) {{
+      // file:// vai nesecure – tomēr atver čatu un parādi lietotājam promptu
+      window.open(href, '_blank', 'noopener');
+      setTimeout(() => {{
+        try {{ window.focus(); }} catch (_e) {{}}
+        alert('Paste this into the chat (Ctrl+V):\\n\\n' + txt);
+      }}, 50);
+      return false;
+    }}
+    return navigator.clipboard.writeText(txt).then(() => {{
+      toast('Prompt copied. Paste in the chat (Ctrl+V).');
+      setTimeout(() => window.open(href, '_blank', 'noopener'), 50);
+      return false;
+    }}).catch((_e) => {{
+      window.open(href, '_blank', 'noopener');
+      setTimeout(() => alert('Paste this into the chat (Ctrl+V):\\n\\n' + txt), 50);
+      return false;
+    }});
+  }} catch (_e) {{
+    window.open(href, '_blank', 'noopener');
+    setTimeout(() => alert('Paste this into the chat (Ctrl+V):\\n\\n' + txt), 50);
+    return false;
+  }}
 }}
 </script>
+
 <style>
   :root {{ --maxw: 950px; --border:#e5e7eb; --muted:#6b7280; }}
   body {{ font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:2rem auto; max-width:var(--maxw); padding:0 1rem; }}
