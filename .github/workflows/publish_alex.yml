@@ -1,0 +1,35 @@
+name: Publish Alex HTML to docs/
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "alex.py"
+      - "alex_config.yaml"
+      - "data/**.csv"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - run: pip install pyyaml
+      - run: python alex.py --config alex_config.yaml --root .
+      - name: Commit docs
+        run: |
+          if ! git diff --quiet -- docs; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add docs
+            git commit -m "chore: auto-regenerate Alex HTML [skip ci]"
+            git push
+          else
+            echo "No changes."
+          fi
