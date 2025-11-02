@@ -20,9 +20,9 @@ from datetime import datetime, timezone
 try:
     import yaml
 except ImportError:
-    raise SystemExit("Missing dependency pyyaml. Install it with: pip install pyyaml")
+    raise SystemExit("Missing dependency pyyaml. Install it with: python -m pip install pyyaml")
 
-# ---------- LLM konfigurācija ----------
+# ---------- LLM pogu konfigurācija ----------
 
 LLMS = [
     ("Perplexity", "https://www.perplexity.ai/search?q={Q}", False),
@@ -38,10 +38,13 @@ def esc(s: str) -> str:
     return html.escape(s or "", quote=True)
 
 def normalize_url(u: str) -> str:
-    """Ja URL trūkst http/https, pievieno https:// automātiski"""
-    u = u.strip()
+    """Ja URL trūkst http/https, pievieno https://; atgriež sakoptu URL."""
+    u = (u or "").strip()
     if not u:
         return u
+    # noņem iesp. apkārtējos <> vai pēdiņas
+    if u.startswith("<") and u.endswith(">"):
+        u = u[1:-1].strip()
     p = urlparse(u)
     if not p.scheme:
         u = "https://" + u
@@ -53,12 +56,16 @@ def read_csv(path: Path):
     with path.open(newline="", encoding="utf-8") as f:
         rdr = csv.DictReader(f)
         for r in rdr:
-            url = normalize_url((r.get("url") or "").strip())
+            raw = (r.get("url") or "").strip()
+            url = normalize_url(raw)
+            if raw and not raw.lower().startswith(("http://","https://")):
+                print(f"[warn] CSV URL without scheme -> {raw}  ==>  {url}")
             if not url:
                 continue
             title = (r.get("title") or "").strip() or url
             note  = (r.get("note")  or "").strip()
             items.append({"title": title, "url": url, "note": note})
+    print(f"[info] CSV rows: {len(items)} from {path}")
     return items
 
 def full_prompt(prompt: str, url: str) -> str:
@@ -111,33 +118,31 @@ function copyPrompt(txt) {{
 """
     parts = [head]
 
-   for r in rows:
-    # DEFENSĪVA normalizācija arī renderēšanas brīdī
-    url_norm = normalize_url(r["url"])
-    fp = full_prompt(prompt, url_norm)
-    q  = quote_plus(fp)
+    for r in rows:
+        # DEFENSĪVA normalizācija arī renderēšanas brīdī
+        url_norm = normalize_url(r["url"])
+        fp = full_prompt(prompt, url_norm)
+        q  = quote_plus(fp)
 
-    btns = []
-    for label, base, needs_copy in LLMS:
-        if "{Q}" in base:
-            href = base.replace("{Q}", q)
-            btns.append(f'<a class="btn" href="{esc(href)}" target="_blank" rel="noopener noreferrer">{esc(label)}</a>')
-        else:
-            js_arg = json.dumps(fp)
-            btns.append(
-                f'<a class="btn" href="{esc(base)}" target="_blank" rel="noopener noreferrer" '
-                f'onclick="copyPrompt({esc(js_arg)})">{esc(label)}</a>'
-            )
+        btns = []
+        for label, base, needs_copy in LLMS:
+            if "{Q}" in base:
+                href = base.replace("{Q}", q)
+                btns.append(f'<a class="btn" href="{esc(href)}" target="_blank" rel="noopener noreferrer">{esc(label)}</a>')
+            else:
+                js_arg = json.dumps(fp)
+                btns.append(
+                    f'<a class="btn" href="{esc(base)}" target="_blank" rel="noopener noreferrer" '
+                    f'onclick="copyPrompt({esc(js_arg)})">{esc(label)}</a>'
+                )
 
-    # POGA ar normalizēto URL
-    btns.append(f'<a class="btn" href="{esc(url_norm)}" target="_blank" rel="noopener noreferrer">Original link</a>')
-
-    parts.append(f"""
+        # “Original link” un parādītais URL – vienmēr ar normalizēto
+        parts.append(f"""
   <div class="card">
     <h3>{esc(r["title"])}</h3>
     <p class="note">{esc(r["note"])}</p>
     <p class="link"><a href="{esc(url_norm)}" target="_blank" rel="noopener noreferrer">{esc(url_norm)}</a></p>
-    <div class="btns">{' '.join(btns)}</div>
+    <div class="btns">{' '.join(btns)} <a class="btn" href="{esc(url_norm)}" target="_blank" rel="noopener noreferrer">Original link</a></div>
   </div>
 """)
 
@@ -163,7 +168,11 @@ def main():
     if not cfg_path.exists():
         raise SystemExit(f"Config file not found: {cfg_path}")
 
-    cfg = yaml.safe_load(cfg_path.read_text(encoding="utf-8")) or {}
+    try:
+        cfg = yaml.safe_load(cfg_path.read_text(encoding="utf-8")) or {}
+    except Exception as e:
+        raise SystemExit(f"[error] YAML parse failed: {e}")
+
     lists = cfg.get("lists") or []
     if not lists:
         raise SystemExit("No 'lists' found in alex_config.yaml")
@@ -193,8 +202,9 @@ def main():
             print(f"[warn] No rows in {src}")
             continue
 
-        html_str = render_html(title, subtitle, prompt, rows)
+        print(f"[info] Writing to: {out}")
         out.parent.mkdir(parents=True, exist_ok=True)
+        html_str = render_html(title, subtitle, prompt, rows)
         out.write_text(html_str, encoding="utf-8")
         print(f"Wrote HTML -> {out}")
 
