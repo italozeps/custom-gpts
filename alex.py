@@ -89,4 +89,51 @@ document.addEventListener('click',function(e){{
 <p style="color:#6b7280">{esc(subtitle)}</p>
 <div class="grid">
 """
-    parts
+    parts = [head]
+    for r in rows:
+        url = normalize_url(r["url"])
+        fp = prompt.replace("{URL}", url) if "{URL}" in prompt else f"{prompt} {url}"
+        q = quote_plus(fp)
+        btns = []
+        import base64
+        for label, base, needs_copy in LLMS:
+            if "{Q}" in base:
+                href = base.replace("{Q}", q)
+                btns.append(f'<a class="btn" href="{esc(href)}" rel="noopener noreferrer">{esc(label)}</a>')
+            else:
+                b64 = base64.b64encode(fp.encode("utf-8")).decode("ascii")
+                btns.append(f'<a class="btn" href="{esc(base)}" rel="noopener noreferrer" data-llm="1" data-prompt-b64="{esc(b64)}">{esc(label)}</a>')
+        parts.append(f"""
+  <div class="card">
+    <h3>{esc(r['title'])}</h3>
+    <p style="color:#6b7280">{esc(r['note'])}</p>
+    <p><a href="{esc(url)}" target="_blank">{esc(url)}</a></p>
+    <div>{" ".join(btns)}</div>
+  </div>
+""")
+    parts.append(f"""</div>
+<footer>
+  <p><strong>Prompt:</strong> <code>{prompt_show}</code></p>
+  <p>Updated {updated}</p>
+</footer>
+</html>""")
+    return "".join(parts)
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--config", required=True)
+    ap.add_argument("--root", default=".")
+    args = ap.parse_args()
+
+    root = Path(args.root).resolve()
+    cfg = yaml.safe_load((root / args.config).read_text(encoding="utf-8"))
+    for b in cfg.get("lists", []):
+        src = root / b["src"]; out = root / b["out_html"]
+        rows = read_csv(src)
+        html = render_html(b["title"], b.get("subtitle",""), b["prompt"], rows)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(html, encoding="utf-8")
+        print(f"[ok] {out}")
+
+if __name__ == "__main__":
+    main()
