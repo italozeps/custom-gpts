@@ -17,6 +17,22 @@ from pathlib import Path
 from urllib.parse import quote_plus
 from datetime import datetime, timezone
 
+
+from urllib.parse import urlparse
+
+def normalize_url(u: str) -> str:
+    u = u.strip()
+    if not u:
+        return u
+    p = urlparse(u)
+    if not p.scheme:  # nav http/https
+        u = "https://" + u
+    return u
+
+# read_csv iekšā:
+url = normalize_url((r.get("url") or "").strip())
+
+
 try:
     import yaml
 except ImportError:
