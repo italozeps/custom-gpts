@@ -1,6 +1,6 @@
-
+k
 lists:
-  - title: "E. Grīnberga Seminārs — Ukraina un Orlika konstitūcija"
+  - title: "Eksperiments E. Grīnberga Semināram — raksti par  Ukrainu un par  Orlika konstitūciju arī"
     subtitle: "Daži (šobrīd septiņi) raksti no D. Zepa portfolio (Zenodo u.c.); pogas atver LLM ar jau sagatavotu uzdevumu."
     src: "data/pub_fb.csv"
     out_html: "docs/gpts/public/ukraine_orlyk.html"
