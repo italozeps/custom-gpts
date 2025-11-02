@@ -6,10 +6,11 @@ alex.py — ģenerē statisku HTML ar 5 LLM pogām (Perplexity, Claude, Gemini, 
 CSV (UTF-8): kolonnas title,url,note
 Konfigurācija (YAML): lists: [title, subtitle, src, out_html, prompt]
 - Perplexity: ?q=… (prefill)
-- Claude/Gemini/Mistral/DeepSeek: atver čatu un AUTOCOPY promptu ar URL
+- Claude/Gemini/Mistral/DeepSeek: kopē promptu → atver čatu (Base64 + delegated click)
 """
 
 import argparse
+import base64
 import csv
 import html
 import json
@@ -22,8 +23,6 @@ try:
 except ImportError:
     raise SystemExit("Missing dependency pyyaml. Install it with: python -m pip install pyyaml")
 
-# ---------- LLM pogu konfigurācija ----------
-
 LLMS = [
     ("Perplexity", "https://www.perplexity.ai/search?q={Q}", False),
     ("Claude",     "https://claude.ai/new",                  True),
@@ -32,17 +31,13 @@ LLMS = [
     ("DeepSeek",   "https://chat.deepseek.com/",             True),
 ]
 
-# ---------- Palīgfunkcijas ----------
-
 def esc(s: str) -> str:
     return html.escape(s or "", quote=True)
 
 def normalize_url(u: str) -> str:
-    """Ja URL trūkst http/https, pievieno https://; atgriež sakoptu URL."""
     u = (u or "").strip()
     if not u:
         return u
-    # noņem iesp. apkārtējos <> vai pēdiņas
     if u.startswith("<") and u.endswith(">"):
         u = u[1:-1].strip()
     p = urlparse(u)
@@ -71,8 +66,6 @@ def read_csv(path: Path):
 def full_prompt(prompt: str, url: str) -> str:
     return prompt.replace("{URL}", url) if "{URL}" in prompt else f"{prompt} {url}"
 
-# ---------- HTML ģenerēšana ----------
-
 def render_html(title: str, subtitle: str, prompt: str, rows):
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     prompt_show = esc(prompt).replace("{", "&#123;").replace("}", "&#125;")
@@ -92,26 +85,24 @@ function toast(msg) {{
   setTimeout(() => n.remove(), 1800);
 }}
 
+// robusts Base64 dekoders (UTF-8)
 function b64decode(b64) {{
-  try {{ return decodeURIComponent(escape(atob(b64))); }} catch (e) {{
-    // fallback veciem pārlūkiem
-    return atob(b64);
-  }}
+  try {{ return decodeURIComponent(escape(atob(b64))); }}
+  catch (e) {{ try {{ return atob(b64); }} catch(e2) {{ return ''; }} }}
 }}
 
-// Delegēts klikšķis visām LLM pogām (izņemot Perplexity ar ?q=)
+// Delegēts klikšķis: visām LLM pogām ar data-llm="1"
 document.addEventListener('click', function(e) {{
   const a = e.target.closest('a[data-llm="1"]');
   if (!a) return;
-  const href = a.getAttribute('href');
-  const b64  = a.getAttribute('data-prompt-b64');
-  if (!b64) return;
   e.preventDefault();
+  const href = a.getAttribute('href');
+  const b64  = a.getAttribute('data-prompt-b64') || '';
+  const txt  = b64decode(b64);
 
-  const txt = b64decode(b64);
-
-  // clipboard → tad atver čatu; ja nevar, parādi promptu un atver
   const openChat = () => window.open(href, '_blank', 'noopener');
+
+  // clipboard → tad atver; ja nav pieejams, atver un parāda alert ar tekstu
   if (!navigator.clipboard || window.isSecureContext === false) {{
     openChat();
     setTimeout(() => alert('Paste this into the chat (Ctrl+V):\\n\\n' + txt), 50);
@@ -126,8 +117,6 @@ document.addEventListener('click', function(e) {{
   }});
 }}, true);
 </script>
-
-
 <style>
   :root {{ --maxw: 950px; --border:#e5e7eb; --muted:#6b7280; }}
   body {{ font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:2rem auto; max-width:var(--maxw); padding:0 1rem; }}
@@ -152,27 +141,20 @@ document.addEventListener('click', function(e) {{
     parts = [head]
 
     for r in rows:
-        # DEFENSĪVA normalizācija arī renderēšanas brīdī
         url_norm = normalize_url(r["url"])
         fp = full_prompt(prompt, url_norm)
         q  = quote_plus(fp)
-
-     btns = []
-for label, base, needs_copy in LLMS:
-    if "{Q}" in base:  # Perplexity ar prefill
-        href = base.replace("{Q}", q)
-        btns.append(
-            f'<a class="btn" href="{esc(href)}" rel="noopener noreferrer">{esc(label)}</a>'
-        )
-    else:
-        # ENKODĒJAM promptu, lai nerautos citkāršās pēdiņas/HTML entītijas
-        b64 = base64.b64encode(fp.encode("utf-8")).decode("ascii")
-        btns.append(
-            f'<a class="btn" href="{esc(base)}" rel="noopener noreferrer" '
-            f'data-llm="1" data-prompt-b64="{esc(b64)}">{esc(label)}</a>'
-        )
-
-        # “Original link” un parādītais URL – vienmēr ar normalizēto
+        btns = []
+        for label, base, needs_copy in LLMS:
+            if "{Q}" in base:
+                href = base.replace("{Q}", q)  # Perplexity ar ?q=
+                btns.append(f'<a class="btn" href="{esc(href)}" rel="noopener noreferrer">{esc(label)}</a>')
+            else:
+                b64 = base64.b64encode(fp.encode("utf-8")).decode("ascii")
+                btns.append(
+                    f'<a class="btn" href="{esc(base)}" rel="noopener noreferrer" '
+                    f'data-llm="1" data-prompt-b64="{esc(b64)}">{esc(label)}</a>'
+                )
         parts.append(f"""
   <div class="card">
     <h3>{esc(r["title"])}</h3>
@@ -190,8 +172,6 @@ for label, base, needs_copy in LLMS:
 </html>
 """)
     return "".join(parts)
-
-# ---------- Galvenais ----------
 
 def main():
     ap = argparse.ArgumentParser()
