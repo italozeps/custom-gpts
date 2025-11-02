@@ -2,33 +2,19 @@
 # -*- coding: utf-8 -*-
 
 """
-alex.py — statiskas HTML lapas ģenerators no CSV, ar LLM pogām un dublikātu atmešanu.
+alex.py — ģenerē statiskas HTML lapas no CSV, ar LLM pogām (bez dublikātu atmešanas).
 
-Atbalsta:
-- Konfigurāciju no alex_config.yaml (lists: [title, subtitle, src, out_html, prompt])
-- CSV (UTF-8) ar kolonnām: title,url,note
-- Dublikātu atmešana pēc normalizēta URL (http→https, noņem beigu '/' un lowercase)
-- LLM pogas:
-    * Perplexity  — atver ar ?q= (prefill)
-    * Claude      — atver čatu + automātiski iekopē promptu
-    * Gemini      — atver čatu + automātiski iekopē promptu
-    * Mistral     — atver čatu + automātiski iekopē promptu
-    * DeepSeek    — atver čatu + automātiski iekopē promptu
-    # (ja gribi, var pievienot arī ChatGPT)
-
-Lietošana lokāli:
-    python alex.py --config alex_config.yaml --root .
-
-GitHub Actions gadījumā pietiek iestumt izmaiņas alex_config.yaml / data/*.csv,
-workflow to palaidīs automātiski un ieliks docs/… HTML.
+Konfigurācija: alex_config.yaml -> lists: [title, subtitle, src, out_html, prompt]
+CSV (UTF-8): kolonnas title,url,note
+LLM pogas:
+  - Perplexity — ?q= (prefill)
+  - Claude, Gemini, Mistral, DeepSeek — atver čatu + auto-copy prompt uz clipboard
 """
 
 import argparse
 import csv
 import html
 import json
-import os
-import re
 from pathlib import Path
 from urllib.parse import quote_plus
 from datetime import datetime, timezone
@@ -39,10 +25,9 @@ except ImportError:
     raise SystemExit("Missing dependency pyyaml. Install it with: pip install pyyaml")
 
 
-# ---------- Palīgfunkcijas: I/O ----------
+# ---------- I/O ----------
 
 def read_csv(path: Path):
-    """Nolasa CSV (UTF-8) ar kolonnām title,url,note."""
     rows = []
     with path.open(newline="", encoding="utf-8") as f:
         rdr = csv.DictReader(f)
@@ -62,38 +47,7 @@ def ensure_parent_dir(out_path: Path):
     out_path.parent.mkdir(parents=True, exist_ok=True)
 
 
-# ---------- Palīgfunkcijas: URL normalizācija un dublikāti ----------
-
-def norm_url(u: str) -> str:
-    """Normalizē URL salīdzināšanai: https, bez beigu '/', lower-case."""
-    if not u:
-        return u
-    u = u.strip()
-    if u.startswith("http://"):
-        u = "https://" + u[len("http://"):]
-    u = re.sub(r"/+$", "", u)
-    return u.lower()
-
-
-def dedupe_rows(rows):
-    """Atmet dublikātus pēc normalizēta URL; patur pirmo sastapto ierakstu."""
-    seen = set()
-    out = []
-    dropped = 0
-    for r in rows:
-        nu = norm_url(r.get("url", ""))
-        if not nu:
-            continue
-        if nu in seen:
-            dropped += 1
-            continue
-        seen.add(nu)
-        r["url"] = nu  # saglabā normalizēto URL arī izvadē
-        out.append(r)
-    return out, dropped
-
-
-# ---------- Palīgfunkcijas: LLM pogas un HTML ----------
+# ---------- LLM pogas + HTML ----------
 
 def escape(s: str) -> str:
     return html.escape(s or "", quote=True)
@@ -101,26 +55,22 @@ def escape(s: str) -> str:
 
 def build_llm_links(url: str, prompt: str):
     """
-    Atgriež sarakstu ar (label, href, needs_copy, full_message).
-      - Perplexity: ?q={message}, needs_copy=False
-      - Claude/Gemini/Mistral/DeepSeek: atver čatu, needs_copy=True (copy to clipboard)
+    Atgriež (label, href, needs_copy, full_message).
+    Perplexity: prefilled ?q=...; pārējie: atver čatu un nokopē promptu.
     """
     full = prompt.replace("{URL}", url) if "{URL}" in prompt else f"{prompt} {url}"
-
-    links = [
+    return [
         ("Perplexity", f"https://www.perplexity.ai/search?q={quote_plus(full)}", False, full),
         ("Claude",     "https://claude.ai/new",                                     True,  full),
         ("Gemini",     "https://gemini.google.com/app",                             True,  full),
         ("Mistral",    "https://chat.mistral.ai/chat",                              True,  full),
         ("DeepSeek",   "https://chat.deepseek.com/",                                True,  full),
-        # Ja gribi, atkomentē arī ChatGPT:
+        # Ja vēlies, pievieno arī:
         # ("ChatGPT",    "https://chat.openai.com/",                                  True,  full),
     ]
-    return links
 
 
 def render_html(title: str, subtitle: str, prompt: str, items):
-    """Atgriež gatavu HTML virkni vienai lapai."""
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     prompt_show = escape(prompt).replace("{", "&#123;").replace("}", "&#125;")
 
@@ -143,39 +93,33 @@ function copyPrompt(txt) {{
 }}
 </script>
 <style>
-  :root {{
-    --maxw: 980px;
-    --border: #e9e9e9;
-    --muted: #6b7280;
-  }}
-  body {{ font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 2rem auto; max-width: var(--maxw); padding: 0 1rem; }}
-  h1 {{ margin: 0 0 .25rem 0; font-size: 1.6rem; }}
-  .muted {{ color: var(--muted); margin: 0 0 1rem 0; }}
-  .grid {{ display: grid; grid-template-columns: 1fr; gap: 1rem; }}
-  @media (min-width: 740px) {{ .grid {{ grid-template-columns: 1fr 1fr; }} }}
-  .card {{ border: 1px solid var(--border); border-radius: 12px; padding: 1rem; }}
-  .card h3 {{ margin: 0 0 .5rem 0; font-size: 1.05rem; }}
-  .note {{ margin: 0 0 .5rem 0; color: var(--muted); }}
+  :root {{ --maxw: 980px; --border: #e9e9e9; --muted: #6b7280; }}
+  body {{ font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; margin:2rem auto; max-width:var(--maxw); padding:0 1rem; }}
+  h1 {{ margin:0 0 .25rem 0; font-size:1.6rem; }}
+  .muted {{ color:var(--muted); margin:0 0 1rem 0; }}
+  .grid {{ display:grid; grid-template-columns:1fr; gap:1rem; }}
+  @media (min-width:740px) {{ .grid {{ grid-template-columns:1fr 1fr; }} }}
+  .card {{ border:1px solid var(--border); border-radius:12px; padding:1rem; }}
+  .card h3 {{ margin:0 0 .5rem 0; font-size:1.05rem; }}
+  .note {{ margin:0 0 .5rem 0; color:var(--muted); }}
   .link a {{ word-break: break-all; }}
   .btns {{ display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.6rem; }}
   .btn {{ display:inline-block; padding:.4rem .6rem; border-radius:.5rem; text-decoration:none; border:1px solid #d1d5db; }}
   .btn:hover {{ background:#f5f5f5; }}
-  footer {{ margin-top: 2rem; font-size: .9rem; color: var(--muted); }}
+  footer {{ margin-top:2rem; font-size:.9rem; color:var(--muted); }}
   code.prompt {{ white-space: pre-wrap; }}
 </style>
 <h1>{escape(title)}</h1>
 <p class="muted">{escape(subtitle)}</p>
 <div class="grid">
 """
-
     parts = [head]
 
     for it in items:
         btns = []
         for (label, href, needs_copy, full_msg) in build_llm_links(it["url"], prompt):
             if needs_copy:
-                # Droši ieliekam pilno promptu JS funkcijā (JSON-escapots)
-                js_arg = json.dumps(full_msg)
+                js_arg = json.dumps(full_msg)  # droši ieliekam JS funkcijā
                 btns.append(
                     f'<a class="btn" href="{escape(href)}" target="_blank" rel="noopener noreferrer" '
                     f'onclick="copyPrompt({escape(js_arg)});">{escape(label)}</a>'
@@ -184,14 +128,12 @@ function copyPrompt(txt) {{
                 btns.append(
                     f'<a class="btn" href="{escape(href)}" target="_blank" rel="noopener noreferrer">{escape(label)}</a>'
                 )
-        buttons_html = " ".join(btns)
-
         parts.append(f"""
   <div class="card">
     <h3>{escape(it['title'])}</h3>
     <p class="note">{escape(it.get('note',''))}</p>
     <p class="link"><a href="{escape(it['url'])}" target="_blank" rel="noopener noreferrer">{escape(it['url'])}</a></p>
-    <div class="btns">{buttons_html}</div>
+    <div class="btns">{' '.join(btns)}</div>
   </div>
 """)
 
@@ -205,7 +147,7 @@ function copyPrompt(txt) {{
     return "".join(parts)
 
 
-# ---------- Galvenais cikls ----------
+# ---------- Galvenais ----------
 
 def main():
     ap = argparse.ArgumentParser()
@@ -215,7 +157,6 @@ def main():
 
     root = Path(args.root).resolve()
     cfg_path = (root / args.config).resolve()
-
     if not cfg_path.exists():
         raise SystemExit(f"Config file not found: {cfg_path}")
 
@@ -239,23 +180,18 @@ def main():
 
         src_path = (root / src_rel).resolve()
         out_path = (root / out_rel).resolve()
-
         if not src_path.exists():
             print(f"[warn] Source not found: {src_path}")
             continue
 
-        # Pašlaik atbalstām CSV
         if src_path.suffix.lower() != ".csv":
             print(f"[warn] Unsupported source type (only .csv supported now): {src_path.name}")
             continue
 
         rows = read_csv(src_path)
-        rows, dropped = dedupe_rows(rows)
         if not rows:
             print(f"[warn] No rows in {src_path}")
             continue
-        if dropped:
-            print(f"[info] Dropped {dropped} duplicate URLs from {src_path}")
 
         html_str = render_html(title, subtitle, prompt, rows)
         ensure_parent_dir(out_path)
