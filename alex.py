@@ -2,13 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-alex.py — ģenerē statiskas HTML lapas no CSV, ar LLM pogām (bez dublikātu atmešanas).
-
-Konfigurācija: alex_config.yaml -> lists: [title, subtitle, src, out_html, prompt]
+alex.py — īsais variants: ģenerē statisku HTML ar 5 LLM pogām.
 CSV (UTF-8): kolonnas title,url,note
-LLM pogas:
-  - Perplexity — ?q= (prefill)
-  - Claude, Gemini, Mistral, DeepSeek — atver čatu + auto-copy prompt uz clipboard
+Konfigurācija (YAML): lists: [title, subtitle, src, out_html, prompt]
+- Perplexity: ?q=… (prefill)
+- Claude/Gemini/Mistral/DeepSeek: atver čatu un AUTOCOPY promptu ar URL
 """
 
 import argparse
@@ -24,115 +22,104 @@ try:
 except ImportError:
     raise SystemExit("Missing dependency pyyaml. Install it with: pip install pyyaml")
 
+# ---------- Palīgfunkcijas ----------
 
-# ---------- I/O ----------
+LLMS = [
+    ("Perplexity", "https://www.perplexity.ai/search?q={Q}", False),
+    ("Claude",     "https://claude.ai/new",                  True),
+    ("Gemini",     "https://gemini.google.com/app",          True),
+    ("Mistral",    "https://chat.mistral.ai/chat",           True),
+    ("DeepSeek",   "https://chat.deepseek.com/",             True),
+]
+
+def esc(s: str) -> str:
+    return html.escape(s or "", quote=True)
 
 def read_csv(path: Path):
-    rows = []
+    items = []
     with path.open(newline="", encoding="utf-8") as f:
         rdr = csv.DictReader(f)
         for r in rdr:
-            title = (r.get("title") or "").strip()
             url = (r.get("url") or "").strip()
-            note = (r.get("note") or "").strip()
             if not url:
                 continue
-            if not title:
-                title = url
-            rows.append({"title": title, "url": url, "note": note})
-    return rows
+            title = (r.get("title") or "").strip() or url
+            note  = (r.get("note")  or "").strip()
+            items.append({"title": title, "url": url, "note": note})
+    return items
 
+def full_prompt(prompt: str, url: str) -> str:
+    return prompt.replace("{URL}", url) if "{URL}" in prompt else f"{prompt} {url}"
 
-def ensure_parent_dir(out_path: Path):
-    out_path.parent.mkdir(parents=True, exist_ok=True)
+# ---------- HTML ģenerēšana ----------
 
-
-# ---------- LLM pogas + HTML ----------
-
-def escape(s: str) -> str:
-    return html.escape(s or "", quote=True)
-
-
-def build_llm_links(url: str, prompt: str):
-    """
-    Atgriež (label, href, needs_copy, full_message).
-    Perplexity: prefilled ?q=...; pārējie: atver čatu un nokopē promptu.
-    """
-    full = prompt.replace("{URL}", url) if "{URL}" in prompt else f"{prompt} {url}"
-    return [
-        ("Perplexity", f"https://www.perplexity.ai/search?q={quote_plus(full)}", False, full),
-        ("Claude",     "https://claude.ai/new",                                     True,  full),
-        ("Gemini",     "https://gemini.google.com/app",                             True,  full),
-        ("Mistral",    "https://chat.mistral.ai/chat",                              True,  full),
-        ("DeepSeek",   "https://chat.deepseek.com/",                                True,  full),
-        # Ja vēlies, pievieno arī:
-        # ("ChatGPT",    "https://chat.openai.com/",                                  True,  full),
-    ]
-
-
-def render_html(title: str, subtitle: str, prompt: str, items):
+def render_html(title: str, subtitle: str, prompt: str, rows):
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-    prompt_show = escape(prompt).replace("{", "&#123;").replace("}", "&#125;")
+    prompt_show = esc(prompt).replace("{", "&#123;").replace("}", "&#125;")
 
     head = f"""<!doctype html>
 <html lang="en"><meta charset="utf-8">
-<title>{escape(title)}</title>
+<title>{esc(title)}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
-function copyPrompt(txt) {{
-  if (!navigator.clipboard) return;
-  navigator.clipboard.writeText(txt).then(() => {{
-    const n = document.createElement('div');
-    n.textContent = 'Prompt copied. Paste in the chat (Ctrl+V).';
+function copyPrompt(txt){{
+  if(!navigator.clipboard) return;
+  navigator.clipboard.writeText(txt).then(()=>{
+    const n=document.createElement('div');
+    n.textContent='Prompt copied. Paste in the chat (Ctrl+V).';
     n.style.position='fixed'; n.style.bottom='16px'; n.style.right='16px';
     n.style.background='#111'; n.style.color='#fff'; n.style.padding='8px 12px';
     n.style.borderRadius='8px'; n.style.opacity='0.95'; n.style.zIndex='9999';
-    document.body.appendChild(n);
-    setTimeout(() => n.remove(), 1800);
-  }}).catch(()=>{{}});
+    document.body.appendChild(n); setTimeout(()=>n.remove(),1800);
+  }});
 }}
 </script>
 <style>
-  :root {{ --maxw: 980px; --border: #e9e9e9; --muted: #6b7280; }}
-  body {{ font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; margin:2rem auto; max-width:var(--maxw); padding:0 1rem; }}
+  :root {{ --maxw: 950px; --border:#e5e7eb; --muted:#6b7280; }}
+  body {{ font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:2rem auto; max-width:var(--maxw); padding:0 1rem; }}
   h1 {{ margin:0 0 .25rem 0; font-size:1.6rem; }}
   .muted {{ color:var(--muted); margin:0 0 1rem 0; }}
   .grid {{ display:grid; grid-template-columns:1fr; gap:1rem; }}
-  @media (min-width:740px) {{ .grid {{ grid-template-columns:1fr 1fr; }} }}
+  @media (min-width:760px) {{ .grid {{ grid-template-columns:1fr 1fr; }} }}
   .card {{ border:1px solid var(--border); border-radius:12px; padding:1rem; }}
-  .card h3 {{ margin:0 0 .5rem 0; font-size:1.05rem; }}
+  .card h3 {{ margin:.1rem 0 .5rem 0; font-size:1.05rem; }}
   .note {{ margin:0 0 .5rem 0; color:var(--muted); }}
-  .link a {{ word-break: break-all; }}
+  .link a {{ word-break:break-all; }}
   .btns {{ display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.6rem; }}
   .btn {{ display:inline-block; padding:.4rem .6rem; border-radius:.5rem; text-decoration:none; border:1px solid #d1d5db; }}
   .btn:hover {{ background:#f5f5f5; }}
   footer {{ margin-top:2rem; font-size:.9rem; color:var(--muted); }}
-  code.prompt {{ white-space: pre-wrap; }}
+  code.prompt {{ white-space:pre-wrap; }}
 </style>
-<h1>{escape(title)}</h1>
-<p class="muted">{escape(subtitle)}</p>
+<h1>{esc(title)}</h1>
+<p class="muted">{esc(subtitle)}</p>
 <div class="grid">
 """
     parts = [head]
 
-    for it in items:
+    for r in rows:
+        fp = full_prompt(prompt, r["url"])
+        q  = quote_plus(fp)
         btns = []
-        for (label, href, needs_copy, full_msg) in build_llm_links(it["url"], prompt):
-            if needs_copy:
-                js_arg = json.dumps(full_msg)  # droši ieliekam JS funkcijā
-                btns.append(
-                    f'<a class="btn" href="{escape(href)}" target="_blank" rel="noopener noreferrer" '
-                    f'onclick="copyPrompt({escape(js_arg)});">{escape(label)}</a>'
-                )
+        for label, base, needs_copy in LLMS:
+            if "{Q}" in base:  # Perplexity ar prefill
+                href = base.replace("{Q}", q)
+                btns.append(f'<a class="btn" href="{esc(href)}" target="_blank" rel="noopener noreferrer">{esc(label)}</a>')
             else:
+                # Atver čatu + kopē promptu
+                js_arg = json.dumps(fp)  # droši JS stringā
                 btns.append(
-                    f'<a class="btn" href="{escape(href)}" target="_blank" rel="noopener noreferrer">{escape(label)}</a>'
+                    f'<a class="btn" href="{esc(base)}" target="_blank" rel="noopener noreferrer" '
+                    f'onclick="copyPrompt({esc(js_arg)})">{esc(label)}</a>'
                 )
+        # Oriģinālā saite kā atsevišķa poga
+        btns.append(f'<a class="btn" href="{esc(r["url"])}" target="_blank" rel="noopener noreferrer">Original link</a>')
+
         parts.append(f"""
   <div class="card">
-    <h3>{escape(it['title'])}</h3>
-    <p class="note">{escape(it.get('note',''))}</p>
-    <p class="link"><a href="{escape(it['url'])}" target="_blank" rel="noopener noreferrer">{escape(it['url'])}</a></p>
+    <h3>{esc(r["title"])}</h3>
+    <p class="note">{esc(r["note"])}</p>
+    <p class="link"><a href="{esc(r["url"])}" target="_blank" rel="noopener noreferrer">{esc(r["url"])}</a></p>
     <div class="btns">{' '.join(btns)}</div>
   </div>
 """)
@@ -145,7 +132,6 @@ function copyPrompt(txt) {{
 </html>
 """)
     return "".join(parts)
-
 
 # ---------- Galvenais ----------
 
@@ -160,43 +146,40 @@ def main():
     if not cfg_path.exists():
         raise SystemExit(f"Config file not found: {cfg_path}")
 
-    with cfg_path.open("r", encoding="utf-8") as f:
-        cfg = yaml.safe_load(f) or {}
-
+    cfg = yaml.safe_load(cfg_path.read_text(encoding="utf-8")) or {}
     lists = cfg.get("lists") or []
     if not lists:
         raise SystemExit("No 'lists' found in alex_config.yaml")
 
     for block in lists:
-        title = block.get("title", "Untitled")
+        title    = block.get("title", "Untitled")
         subtitle = block.get("subtitle", "")
-        src_rel = block.get("src")
-        out_rel = block.get("out_html")
-        prompt = block.get("prompt", "For ({URL}): summarize in 3 key points and 1-line significance.")
+        src_rel  = block.get("src")
+        out_rel  = block.get("out_html")
+        prompt   = block.get("prompt", "For ({URL}): summarize in 3 key points and 1-line significance.")
 
         if not src_rel or not out_rel:
             print(f"[skip] Missing 'src' or 'out_html' in block titled: {title}")
             continue
 
-        src_path = (root / src_rel).resolve()
-        out_path = (root / out_rel).resolve()
-        if not src_path.exists():
-            print(f"[warn] Source not found: {src_path}")
+        src = (root / src_rel).resolve()
+        out = (root / out_rel).resolve()
+        if not src.exists():
+            print(f"[warn] Source not found: {src}")
+            continue
+        if src.suffix.lower() != ".csv":
+            print(f"[warn] Unsupported source type (only .csv supported): {src.name}")
             continue
 
-        if src_path.suffix.lower() != ".csv":
-            print(f"[warn] Unsupported source type (only .csv supported now): {src_path.name}")
-            continue
-
-        rows = read_csv(src_path)
+        rows = read_csv(src)
         if not rows:
-            print(f"[warn] No rows in {src_path}")
+            print(f"[warn] No rows in {src}")
             continue
 
         html_str = render_html(title, subtitle, prompt, rows)
-        ensure_parent_dir(out_path)
-        out_path.write_text(html_str, encoding="utf-8")
-        print(f"Wrote HTML -> {out_path}")
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(html_str, encoding="utf-8")
+        print(f"Wrote HTML -> {out}")
 
 if __name__ == "__main__":
     main()
