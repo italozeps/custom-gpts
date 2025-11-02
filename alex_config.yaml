@@ -1,7 +1,7 @@
 
 lists:
   - title: "E. Grīnberga Seminārs — Ukraina un Orlika konstitūcija"
-    subtitle: "Daži raksti no D. Zepa portfolio (Zenodo u.c.); pogas atver LLM ar jau sagatavotu uzdevumu."
+    subtitle: "Septiņi raksti no D. Zepa portfolio (Zenodo u.c.); pogas atver LLM ar jau sagatavotu uzdevumu."
     src: "data/pub_fb.csv"
     out_html: "docs/gpts/public/ukraine_orlyk.html"
     out_md: "docs/gpts/public/ukraine_orlyk.md"
