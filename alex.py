@@ -157,17 +157,20 @@ document.addEventListener('click', function(e) {{
         fp = full_prompt(prompt, url_norm)
         q  = quote_plus(fp)
 
-        btns = []
-        for label, base, needs_copy in LLMS:
-            if "{Q}" in base:
-                href = base.replace("{Q}", q)
-                btns.append(f'<a class="btn" href="{esc(href)}" target="_blank" rel="noopener noreferrer">{esc(label)}</a>')
-            else:
-                js_arg = json.dumps(fp)
-                btns.append(
-                    f'<a class="btn" href="{esc(base)}" target="_blank" rel="noopener noreferrer" '
-                    f'onclick="copyPrompt({esc(js_arg)})">{esc(label)}</a>'
-                )
+     btns = []
+for label, base, needs_copy in LLMS:
+    if "{Q}" in base:  # Perplexity ar prefill
+        href = base.replace("{Q}", q)
+        btns.append(
+            f'<a class="btn" href="{esc(href)}" rel="noopener noreferrer">{esc(label)}</a>'
+        )
+    else:
+        # ENKODĒJAM promptu, lai nerautos citkāršās pēdiņas/HTML entītijas
+        b64 = base64.b64encode(fp.encode("utf-8")).decode("ascii")
+        btns.append(
+            f'<a class="btn" href="{esc(base)}" rel="noopener noreferrer" '
+            f'data-llm="1" data-prompt-b64="{esc(b64)}">{esc(label)}</a>'
+        )
 
         # “Original link” un parādītais URL – vienmēr ar normalizēto
         parts.append(f"""
