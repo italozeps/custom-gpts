@@ -111,27 +111,32 @@ function copyPrompt(txt) {{
 """
     parts = [head]
 
-    for r in rows:
-        fp = full_prompt(prompt, r["url"])
-        q  = quote_plus(fp)
-        btns = []
-        for label, base, needs_copy in LLMS:
-            if "{Q}" in base:
-                href = base.replace("{Q}", q)
-                btns.append(f'<a class="btn" href="{esc(href)}" target="_blank" rel="noopener noreferrer">{esc(label)}</a>')
-            else:
-                js_arg = json.dumps(fp)
-                btns.append(
-                    f'<a class="btn" href="{esc(base)}" target="_blank" rel="noopener noreferrer" '
-                    f'onclick="copyPrompt({esc(js_arg)})">{esc(label)}</a>'
-                )
-        btns.append(f'<a class="btn" href="{esc(r["url"])}" target="_blank" rel="noopener noreferrer">Original link</a>')
+   for r in rows:
+    # DEFENSĪVA normalizācija arī renderēšanas brīdī
+    url_norm = normalize_url(r["url"])
+    fp = full_prompt(prompt, url_norm)
+    q  = quote_plus(fp)
 
-        parts.append(f"""
+    btns = []
+    for label, base, needs_copy in LLMS:
+        if "{Q}" in base:
+            href = base.replace("{Q}", q)
+            btns.append(f'<a class="btn" href="{esc(href)}" target="_blank" rel="noopener noreferrer">{esc(label)}</a>')
+        else:
+            js_arg = json.dumps(fp)
+            btns.append(
+                f'<a class="btn" href="{esc(base)}" target="_blank" rel="noopener noreferrer" '
+                f'onclick="copyPrompt({esc(js_arg)})">{esc(label)}</a>'
+            )
+
+    # POGA ar normalizēto URL
+    btns.append(f'<a class="btn" href="{esc(url_norm)}" target="_blank" rel="noopener noreferrer">Original link</a>')
+
+    parts.append(f"""
   <div class="card">
     <h3>{esc(r["title"])}</h3>
     <p class="note">{esc(r["note"])}</p>
-    <p class="link"><a href="{esc(r["url"])}" target="_blank" rel="noopener noreferrer">{esc(r["url"])}</a></p>
+    <p class="link"><a href="{esc(url_norm)}" target="_blank" rel="noopener noreferrer">{esc(url_norm)}</a></p>
     <div class="btns">{' '.join(btns)}</div>
   </div>
 """)
