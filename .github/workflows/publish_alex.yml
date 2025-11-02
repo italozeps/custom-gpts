@@ -1,4 +1,4 @@
-name: Publish Alex HTML to docs/
+name: Publish Alex HTML to docs
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
     paths:
       - "alex.py"
       - "alex_config.yaml"
-      - "data/**.csv"
+      - "data/**/*.csv"
   workflow_dispatch:
 
 permissions:
@@ -16,17 +16,31 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          python-version: "3.x"
-      - run: pip install pyyaml
-      - run: python alex.py --config alex_config.yaml --root .
+          persist-credentials: true
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install pyyaml
+
+      - name: Generate HTML
+        run: |
+          mkdir -p docs/gpts/public
+          python alex.py --config alex_config.yaml --root .
+          ls -la docs/gpts/public || true
+
       - name: Commit docs
         run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           if ! git diff --quiet -- docs; then
-            git config user.name  "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add docs
             git commit -m "chore: auto-regenerate Alex HTML [skip ci]"
             git push
