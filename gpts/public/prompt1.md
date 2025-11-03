@@ -53,3 +53,9 @@ https://x.com/Hesamation/status/1984014669804093444
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Python Question / Quiz; What is the output of the following Python code, and why? Comment your answers below! <a href="https://t.co/of8AaVIb8r">pic.twitter.com/of8AaVIb8r</a></p>&mdash; Python Programming (@PythonPr) <a href="https://twitter.com/PythonPr/status/1985119736410370422?ref_src=twsrc%5Etfw">November 2, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">100+ AI Tools to replace your tedious work:<br><br>1. Research<br><br>- ChatGPT<br>- YouChat<br>- Abacus<br>- Perplexity<br>- Copilot<br>- Gemini<br><br>2. Image<br><br>- Higgsfield AI Soul<br>- GPT-4o<br>- Midjourney<br>- Grok<br><br>3. Productivity<br><br>- Gamma<br>- Grok 3<br>- Perplexity AI<br>- Gemini 2.5 Flash<br><br>4. Writing<br><br>- Jasper<br>- Jenny… <a href="https://t.co/xSXt6jC1ij">https://t.co/xSXt6jC1ij</a> <a href="https://t.co/2fMYGLypp1">pic.twitter.com/2fMYGLypp1</a></p>&mdash; Adarsh Chetan (@AdarshChetan) <a href="https://twitter.com/AdarshChetan/status/1984978007371764050?ref_src=twsrc%5Etfw">November 2, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<blockquote class="twitter-tweet" data-media-max-width="560"><p lang="en" dir="ltr">🤔🚀 Comment your answers below! 👇 <a href="https://t.co/WoojcJ98xz">pic.twitter.com/WoojcJ98xz</a></p>&mdash; Python Developer (@Python_Dv) <a href="https://twitter.com/Python_Dv/status/1985215109128749226?ref_src=twsrc%5Etfw">November 3, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+
