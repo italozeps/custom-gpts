@@ -46,44 +46,37 @@ def read_csv(path: Path):
 def render_html(title: str, subtitle: str, prompt: str, items):
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     prompt_show = esc(prompt).replace("{", "&#123;").replace("}", "&#125;")
-    head = f"""<!doctype html>
+
+    head = """<!doctype html>
 <html lang="en"><meta charset="utf-8">
-<title>{esc(title)}</title>
+<title>{TITLE}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>
-function toast(msg){{
+function toast(msg){
   const n=document.createElement('div');
   n.textContent=msg;
-  Object.assign(n.style,{{position:'fixed',bottom:'16px',right:'16px',
-    background:'#111',color:'#fff',padding:'8px 12px',borderRadius:'8px',zIndex:9999,opacity:0.95}});
+  Object.assign(n.style,{position:'fixed',bottom:'16px',right:'16px',
+    background:'#111',color:'#fff',padding:'8px 12px',borderRadius:'8px',zIndex:9999,opacity:0.95});
   document.body.appendChild(n);setTimeout(()=>n.remove(),1800);
-}}
-function b64decode(b64){{try{{return decodeURIComponent(escape(atob(b64)));}}catch(e){{try{{return atob(b64);}}catch(_ ){{return ''}}}}}
-document.addEventListener('click',function(e){{
-  const a=e.target.closest('a[data-llm="1"]'); if(!a) return;
-  e.preventDefault();
-  const href=a.getAttribute('href');
-  const b64=a.getAttribute('data-prompt-b64')||'';
-  const txt=b64decode(b64);
-  const win=window.open(href,'_blank','noopener'); // tieši uz mērķa URL (Pages drošībai)
-  if(!navigator.clipboard||window.isSecureContext===false){ setTimeout(()=>alert('Paste (Ctrl+V):\\n\\n'+txt),50); return; }
-  navigator.clipboard.writeText(txt).then(()=>toast('Prompt copied. Paste (Ctrl+V).'))
-  .catch(()=>setTimeout(()=>alert('Paste (Ctrl+V):\\n\\n'+txt),50));
-}},true);
+}
 </script>
 <style>
   body{{font-family:system-ui,Arial,sans-serif;max-width:960px;margin:2rem auto;padding:0 1rem;}}
-  h1{{margin:0 0 .25rem 0;font-size:1.5rem}} .muted{{color:#6b7280}}
-  .grid{{display:grid;grid-template-columns:1fr;gap:1rem}}
-  @media(min-width:760px){{.grid{{grid-template-columns:1fr 1fr}}}}
-  .card{{border:1px solid #e5e7eb;border-radius:12px;padding:1rem}}
-  .btn{{display:inline-block;padding:.4rem .6rem;border:1px solid #d1d5db;border-radius:.5rem;text-decoration:none}}
-  .btn:hover{{background:#f5f5f5}}
-  footer{{margin-top:2rem;font-size:.9rem;color:#6b7280}}
+  h1{{margin:0 0 .25rem 0;font-size:1.5rem;}}
+  .muted{{color:#6b7280;}}
+  .grid{{display:grid;grid-template-columns:1fr;gap:1rem;}}
+  @media(min-width:760px){{.grid{{grid-template-columns:1fr 1fr;}}}}
+  .card{{border:1px solid #e5e7eb;border-radius:12px;padding:1rem;}}
+  .btn{{display:inline-block;padding:.4rem .6rem;border:1px solid #d1d5db;border-radius:.5rem;text-decoration:none;}}
+  .btn:hover{{background:#f5f5f5;}}
+  footer{{margin-top:2rem;font-size:.9rem;color:#6b7280;}}
 </style>
-<h1>{esc(title)}</h1>
-<p class="muted">{esc(subtitle)}</p>
+<h1>{TITLE}</h1>
+<p class="muted">{SUBTITLE}</p>
 <div class="grid">"""
+    head = head.replace("{TITLE}", esc(title)).replace("{SUBTITLE}", esc(subtitle))
+
+
     parts = [head]
     for it in items:
         url = normalize_url(it["url"])
