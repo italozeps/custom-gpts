@@ -1,0 +1,8 @@
+
+lists:
+  - title: "Eksperiments E. Grīnberga Semināram — raksti par  Ukrainu un par  Orlika konstitūciju arī"
+    subtitle: "Daži (šobrīd jau astoņi) raksti no D. Zepa portfolio (Zenodo u.c.); pogas atver LLM ar jau sagatavotu uzdevumu."
+    src: "data/pub_fb.csv"
+    out_html: "docs/gpts/public/ukraine_orlyk.html"
+    out_md: "docs/gpts/public/ukraine_orlyk.md"
+    prompt: "For ({URL}): summarize in 3 key points and one short comment on its significance for Ukrainian victory and post-Russian political order."
