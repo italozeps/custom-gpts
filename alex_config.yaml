@@ -2,6 +2,5 @@ lists:
   - title: "Math PEL — tests"
     subtitle: "minimāls tests"
     src: "data/math_seeds.csv"
-    out_html: "docs/test_math.html"
+    out_html: "docs/pel/math/theorem_summary.html"
     prompt: "For ({URL}): give 2 bullet-point highlights."
-
