@@ -50,3 +50,4 @@ https://x.com/Hesamation/status/1984014669804093444
 
 <img width="648" height="900" alt="image" src="https://github.com/user-attachments/assets/9b26cec6-e2f1-459b-8810-32d707a3a341" />
 
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Python Question / Quiz; What is the output of the following Python code, and why? Comment your answers below! <a href="https://t.co/of8AaVIb8r">pic.twitter.com/of8AaVIb8r</a></p>&mdash; Python Programming (@PythonPr) <a href="https://twitter.com/PythonPr/status/1985119736410370422?ref_src=twsrc%5Etfw">November 2, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
