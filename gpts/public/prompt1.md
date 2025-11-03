@@ -58,4 +58,6 @@ https://x.com/Hesamation/status/1984014669804093444
 <blockquote class="twitter-tweet" data-media-max-width="560"><p lang="en" dir="ltr">🤔🚀 Comment your answers below! 👇 <a href="https://t.co/WoojcJ98xz">pic.twitter.com/WoojcJ98xz</a></p>&mdash; Python Developer (@Python_Dv) <a href="https://twitter.com/Python_Dv/status/1985215109128749226?ref_src=twsrc%5Etfw">November 3, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
+<blockquote class="twitter-tweet" data-media-max-width="560"><p lang="ru" dir="ltr">Поплавок и Самовар - убийцы дронов!<br><br>Мяч вижу подарили. Можно было ещё и бадминтон - тоже увлекательная игра. <a href="https://t.co/YFlF4clFTX">pic.twitter.com/YFlF4clFTX</a></p>&mdash; Steper (@Cheslav_od) <a href="https://twitter.com/Cheslav_od/status/1985092813831196826?ref_src=twsrc%5Etfw">November 2, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
