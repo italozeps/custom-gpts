@@ -1,20 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""
-alex.py — ģenerē statisku HTML ar 5 LLM pogām:
-Perplexity, You.com, Kagi, Phind (prefill ?q=), un NotebookLM (kopē → atver)
-"""
-
-import argparse
-import base64
-import csv
-import html
+import argparse, base64, csv, html, json
 from pathlib import Path
 from urllib.parse import quote_plus, urlparse
 from datetime import datetime, timezone
-import yaml
 
+try:
+    import yaml
+except ImportError:
+    raise SystemExit("Missing dependency pyyaml. Install: pip install pyyaml")
+
+# 5 LLM pogas: 4x prefill (?q=) + 1x clipboard (NotebookLM)
 LLMS = [
     ("Perplexity", "https://www.perplexity.ai/search?q={Q}", False),
     ("You.com",    "https://you.com/search?q={Q}",           False),
@@ -25,34 +22,30 @@ LLMS = [
 
 def esc(s): return html.escape(s or "", quote=True)
 
-def normalize_url(u):
+def normalize_url(u: str) -> str:
     u = (u or "").strip()
     if not u: return u
     if u.startswith("<") and u.endswith(">"): u = u[1:-1].strip()
     p = urlparse(u)
     if not p.scheme:
         u = "https://" + u
-        print(f"[warn] URL without scheme -> assumed https://{u}")
     return u
 
 def read_csv(path: Path):
-    items = []
+    rows = []
     with path.open(newline="", encoding="utf-8") as f:
-        import csv
         rdr = csv.DictReader(f)
         for r in rdr:
-            url = normalize_url(r.get("url") or "")
+            url = normalize_url((r.get("url") or "").strip())
             if not url: continue
             title = (r.get("title") or "").strip() or url
             note  = (r.get("note")  or "").strip()
-            items.append({"title": title, "url": url, "note": note})
-    print(f"[info] loaded {len(items)} rows from {path}")
-    return items
+            rows.append({"title": title, "url": url, "note": note})
+    return rows
 
-def render_html(title, subtitle, prompt, rows):
+def render_html(title: str, subtitle: str, prompt: str, items):
     updated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     prompt_show = esc(prompt).replace("{", "&#123;").replace("}", "&#125;")
-
     head = f"""<!doctype html>
 <html lang="en"><meta charset="utf-8">
 <title>{esc(title)}</title>
@@ -65,37 +58,38 @@ function toast(msg){{
     background:'#111',color:'#fff',padding:'8px 12px',borderRadius:'8px',zIndex:9999,opacity:0.95}});
   document.body.appendChild(n);setTimeout(()=>n.remove(),1800);
 }}
-function b64decode(b64){{try{{return decodeURIComponent(escape(atob(b64)));}}catch(e){{return atob(b64);}}}}
+function b64decode(b64){{try{{return decodeURIComponent(escape(atob(b64)));}}catch(e){{try{{return atob(b64);}}catch(_ ){{return ''}}}}}
 document.addEventListener('click',function(e){{
-  const a=e.target.closest('a[data-llm="1"]');if(!a)return;
+  const a=e.target.closest('a[data-llm="1"]'); if(!a) return;
   e.preventDefault();
-  const href=a.getAttribute('href'),b64=a.getAttribute('data-prompt-b64')||'',txt=b64decode(b64);
-  const win=window.open('about:blank','_blank','noopener');const finish=()=>{{if(win)win.location=href;}};
-  if(!navigator.clipboard||!window.isSecureContext){{finish();setTimeout(()=>alert('Paste (Ctrl+V):\\n\\n'+txt),50);return;}}
-  navigator.clipboard.writeText(txt).then(()=>{{toast('Prompt copied. Paste (Ctrl+V).');finish();}})
-  .catch(()=>{{finish();setTimeout(()=>alert('Paste (Ctrl+V):\\n\\n'+txt),50);}});
+  const href=a.getAttribute('href');
+  const b64=a.getAttribute('data-prompt-b64')||'';
+  const txt=b64decode(b64);
+  const win=window.open(href,'_blank','noopener'); // tieši uz mērķa URL (Pages drošībai)
+  if(!navigator.clipboard||window.isSecureContext===false){ setTimeout(()=>alert('Paste (Ctrl+V):\\n\\n'+txt),50); return; }
+  navigator.clipboard.writeText(txt).then(()=>toast('Prompt copied. Paste (Ctrl+V).'))
+  .catch(()=>setTimeout(()=>alert('Paste (Ctrl+V):\\n\\n'+txt),50));
 }},true);
 </script>
 <style>
   body{{font-family:system-ui,Arial,sans-serif;max-width:960px;margin:2rem auto;padding:0 1rem;}}
-  .grid{{display:grid;grid-template-columns:1fr;gap:1rem;}}
-  @media(min-width:760px){{.grid{{grid-template-columns:1fr 1fr;}}}}
-  .card{{border:1px solid #e5e7eb;border-radius:12px;padding:1rem;}}
-  .btn{{display:inline-block;padding:.4rem .6rem;border:1px solid #d1d5db;border-radius:.5rem;text-decoration:none;}}
-  .btn:hover{{background:#f5f5f5;}}
-  footer{{margin-top:2rem;font-size:.9rem;color:#6b7280;}}
+  h1{{margin:0 0 .25rem 0;font-size:1.5rem}} .muted{{color:#6b7280}}
+  .grid{{display:grid;grid-template-columns:1fr;gap:1rem}}
+  @media(min-width:760px){{.grid{{grid-template-columns:1fr 1fr}}}}
+  .card{{border:1px solid #e5e7eb;border-radius:12px;padding:1rem}}
+  .btn{{display:inline-block;padding:.4rem .6rem;border:1px solid #d1d5db;border-radius:.5rem;text-decoration:none}}
+  .btn:hover{{background:#f5f5f5}}
+  footer{{margin-top:2rem;font-size:.9rem;color:#6b7280}}
 </style>
 <h1>{esc(title)}</h1>
-<p style="color:#6b7280">{esc(subtitle)}</p>
-<div class="grid">
-"""
+<p class="muted">{esc(subtitle)}</p>
+<div class="grid">"""
     parts = [head]
-    for r in rows:
-        url = normalize_url(r["url"])
-        fp = prompt.replace("{URL}", url) if "{URL}" in prompt else f"{prompt} {url}"
-        q = quote_plus(fp)
+    for it in items:
+        url = normalize_url(it["url"])
+        fp  = (prompt.replace("{URL}", url) if "{URL}" in prompt else f"{prompt} {url}").strip()
+        q   = quote_plus(fp)
         btns = []
-        import base64
         for label, base, needs_copy in LLMS:
             if "{Q}" in base:
                 href = base.replace("{Q}", q)
@@ -105,12 +99,11 @@ document.addEventListener('click',function(e){{
                 btns.append(f'<a class="btn" href="{esc(base)}" rel="noopener noreferrer" data-llm="1" data-prompt-b64="{esc(b64)}">{esc(label)}</a>')
         parts.append(f"""
   <div class="card">
-    <h3>{esc(r['title'])}</h3>
-    <p style="color:#6b7280">{esc(r['note'])}</p>
-    <p><a href="{esc(url)}" target="_blank">{esc(url)}</a></p>
+    <h3>{esc(it['title'])}</h3>
+    <p class="muted">{esc(it.get('note',''))}</p>
+    <p><a href="{esc(url)}" target="_blank" rel="noopener noreferrer">{esc(url)}</a></p>
     <div>{" ".join(btns)}</div>
-  </div>
-""")
+  </div>""")
     parts.append(f"""</div>
 <footer>
   <p><strong>Prompt:</strong> <code>{prompt_show}</code></p>
@@ -119,6 +112,63 @@ document.addEventListener('click',function(e){{
 </html>""")
     return "".join(parts)
 
+def render_md(title: str, subtitle: str, prompt: str, items):
+    lines = [f"# {title}", "", f"_{subtitle}_", "", f"**Prompt:** {prompt}", ""]
+    for it in items:
+        lines += [f"- **{it['title']}** — {it.get('note','')}".rstrip(),
+                  f"  - {it['url']}", ""]
+    return "\n".join(lines)
+
+def ensure_parent(p: Path): p.parent.mkdir(parents=True, exist_ok=True)
+
+def handle_lists(cfg, root: Path):
+    lists = cfg.get("lists") or []
+    for b in lists:
+        src = root / b["src"]
+        rows = read_csv(src)
+        html = render_html(b.get("title","Untitled"), b.get("subtitle",""), b.get("prompt","For ({URL}): summarize."), rows)
+        out_html = root / b["out_html"]
+        ensure_parent(out_html)
+        out_html.write_text(html, encoding="utf-8")
+        print(f"Wrote HTML -> {out_html}")
+        out_md = b.get("out_md")
+        if out_md:
+            md = render_md(b.get("title","Untitled"), b.get("subtitle",""), b.get("prompt",""), rows)
+            out_md_p = root / out_md
+            ensure_parent(out_md_p)
+            out_md_p.write_text(md, encoding="utf-8")
+            print(f"Wrote MD   -> {out_md_p}")
+
+def handle_projects(cfg, root: Path):
+    projs = cfg.get("projects") or []
+    for p in projs:
+        el = p.get("elements", {})
+        if (el.get("type") or "csv").lower() != "csv":
+            print(f"[skip] project {p.get('name','?')}: only CSV elements supported for now")
+            continue
+        src = root / el["src"]
+        rows = read_csv(src)
+        pr  = p.get("prompts", {}) or {}
+        mode = (pr.get("mode") or "single").lower()
+        if mode != "single":
+            print(f"[warn] project {p.get('name','?')}: only prompts.mode=single supported in this minimal build; using 'single'")
+        prompt = pr.get("single") or "For ({URL}): summarize."
+        html = render_html(p.get("title","Untitled"), p.get("subtitle",""), prompt, rows)
+        out = p.get("output", {}) or {}
+        out_html = out.get("html")
+        out_md   = out.get("md")
+        if out_html:
+            out_html_p = root / out_html
+            ensure_parent(out_html_p)
+            out_html_p.write_text(html, encoding="utf-8")
+            print(f"Wrote HTML -> {out_html_p}")
+        if out_md:
+            md = render_md(p.get("title","Untitled"), p.get("subtitle",""), prompt, rows)
+            out_md_p = root / out_md
+            ensure_parent(out_md_p)
+            out_md_p.write_text(md, encoding="utf-8")
+            print(f"Wrote MD   -> {out_md_p}")
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", required=True)
@@ -126,14 +176,12 @@ def main():
     args = ap.parse_args()
 
     root = Path(args.root).resolve()
-    cfg = yaml.safe_load((root / args.config).read_text(encoding="utf-8"))
-    for b in cfg.get("lists", []):
-        src = root / b["src"]; out = root / b["out_html"]
-        rows = read_csv(src)
-        html = render_html(b["title"], b.get("subtitle",""), b["prompt"], rows)
-        out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(html, encoding="utf-8")
-        print(f"[ok] {out}")
+    cfg  = yaml.safe_load((root / args.config).read_text(encoding="utf-8")) or {}
+
+    if cfg.get("lists"):    handle_lists(cfg, root)
+    if cfg.get("projects"): handle_projects(cfg, root)
+    if not cfg.get("lists") and not cfg.get("projects"):
+        raise SystemExit("alex_config.yaml must contain 'lists:' or 'projects:'")
 
 if __name__ == "__main__":
     main()
