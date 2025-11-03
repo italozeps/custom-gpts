@@ -1,9 +1,7 @@
-projects:
-  - name: math_theorem_summary
-    title: "Math PEL — Pētām diferenciālģeometriju"
+lists:
+  - title: "Math PEL — Pētām diferenciālģeometriju"
     subtitle: "3 bullet points + 1-līnijas nozīme"
-    elements: { type: csv, src: "data/math_seeds.csv" }
-    output:   { html: "docs/pel/math/theorem_summary.html", md: "docs/pel/math/theorem_summary.md" }
-    prompts:
-      mode: single
-      single: "For ({URL}): Find some theorem(s) and state each as precisely as possible; then give 3 key points and a one-line significance for students."
+    src: "data/math_seeds.csv"
+    out_html: "docs/pel/math/theorem_summary.html"
+    out_md:   "docs/pel/math/theorem_summary.md"
+    prompt: "For ({URL}): Find some theorem(s) and state each as precisely as possible; then give 3 key points and a one-line significance for students."
