@@ -1,7 +1,7 @@
 lists:
-  - title: "Math PEL — Pētām diferenciālģeometriju"
-    subtitle: "3 bullet points + 1-līnijas nozīme"
+  - title: "Math PEL — tests"
+    subtitle: "minimāls tests"
     src: "data/math_seeds.csv"
-    out_html: "docs/pel/math/theorem_summary.html"
-    out_md:   "docs/pel/math/theorem_summary.md"
-    prompt: "For ({URL}): Find some theorem(s) and state each as precisely as possible; then give 3 key points and a one-line significance for students."
+    out_html: "docs/test_math.html"
+    prompt: "For ({URL}): give 2 bullet-point highlights."
+
