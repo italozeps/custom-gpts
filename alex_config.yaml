@@ -1,7 +1,9 @@
-lists:
-  - title: "Eksperiments E. Grīnberga Semināram — raksti par  Ukrainu un par  Orlika konstitūciju arī"
-    subtitle: "Daži (šobrīd jau astoņi) raksti no D. Zepa portfolio (Zenodo u.c.); pogas atver LLM ar jau sagatavotu uzdevumu."
-    src: "data/pub_fb.csv"
-    out_html: "docs/gpts/public/ukraine_orlyk.html"
-    out_md: "docs/gpts/public/ukraine_orlyk.md"
-    prompt: "For ({URL}): summarize in 3 key points and one short comment on its significance for Ukrainian victory and post-Russian political order."
+projects:
+  - name: math_theorem_summary
+    title: "Math PEL — Pētām diferenciālģeometriju"
+    subtitle: "3 bullet points + 1-līnijas nozīme"
+    elements: { type: csv, src: "data/math_seeds.csv" }
+    output:   { html: "docs/pel/math/theorem_summary.html", md: "docs/pel/math/theorem_summary.md" }
+    prompts:
+      mode: single
+      single: "For ({URL}): Find some theorem(s) and state each as precisely as possible; then give 3 key points and a one-line significance for students."
