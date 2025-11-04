@@ -1,0 +1,8 @@
+id,label,url,prefill,clipboard,notes
+perplexity,Perplexity,https://www.perplexity.ai/search?q={Q},True,False,Use {Q} to prefill query
+you,You.com,https://you.com/search?q={Q},True,False,Use {Q} to prefill query
+kagi,Kagi,https://kagi.com/search?q={Q},True,False,Use {Q} to prefill query
+phind,Phind,https://www.phind.com/search?q={Q},True,False,Use {Q} to prefill query
+claude,Claude,https://claude.ai/new,False,True,Open chat; paste prompt (clipboard)
+chatgpt,ChatGPT,https://chat.openai.com/,False,True,Open chat; paste prompt (clipboard)
+notebooklm,NotebookLM,https://notebooklm.google.com/,False,True,Open app; paste prompt (clipboard)
