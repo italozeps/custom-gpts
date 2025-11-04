@@ -1,6 +1,11 @@
 lists:
-  - title: "Math PEL — Pētām diferenciālģeometriju"
+  - title: "Math PEL — Teorēmu kopsavilkumi"
     subtitle: "3 bullet points + 1-līnijas nozīme"
     src: "data/math_seeds.csv"
     out_html: "docs/pel/math/theorem_summary.html"
-    prompt: "For ({URL}): Find some theorem(s) and state each as precisely as possible; then give 3 key points and a one-line significance for students."
+    prompt: "For ({URL}): …"
+  - title: "Math PEL — Proof strategy"
+    subtitle: "Plāns + atslēgsolis"
+    src: "data/math_seeds.csv"
+    out_html: "docs/pel/math/proof_strategy.html"
+    prompt: "For ({URL}): outline a proof strategy: …"
