@@ -4,8 +4,12 @@ _3 bullet points + 1-līnijas nozīme_
 
 **Prompt:** For ({URL}): Find some theorem(s) and state each as precisely as possible; then give 3 key points and a one-line significance for students.
 
-- **Rudin - Real and Complex Analysis (Ch. 2)** — σ-measures; outer measure → Carathéodory
-  - https://archive.org/details/rudin-real-complex
+- **Sommerville,Introduction to the Geometry of N Dimensions,https://books.google.lv/books?hl=lv&lr=&id=4vXDDwAAQBAJ&oi=fnd,N dimensiju DG
+LP Eisenhart** — https://books.google.lv/books?hl=lv&lr=&id=YjbWCgAAQBAJ&oi=fnd&pg=PP1#v=onepage&q&f=false
+  - https://Introduction to differential geometry"
+
+- **Ivan Kolar** — https://emis.dsd.sztaki.hu/monographs/KSM/
+  - https://Natural operations in differential geometry"
 
 - **Spivak - Calculus on Manifolds §4** — Stokes skice; diferenciālformas
   - https://archive.org/details/spivak-com
