@@ -17,7 +17,7 @@ LLMS = [
     ("You.com",    "https://you.com/search?q={Q}",           False),
     ("Kagi",       "https://kagi.com/search?q={Q}",          False),
     ("Phind",      "https://www.phind.com/search?q={Q}",     False),
-    ("NotebookLM", "https://notebooklm.google.com/?q={Q}",         True),
+    ("NotebookLM", "https://notebooklm.google.com",         True),
 ]
 
 def esc(s): return html.escape(s or "", quote=True)
