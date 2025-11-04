@@ -198,6 +198,12 @@ def handle_projects(cfg, root: Path):
             ensure_parent(out_md_p)
             out_md_p.write_text(md_s, encoding="utf-8")
             print(f"Wrote MD   -> {out_md_p}")
+def render_md(title: str, subtitle: str, prompt: str, items):
+    lines = [f"# {title}", "", f"_{subtitle}_", "", f"**Prompt:** {prompt}", ""]
+    for it in items:
+        lines += [f"- **{it['title']}** — {it.get('note','')}".rstrip(),
+                  f"  - {it['url']}", ""]
+    return "\n".join(lines)
 
 def main():
     ap = argparse.ArgumentParser()
