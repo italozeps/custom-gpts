@@ -4,12 +4,14 @@ _3 bullet points + 1-līnijas nozīme_
 
 **Prompt:** For ({URL}): Find some theorem(s) and state each as precisely as possible; then give 3 key points and a one-line significance for students.
 
-- **Sommerville,Introduction to the Geometry of N Dimensions,https://books.google.lv/books?hl=lv&lr=&id=4vXDDwAAQBAJ&oi=fnd,N dimensiju DG
-LP Eisenhart** — https://books.google.lv/books?hl=lv&lr=&id=YjbWCgAAQBAJ&oi=fnd&pg=PP1#v=onepage&q&f=false
-  - https://Introduction to differential geometry"
+- **Sommerville,Introduction to the Geometry of N Dimensions** — N dimensiju DG
+  - https://books.google.lv/books?hl=lv&lr=&id=4vXDDwAAQBAJ&oi=fnd
 
-- **Ivan Kolar** — https://emis.dsd.sztaki.hu/monographs/KSM/
-  - https://Natural operations in differential geometry"
+- **LP Eisenhart, Introduction to differential geometry** — to a Riemannian space of any number of dimensions
+  - https://books.google.lv/books?hl=lv&lr=&id=YjbWCgAAQBAJ&oi=fnd&pg=PP1#v=onepage&q&f=false
+
+- **Ivan Kolar,Natural operations in differential geometry** — monographical work on natural bundles and natural operators in differential geometry
+  - https://emis.dsd.sztaki.hu/monographs/KSM/
 
 - **Spivak - Calculus on Manifolds §4** — Stokes skice; diferenciālformas
   - https://archive.org/details/spivak-com
