@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="lv">
 <head>
@@ -165,8 +164,6 @@
       if (r.slug)         linkParts.push(`<a href="${repoLink(r.slug)}" target="_blank" rel="noopener">repo</a>`);
       if (r.slug)         linkParts.push(`<a href="${rawPrompt(r.slug)}" target="_blank" rel="noopener">prompt</a>`);
 
-  const tr = document.createElement('tr');
-      
       tr.innerHTML = `
         <td><span class="tag">${esc(r.slug||'')}</span></td>
         <td>${esc(r.name||'')}</td>
@@ -174,11 +171,11 @@
         <td>${esc(r.status||'')}</td>
         <td>${langTags}</td>
         <td>${domTags}</td>
-       (tr); <td>${linkParts.join(' · ')}</td>
+        <td>${linkParts.join(' · ')}</td>
         <td>${esc(r.last_edit||'')}</td>
         <td>${esc(r.notes||'')}</td>
       `;
-      tbody.appendChild
+      tbody.appendChild(tr);
     });
 
     tbl.appendChild(tbody);
@@ -466,4 +463,3 @@
 
 </body>
 </html>
-
