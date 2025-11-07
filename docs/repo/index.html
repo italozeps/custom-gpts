@@ -123,7 +123,7 @@ function repoCard(r){
     </div>
     ${topics.length? `<div class="kvs">${topics.map(t=>`<span>#${t}</span>`).join('')}</div>`: ''}
     <div class="actions">
-      <a class="btn" href="${r.html_url}" target="_blank" rel="noopener">Open repo</a>
+      <a class="btn" href="${r.html_url}" target="https://italozeps.github.io/custom-gpts/cgpt/" rel="noopener">Open repo</a>
       <a class="btn ok" href="${pages}" target="_blank" rel="noopener">Try Pages</a>
       ${homepage? `<a class="btn" href="${homepage}" target="_blank" rel="noopener">Homepage</a>`:''}
       ${r.has_issues? `<a class="btn warn" href="${r.html_url}/issues" target="_blank" rel="noopener">Issues</a>`:''}
@@ -202,5 +202,7 @@ function applyFilters(){
 getRate();
 loadRepos(state.user);
 </script>
+<script data-goatcounter="https://dainize.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
