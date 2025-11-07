@@ -2,18 +2,18 @@
   {
     "slug": "clement",
     "name": "Clemens Alexandrinus GPT",
-    "purpose": "AL & BL Readings",
+    "purpose": "AL & BL Readings: We read Anciet texts and Biblical texts",
     "status": "draft",
     "owner": "DZ",
     "last_edit": "2025-10-04",
     "openai_link": "https://chatgpt.com/g/g-68e2229a3ca881919b27e9d8d0116286-clemens-alexandrinus-gpt",
     "dataset_link": "",
-    "notes": "Tiek gatavots raksts par šo tēmu"
+    "notes": "Lasām tekstus sengrieķu un senebreju valodā"
   },
   {
     "slug": "grinbergs",
     "name": "Grinbergs Heritage GPT",
-    "purpose": "Latviešu/EN resursi un materiāli",
+    "purpose": "Latviešu/EN resursi un materiāli/Mēs pētām Emanuela Grinberga zinātnisko mantojumu",
     "status": "draft",
     "owner": "DZ",
     "last_edit": "2025-10-04",
@@ -63,7 +63,7 @@
     "last_edit": "2025-10-04",
     "openai_link": "https://chatgpt.com/g/g-67d917dffcb48191bf5ff2b6f1113b77-planetara-izglitiba-noosfera-providence?model=gpt-4o",
     "dataset_link": "",
-    "notes": ""
+    "notes": "Tiek gatavots raksts par šo tēmu"
   },
   {
     "slug": "artint",
