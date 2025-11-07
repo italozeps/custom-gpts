@@ -3,68 +3,143 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Custom GPT · lingua.id.lv/cgpt/ (prototips)</title>
+  <title>Custom GPT · lingua.id.lv/cgpt/</title>
   <style>
-    :root{--bg:#0b0f14;--card:#121820;--muted:#9fb0c0;--text:#e6edf3;--ring:#2b3a4b;--accent:#4da3ff}
+    :root{--bg:#0b0f14;--card:#121820;--muted:#9fb0c0;--text:#e6edf3;--ring:#2b3a4b}
     body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Noto Sans","Helvetica Neue",Arial}
     .wrap{max-width:1150px;margin:0 auto;padding:28px}
-    header{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:20px}
+    header{margin-bottom:20px}
     header h1{margin:0;font-size:1.8rem}
     header .note{color:var(--muted)}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px}
+    .row{display:grid;gap:18px;margin-bottom:18px}
+    .row.cols-2{grid-template-columns:repeat(2,minmax(320px,1fr))}
+    .row.cols-3{grid-template-columns:repeat(3,minmax(280px,1fr))}
     .card{background:var(--card);border:1px solid var(--ring);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:10px}
-    .title{font-size:1.3rem;font-weight:700;margin:0;color:var(--text)}
-    .goal{font-size:1.05rem;color:var(--muted);margin-bottom:6px}
+    .title{font-size:1.3rem;font-weight:700;margin:0}
+    .goal{font-size:1.05rem;color:var(--muted)}
+    .note{color:var(--muted);font-size:.9rem}
     .links{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}
     .btn{appearance:none;border:1px solid var(--ring);background:#0f1520;color:var(--text);padding:8px 12px;border-radius:10px;text-decoration:none;font-size:.92rem}
     .btn:hover{border-color:#3a4d64}
-    footer{margin-top:40px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--ring);padding-top:10px}
+    .err{color:#ffb4b4}
   </style>
 </head>
 <body>
 <div class="wrap">
-<header>
-  <div>
+  <header>
     <h1>Custom GPT · Project index</h1>
-    <div class="note">Kartīšu izkārtojums: nosaukums, mērķis, un saites uz GPT un promptiem.</div>
-  </div>
-</header>
+    <div class="note">Kartītes: Nosaukums · Mērķis · saites uz GPT un Prompt (dati no gpts.csv)</div>
+  </header>
 
-<section class="grid">
-  <article class="card">
-    <div class="title">Epicurean Readings GPT</div>
-    <div class="goal">Palīgs seno tekstu lasīšanai un komentēšanai — ar fokusētu atgriezenisko saiti.</div>
-    <div class="links">
-      <a class="btn" href="https://chat.openai.com/g/g-xxxxxx" target="_blank">GPT</a>
-      <a class="btn" href="https://github.com/italozeps/custom-gpts/blob/main/gpts/epicurean/prompt.md" target="_blank">Prompt</a>
-      <a class="btn" href="https://italozeps.github.io/custom-gpts/gpts/epicurean/" target="_blank">Demo</a>
-    </div>
-  </article>
+  <!-- rindas ar fiksētu kolonnu skaitu -->
+  <section id="row1" class="row cols-2"></section>
+  <section id="row2" class="row cols-3"></section>
+  <section id="row3" class="row cols-3"></section>
+  <section id="row4" class="row cols-3"></section>
+  <section id="row5" class="row cols-2"></section>
 
-  <article class="card">
-    <div class="title">Grīnberga Legacy GPT</div>
-    <div class="goal">Izpētes un dokumentācijas asistents par Emanuela Grīnberga matemātisko mantojumu.</div>
-    <div class="links">
-      <a class="btn" href="https://chat.openai.com/g/g-yyyyyy" target="_blank">GPT</a>
-      <a class="btn" href="https://github.com/italozeps/custom-gpts/blob/main/gpts/grinbergs/prompt.md" target="_blank">Prompt</a>
-      <a class="btn" href="https://italozeps.github.io/custom-gpts/gpts/grinbergs/" target="_blank">Demo</a>
-    </div>
-  </article>
-
-  <article class="card">
-    <div class="title">Peace Conference Project GPT</div>
-    <div class="goal">Kopīgas domāšanas vide par mieru, zinātni un cilvēci — integrēta ar PCP Journal saturu.</div>
-    <div class="links">
-      <a class="btn" href="https://chat.openai.com/g/g-zzzzzz" target="_blank">GPT</a>
-      <a class="btn" href="https://github.com/italozeps/custom-gpts/blob/main/gpts/pcp/prompt.md" target="_blank">Prompt</a>
-      <a class="btn" href="https://italozeps.github.io/custom-gpts/gpts/pcp/" target="_blank">Demo</a>
-    </div>
-  </article>
-</section>
-
-<footer>
-  <p>© D.Z. — lingua.id.lv/cgpt/ prototips · Kartīšu stils ar lielāku nosaukumu un mērķa aprakstu.</p>
-</footer>
+  <div id="msg" class="note"></div>
 </div>
+
+<script>
+const CSV_URL = 'https://raw.githubusercontent.com/italozeps/custom-gpts/main/gpts.csv';
+
+// precīza kārtība (13)
+const ORDER = [
+  ['row1',['clemens','providens']],
+  ['row2',['vinberg','difgeo','grinbergs']],
+  ['row3',['green','artint','ucra']],
+  ['row4',['rusag','ukraina','pcp']],
+  ['row5',['pubic','person']]
+];
+
+function parseCSV(text){
+  // vienkāršs CSV parseris (atbalsta komatus iekš "" un \n rindas)
+  const rows = [];
+  let i=0, field='', row=[], inQ=false;
+  while(i<text.length){
+    const c=text[i];
+    if(inQ){
+      if(c==='"' && text[i+1]==='"'){ field+='"'; i+=2; continue; }
+      if(c==='"'){ inQ=false; i++; continue; }
+      field+=c; i++; continue;
+    }else{
+      if(c==='"'){ inQ=true; i++; continue; }
+      if(c===','){ row.push(field); field=''; i++; continue; }
+      if(c==='\n'){ row.push(field); rows.push(row); field=''; row=[]; i++; continue; }
+      if(c==='\r'){ i++; continue; }
+      field+=c; i++; continue;
+    }
+  }
+  // pēdējais lauks/rinda
+  if(field.length || row.length) { row.push(field); rows.push(row); }
+  return rows;
+}
+
+function toObjects(rows){
+  const header = rows[0].map(h=>h.trim());
+  return rows.slice(1).map(r=>{
+    const o={};
+    header.forEach((h,idx)=> o[h]= (r[idx]??'').trim());
+    return o;
+  });
+}
+
+function cardHTML(o){
+  const title = o.name || o.slug || '';
+  const goal  = o.purpose || '';
+  const gpt   = o.openai_link || '#';
+  const prompt= o.dataset_link || '#';
+  const note  = o.notes ? `note: ${o.notes.toLowerCase()}` : '';
+  return `
+  <article class="card">
+    <div class="title">${escapeHTML(title)}</div>
+    <div class="goal">${escapeHTML(goal)}</div>
+    ${note? `<div class="note">${escapeHTML(note)}</div>`:''}
+    <div class="links">
+      <a class="btn" href="${encodeURI(gpt||'#')}" target="_blank" rel="noopener">GPT</a>
+      <a class="btn" href="${encodeURI(prompt||'#')}" target="_blank" rel="noopener">Prompt</a>
+    </div>
+  </article>`;
+}
+
+function escapeHTML(s){
+  return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+async function main(){
+  const msg = document.getElementById('msg');
+  try{
+    const res = await fetch(CSV_URL, {cache:'no-store'});
+    if(!res.ok) throw new Error(`CSV ${res.status} ${res.statusText}`);
+    const text = await res.text();
+    const rows = parseCSV(text);
+    const objs = toObjects(rows);
+
+    // indeksē pēc slug
+    const bySlug = Object.create(null);
+    for(const o of objs){
+      if(o.slug) bySlug[o.slug.trim()] = o;
+    }
+
+    // render pēc kārtības
+    for(const [rowId, slugs] of ORDER){
+      const rowEl = document.getElementById(rowId);
+      if(!rowEl) continue;
+      rowEl.innerHTML = slugs.map(sl=>{
+        const o = bySlug[sl] || {slug: sl, name: sl, purpose:'', openai_link:'#', dataset_link:'#', notes:''};
+        return cardHTML(o);
+      }).join('');
+    }
+
+    msg.textContent = '';
+  }catch(e){
+    document.getElementById('msg').innerHTML =
+      `<span class="err">Neizdevās ielasīt gpts.csv: ${escapeHTML(e.message)}</span>`;
+  }
+}
+
+main();
+</script>
 </body>
 </html>
