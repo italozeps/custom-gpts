@@ -46,15 +46,22 @@ const CSV_URL = 'https://raw.githubusercontent.com/italozeps/custom-gpts/main/gp
 
 // precīza kārtība (13)
 const ORDER = [
-  ['row1',['clement','providens']],
+  ['row1',['clemens','providens']],
   ['row2',['vinberg','difgeo','grinbergs']],
-  ['row3',['green','artint','ucrai']],
+  ['row3',['green','artint','ucra']],
   ['row4',['rusag','ukraina','pcp']],
   ['row5',['pubic','person']]
 ];
 
+// ja CSV dataset_link ir tukšs, būvē GitHub ceļu pēc sluga
+function promptURL(slug, dataset){
+  if (dataset && dataset.trim() && dataset.trim() !== '#') return dataset.trim();
+  if (!slug) return '#';
+  return `https://github.com/italozeps/custom-gpts/blob/main/gpts/${encodeURIComponent(slug)}/prompt.md`;
+}
+
 function parseCSV(text){
-  // vienkāršs CSV parseris (atbalsta komatus iekš "" un \n rindas)
+  // vienkāršs CSV parseris (atbalsta "" un komatus iekš tiem)
   const rows = [];
   let i=0, field='', row=[], inQ=false;
   while(i<text.length){
@@ -71,7 +78,6 @@ function parseCSV(text){
       field+=c; i++; continue;
     }
   }
-  // pēdējais lauks/rinda
   if(field.length || row.length) { row.push(field); rows.push(row); }
   return rows;
 }
@@ -85,11 +91,15 @@ function toObjects(rows){
   });
 }
 
-function cardHTML(o){
-  const title = o.name || o.slug || '';
+function escapeHTML(s){
+  return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+function cardHTML(o, slug){
+  const title = o.name || slug || o.slug || '';
   const goal  = o.purpose || '';
   const gpt   = o.openai_link || '#';
-  const prompt= o.dataset_link || '#';
+  const prompt= promptURL(slug || o.slug, o.dataset_link);
   const note  = o.notes ? `note: ${o.notes.toLowerCase()}` : '';
   return `
   <article class="card">
@@ -103,10 +113,6 @@ function cardHTML(o){
   </article>`;
 }
 
-function escapeHTML(s){
-  return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-}
-
 async function main(){
   const msg = document.getElementById('msg');
   try{
@@ -116,19 +122,18 @@ async function main(){
     const rows = parseCSV(text);
     const objs = toObjects(rows);
 
-    // indeksē pēc slug
+    // sagaidām kolonnas: slug,name,purpose,status,owner,last_edit,openai_link,dataset_link,notes
     const bySlug = Object.create(null);
     for(const o of objs){
       if(o.slug) bySlug[o.slug.trim()] = o;
     }
 
-    // render pēc kārtības
     for(const [rowId, slugs] of ORDER){
       const rowEl = document.getElementById(rowId);
       if(!rowEl) continue;
       rowEl.innerHTML = slugs.map(sl=>{
         const o = bySlug[sl] || {slug: sl, name: sl, purpose:'', openai_link:'#', dataset_link:'#', notes:''};
-        return cardHTML(o);
+        return cardHTML(o, sl);
       }).join('');
     }
 
