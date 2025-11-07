@@ -7,8 +7,8 @@
     "owner": "DZ",
     "last_edit": "2025-10-04",
     "openai_link": "https://chatgpt.com/g/g-68e2229a3ca881919b27e9d8d0116286-clemens-alexandrinus-gpt",
-    "dataset_link": "Tiek gatavots raksts par šo tēmu",
-    "notes": ""
+    "dataset_link": "",
+    "notes": "Tiek gatavots raksts par šo tēmu"
   },
   {
     "slug": "grinbergs",
@@ -85,7 +85,7 @@
     "last_edit": "2025-10-05",
     "openai_link": "https://chatgpt.com/g/g-677aab67c6988191a239c1d6e4b05eb0-dainis-zeps-cv-profils-mana-dzive?model=gpt-4o",
     "dataset_link": "",
-    "notes": "Šeit ir visu rakstu saraksts"
+    "notes": "Šeit ir visu rakstu saraksts, kas ir ar vārdu war.*, kopskaitā jau virs 80"
   },
   {
     "slug": "difgeo",
