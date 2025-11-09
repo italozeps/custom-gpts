@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Alex — lingua.id.lv</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900">
+  <header class="max-w-5xl mx-auto px-4 pt-10 pb-6">
+    <h1 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight">Alex — lingua.id.lv</h1>
+    <p class="mt-3 text-lg sm:text-xl text-slate-600">
+      Converse in your natural language; Perplexity will respond in your chosen language.
+    </p>
+    <p class="mt-1 text-sm text-amber-700">
+      Piezīme: Jūs minējāt “12” valodu kartītes, bet sarakstā ir 13. Zemāk iekļautas visas 13; pasakiet, ja jāizņem kāda.
+    </p>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 pb-16">
+    <!-- Input area -->
+    <section class="mb-6">
+      <label for="userQuestion" class="block text-sm font-medium text-slate-700 mb-1">Jūsu jautājums / tēma</label>
+      <textarea id="userQuestion" class="w-full rounded-xl border border-slate-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:border-slate-400" rows="3" placeholder="Rakstiet šeit brīvā valodā; atbilde būs izvēlētajā valodā."></textarea>
+      <div class="mt-2 flex items-center gap-3 text-sm text-slate-600">
+        <label class="inline-flex items-center gap-2">
+          <input id="openSameTab" type="checkbox" class="rounded border-slate-300" />
+          Atvērt tajā pašā cilnē
+        </label>
+        <button id="clearBtn" class="ml-auto px-3 py-1.5 rounded-lg border border-slate-300 hover:bg-slate-100">Notīrīt jautājumu</button>
+      </div>
+    </section>
+
+    <!-- Cards grid -->
+    <section>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Cards rendered by JS -->
+      </div>
+    </section>
+  </main>
+
+  <footer class="max-w-5xl mx-auto px-4 pb-10 text-xs text-slate-500">
+    <p>Šī lapa ģenerē Perplexity meklēšanas saiti ar iepriekšpievienotu instrukciju piespiest atbildēt izvēlētajā valodā. Jautājums paliek tieši tāds, kā ievadīts augstāk.</p>
+  </footer>
+
+  <script>
+    // Mapping: card id -> configuration
+    const CARDS = [
+      {
+        id: 'la',
+        title: 'Latīņu',
+        subtitle: 'classica / neo-classica',
+        instruction: `Tu es CGPT, id est Classicus GPT. Responde semper LATINE TANTUM, sermone puro, classico vel neo-classico, eleganter phrasibus constructo, sine ullo verbo barbaro, nisi ipsae res recentiores sine vitio dici nequeunt. Omnes responsiones tuas in eadem lingua perfice, quaesitum quamcumque linguam habeat.`
+      },
+      {
+        id: 'grc',
+        title: 'Sengrieķu',
+        subtitle: 'Ἀττικὴ / κλασική',
+        instruction: `Answer strictly in Ancient (Classical/Attic) Greek. Use classical morphology and syntax; avoid modern Greek vocabulary and spelling. Keep all replies entirely in Ancient Greek regardless of the question language.`
+      },
+      {
+        id: 'hbo',
+        title: 'Senebreju',
+        subtitle: 'Biblical Hebrew',
+        instruction: `Answer strictly in Biblical (Classical) Hebrew. Use consonantal vocabulary with standard niqqud where relevant; avoid modern Hebrew forms. Keep all replies entirely in Biblical Hebrew.`
+      },
+      {
+        id: 'syc',
+        title: 'Klasiskā sīriešu',
+        subtitle: 'Classical Syriac',
+        instruction: `Answer strictly in Classical Syriac. Use classical orthography and vocabulary; avoid modern dialect forms. Keep all replies entirely in Classical Syriac.`
+      },
+      {
+        id: 'cu-bg',
+        title: 'Bulgāru (senā)',
+        subtitle: 'Old Bulgarian',
+        instruction: `Answer strictly in Old Bulgarian (Early Church Slavonic). Use historical/Church Slavonic norms; avoid modern Bulgarian. Keep all replies entirely in Old Bulgarian.`
+      },
+      {
+        id: 'cu',
+        title: 'Senslāvu',
+        subtitle: 'Old Church Slavonic',
+        instruction: `Answer strictly in Old Church Slavonic. Use Church Slavonic orthography and lexicon; avoid modern Slavic forms. Keep all replies entirely in Old Church Slavonic.`
+      },
+      {
+        id: 'uk',
+        title: 'Ukraiņu',
+        subtitle: 'сучасна літературна',
+        instruction: `Відповідай лише українською літературною мовою. Зберігай стиль охайний і чіткий; не перемикайся на інші мови, незалежно від мови запитання.`
+      },
+      {
+        id: 'cs',
+        title: 'Čehu',
+        subtitle: 'spisovná čeština',
+        instruction: `Odpovídej výhradně spisovnou češtinou. Zachovej konzistentně češtinu bez přepínání do jiných jazyků, bez ohledu na jazyk dotazu.`
+      },
+      {
+        id: 'de',
+        title: 'Vācu',
+        subtitle: 'Hochdeutsch',
+        instruction: `Antworte ausschließlich auf Hochdeutsch in klarer, eleganter Prosa, unabhängig von der Sprache der Frage.`
+      },
+      {
+        id: 'en',
+        title: 'Angļu',
+        subtitle: 'formal / neutral',
+        instruction: `Answer strictly in English. Maintain a clear, formal or neutral style regardless of the question language.`
+      },
+      {
+        id: 'es',
+        title: 'Spāņu',
+        subtitle: 'español estándar',
+        instruction: `Responde estrictamente en español estándar, con estilo claro y correcto, sin cambiar de idioma aunque la pregunta esté en otra lengua.`
+      },
+      {
+        id: 'fr',
+        title: 'Franču',
+        subtitle: 'français standard',
+        instruction: `Réponds strictement en français standard, style clair et soutenu; ne change jamais de langue, quelle que soit la langue de la question.`
+      },
+      {
+        id: 'it',
+        title: 'Itāļu',
+        subtitle: 'italiano standard',
+        instruction: `Rispondi esclusivamente in italiano standard, con stile chiaro ed elegante, indipendentemente dalla lingua della domanda.`
+      }
+    ];
+
+    // Render cards
+    const grid = document.querySelector('.grid');
+    CARDS.forEach(cfg => {
+      const card = document.createElement('div');
+      card.className = 'rounded-2xl border border-slate-200 bg-white p-4 shadow-sm hover:shadow-md transition-shadow';
+      card.innerHTML = `
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <h3 class="text-lg font-bold">${cfg.title}</h3>
+            <p class="text-sm text-slate-600">${cfg.subtitle || ''}</p>
+          </div>
+          <button data-id="${cfg.id}" class="startBtn inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-sm hover:bg-slate-800 active:scale-[0.98]">
+            Start
+          </button>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    // Handlers
+    const base = 'https://www.perplexity.ai/search?q=';
+
+    function buildQuery(instruction, userQ) {
+      const trimmed = (userQ || '').trim();
+      const combined = instruction + (trimmed ? "\n\n" + trimmed : '');
+      return base + encodeURIComponent(combined);
+    }
+
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.startBtn');
+      if (!btn) return;
+      const id = btn.getAttribute('data-id');
+      const cfg = CARDS.find(c => c.id === id);
+      if (!cfg) return;
+      const q = document.getElementById('userQuestion').value;
+      const url = buildQuery(cfg.instruction, q);
+      const same = document.getElementById('openSameTab').checked;
+      if (same) {
+        window.location.href = url;
+      } else {
+        window.open(url, '_blank', 'noopener');
+      }
+    });
+
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      const t = document.getElementById('userQuestion');
+      t.value = '';
+      t.focus();
+    });
+  </script>
+</body>
+</html>
