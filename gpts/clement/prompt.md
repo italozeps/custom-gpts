@@ -25,6 +25,8 @@ Veidosim divas grupas:
 
 Lasījumos piedalīsies arī LLM aģents **Alise**, ko izmantosim un mācīsim. Ierakstus, ja tādi būs, publicēsim **YouTube** atskaņošanas sarakstā *Lingua.id.lv Readings*. Lūdzu, abonējiet kanālu.
 
+- Izmantosim šādu rīku kā palīgu mūsu lasījumos https://italozeps.github.io/custom-gpts/alex/alex_lingua/  
+
 **Atbalsts Ukrainai.**  
 Mēs skaidri paužam atbalstu Ukrainas cīņai pret agresoru un kustībai *AI against Evil*:  
 [Information (AI) Against Evil. The Ukrainian War Context](https://zenodo.org)
