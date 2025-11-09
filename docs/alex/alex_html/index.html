@@ -44,137 +44,92 @@
   </footer>
 
   <script>
-    // Mapping: card id -> configuration
-    const CARDS = [
-      {
-        id: 'la',
-        title: 'Latīņu',
-        subtitle: 'classica / neo-classica',
-        instruction: `Tu es CGPT, id est Classicus GPT. Responde semper LATINE TANTUM, sermone puro, classico vel neo-classico, eleganter phrasibus constructo, sine ullo verbo barbaro, nisi ipsae res recentiores sine vitio dici nequeunt. Omnes responsiones tuas in eadem lingua perfice, quaesitum quamcumque linguam habeat.`
-      },
-      {
-        id: 'grc',
-        title: 'Sengrieķu',
-        subtitle: 'Ἀττικὴ / κλασική',
-        instruction: `Answer strictly in Ancient (Classical/Attic) Greek. Use classical morphology and syntax; avoid modern Greek vocabulary and spelling. Keep all replies entirely in Ancient Greek regardless of the question language.`
-      },
-      {
-        id: 'hbo',
-        title: 'Senebreju',
-        subtitle: 'Biblical Hebrew',
-        instruction: `Answer strictly in Biblical (Classical) Hebrew. Use consonantal vocabulary with standard niqqud where relevant; avoid modern Hebrew forms. Keep all replies entirely in Biblical Hebrew.`
-      },
-      {
-        id: 'syc',
-        title: 'Klasiskā sīriešu',
-        subtitle: 'Classical Syriac',
-        instruction: `Answer strictly in Classical Syriac. Use classical orthography and vocabulary; avoid modern dialect forms. Keep all replies entirely in Classical Syriac.`
-      },
-      {
-        id: 'cu-bg',
-        title: 'Bulgāru (senā)',
-        subtitle: 'Old Bulgarian',
-        instruction: `Answer strictly in Old Bulgarian (Early Church Slavonic). Use historical/Church Slavonic norms; avoid modern Bulgarian. Keep all replies entirely in Old Bulgarian.`
-      },
-      {
-        id: 'cu',
-        title: 'Senslāvu',
-        subtitle: 'Old Church Slavonic',
-        instruction: `Answer strictly in Old Church Slavonic. Use Church Slavonic orthography and lexicon; avoid modern Slavic forms. Keep all replies entirely in Old Church Slavonic.`
-      },
-      {
-        id: 'uk',
-        title: 'Ukraiņu',
-        subtitle: 'сучасна літературна',
-        instruction: `Відповідай лише українською літературною мовою. Зберігай стиль охайний і чіткий; не перемикайся на інші мови, незалежно від мови запитання.`
-      },
-      {
-        id: 'cs',
-        title: 'Čehu',
-        subtitle: 'spisovná čeština',
-        instruction: `Odpovídej výhradně spisovnou češtinou. Zachovej konzistentně češtinu bez přepínání do jiných jazyků, bez ohledu na jazyk dotazu.`
-      },
-      {
-        id: 'de',
-        title: 'Vācu',
-        subtitle: 'Hochdeutsch',
-        instruction: `Antworte ausschließlich auf Hochdeutsch in klarer, eleganter Prosa, unabhängig von der Sprache der Frage.`
-      },
-      {
-        id: 'en',
-        title: 'Angļu',
-        subtitle: 'formal / neutral',
-        instruction: `Answer strictly in English. Maintain a clear, formal or neutral style regardless of the question language.`
-      },
-      {
-        id: 'es',
-        title: 'Spāņu',
-        subtitle: 'español estándar',
-        instruction: `Responde estrictamente en español estándar, con estilo claro y correcto, sin cambiar de idioma aunque la pregunta esté en otra lengua.`
-      },
-      {
-        id: 'fr',
-        title: 'Franču',
-        subtitle: 'français standard',
-        instruction: `Réponds strictement en français standard, style clair et soutenu; ne change jamais de langue, quelle que soit la langue de la question.`
-      },
-      {
-        id: 'it',
-        title: 'Itāļu',
-        subtitle: 'italiano standard',
-        instruction: `Rispondi esclusivamente in italiano standard, con stile chiaro ed elegante, indipendentemente dalla lingua della domanda.`
-      }
-    ];
+  // === CONFIG ===
+  const CSV_URL = 'languages.csv';
+  const PPLX_BASE = 'https://www.perplexity.ai/search?q=';
 
-    // Render cards
-    const grid = document.querySelector('.grid');
-    CARDS.forEach(cfg => {
+  // UI refs
+  const grid = document.querySelector('.grid');
+  const qEl = document.getElementById('userQuestion');
+  const sameTabEl = document.getElementById('openSameTab');
+  document.getElementById('clearBtn').addEventListener('click', () => { qEl.value = ''; qEl.focus(); });
+
+  // --- CSV parser (handles quotes, commas, newlines) ---
+  function parseCSV(text) {
+    const rows = [];
+    let cur = '', row = [], q = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i], n = text[i+1];
+      if (q) {
+        if (c === '"' && n === '"') { cur += '"'; i++; }
+        else if (c === '"') { q = false; }
+        else { cur += c; }
+      } else {
+        if (c === '"') q = true;
+        else if (c === ',') { row.push(cur); cur = ''; }
+        else if (c === '
+' || c === '
+') {
+          if (cur.length || row.length) { row.push(cur); rows.push(row); row = []; cur = ''; }
+        } else { cur += c; }
+      }
+    }
+    if (cur.length || row.length) { row.push(cur); rows.push(row); }
+    // headers
+    const [hdr, ...data] = rows.filter(r => r.length && r.join('').trim().length);
+    const idx = Object.fromEntries(hdr.map((h, i) => [h.trim(), i]));
+    return data.map(r => ({
+      id: r[idx.id]?.trim() || '',
+      title: r[idx.title]?.trim() || '',
+      subtitle: r[idx.subtitle]?.trim() || '',
+      instruction: r[idx.instruction]?.trim() || ''
+    })).filter(x => x.id && x.instruction);
+  }
+
+  function buildPerplexityURL(instruction, userQ) {
+    const trimmed = (userQ || '').trim();
+    const payload = instruction + (trimmed ? "
+
+" + trimmed : '');
+    return PPLX_BASE + encodeURIComponent(payload);
+  }
+
+  function renderCards(cards) {
+    grid.innerHTML = '';
+    cards.forEach(cfg => {
       const card = document.createElement('div');
       card.className = 'rounded-2xl border border-slate-200 bg-white p-4 shadow-sm hover:shadow-md transition-shadow';
       card.innerHTML = `
         <div class="flex items-start justify-between gap-3">
           <div>
-            <h3 class="text-lg font-bold">${cfg.title}</h3>
+            <h3 class="text-lg font-bold">${cfg.title || cfg.id}</h3>
             <p class="text-sm text-slate-600">${cfg.subtitle || ''}</p>
           </div>
-          <button data-id="${cfg.id}" class="startBtn inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-sm hover:bg-slate-800 active:scale-[0.98]">
-            Start
-          </button>
-        </div>
-      `;
+          <button data-id="${cfg.id}" class="startBtn inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 text-white text-sm hover:bg-slate-800 active:scale-[0.98]">Start</button>
+        </div>`;
       grid.appendChild(card);
     });
+  }
 
-    // Handlers
-    const base = 'https://www.perplexity.ai/search?q=';
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.startBtn');
+    if (!btn) return;
+    const id = btn.getAttribute('data-id');
+    const cfg = window.__CARDS__.find(c => c.id === id);
+    if (!cfg) return;
+    const url = buildPerplexityURL(cfg.instruction, qEl.value);
+    if (sameTabEl.checked) window.location.href = url; else window.open(url, '_blank', 'noopener');
+  });
 
-    function buildQuery(instruction, userQ) {
-      const trimmed = (userQ || '').trim();
-      const combined = instruction + (trimmed ? "\n\n" + trimmed : '');
-      return base + encodeURIComponent(combined);
-    }
-
-    document.addEventListener('click', (e) => {
-      const btn = e.target.closest('.startBtn');
-      if (!btn) return;
-      const id = btn.getAttribute('data-id');
-      const cfg = CARDS.find(c => c.id === id);
-      if (!cfg) return;
-      const q = document.getElementById('userQuestion').value;
-      const url = buildQuery(cfg.instruction, q);
-      const same = document.getElementById('openSameTab').checked;
-      if (same) {
-        window.location.href = url;
-      } else {
-        window.open(url, '_blank', 'noopener');
-      }
+  // Load CSV and boot
+  fetch(CSV_URL)
+    .then(r => r.text())
+    .then(parseCSV)
+    .then(cards => { window.__CARDS__ = cards; renderCards(cards); })
+    .catch(err => {
+      console.error('CSV load error', err);
+      grid.innerHTML = '<div class="text-sm text-red-700">Neizdevās ielādēt languages.csv</div>';
     });
-
-    document.getElementById('clearBtn').addEventListener('click', () => {
-      const t = document.getElementById('userQuestion');
-      t.value = '';
-      t.focus();
-    });
-  </script>
+</script>
 </body>
 </html>
