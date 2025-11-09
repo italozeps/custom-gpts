@@ -43,7 +43,23 @@
     <p>Šī lapa ģenerē Perplexity meklēšanas saiti ar iepriekšpievienotu instrukciju piespiest atbildēt izvēlētajā valodā. Jautājums paliek tieši tāds, kā ievadīts augstāk.</p>
   </footer>
 
-  <script>
+  <script id="languages-csv" type="text/csv">id,title,subtitle,instruction
+la,Latīņu,classica / neo-classica,"Tu es CGPT, id est Classicus GPT. Responde semper LATINE TANTUM, sermone puro, classico vel neo-classico, eleganter phrasibus constructo, sine ullo verbo barbaro, nisi ipsae res recentiores sine vitio dici nequeunt. Omnes responsiones tuas in eadem lingua perfice, quaesitum quamcumque linguam habeat."
+grc,Sengrieķu,Ἀττικὴ / κλασική,"Answer strictly in Ancient (Classical/Attic) Greek. Use classical morphology and syntax; avoid modern Greek vocabulary and spelling. Keep all replies entirely in Ancient Greek regardless of the question language."
+hbo,Senebreju,Biblical Hebrew,"Answer strictly in Biblical (Classical) Hebrew. Use consonantal vocabulary with standard niqqud where relevant; avoid modern Hebrew forms. Keep all replies entirely in Biblical Hebrew."
+syc,Klasiskā sīriešu,Classical Syriac,"Answer strictly in Classical Syriac. Use classical orthography and vocabulary; avoid modern dialect forms. Keep all replies entirely in Classical Syriac."
+cu-bg,Bulgāru (senā),Old Bulgarian,"Answer strictly in Old Bulgarian (Early Church Slavonic). Use historical/Church Slavonic norms; avoid modern Bulgarian. Keep all replies entirely in Old Bulgarian."
+cu,Senslāvu,Old Church Slavonic,"Answer strictly in Old Church Slavonic. Use Church Slavonic orthography and lexicon; avoid modern Slavic forms. Keep all replies entirely in Old Church Slavonic."
+uk,Ukraiņu,сучасна літературна,"Відповідай лише українською літературною мовою. Зберігай стиль охайний і чіткий; не перемикайся на інші мови, незалежно від мови запитання."
+cs,Čehu,spisovná čeština,"Odpovídej výhradně spisovnou češtinou. Zachovej konzistentně češtinu bez přepínání do jiných jazyků, bez ohledu na jazyk dotazu."
+de,Vācu,Hochdeutsch,"Antworte ausschließlich auf Hochdeutsch in klarer, eleganter Prosa, unabhängig von der Sprache der Frage."
+en,Angļu,formal / neutral,"Answer strictly in English. Maintain a clear, formal or neutral style regardless of the question language."
+es,Spāņu,español estándar,"Responde estrictamente en español estándar, con estilo claro y correcto, sin cambiar de idioma aunque la pregunta esté en otra lengua."
+fr,Franču,français standard,"Réponds strictement en français standard, style clair et soutenu; ne change jamais de langue, quelle que soit la langue de la question."
+it,Itāļu,italiano standard,"Rispondi esclusivamente in italiano standard, con stile chiaro ed elegante, indipendentemente dalla lingua della domanda."
+</script>
+
+<script>
   // === CONFIG ===
   const CSV_URL = 'languages.csv';
   const PPLX_BASE = 'https://www.perplexity.ai/search?q=';
@@ -121,10 +137,24 @@
     if (sameTabEl.checked) window.location.href = url; else window.open(url, '_blank', 'noopener');
   });
 
-  // Load CSV and boot
-  fetch(CSV_URL)
-    .then(r => r.text())
-    .then(parseCSV)
+  async function loadCards() {
+    // Try external CSV first; fall back to inline CSV for preview/sandboxes
+    try {
+      const resp = await fetch(CSV_URL, { cache: 'no-store' });
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      const txt = await resp.text();
+      return parseCSV(txt);
+    } catch (e) {
+      const inline = document.getElementById('languages-csv');
+      if (inline) {
+        console.warn('Using inline CSV fallback:', e?.message || e);
+        return parseCSV(inline.textContent);
+      }
+      throw e;
+    }
+  }
+
+  loadCards()
     .then(cards => { window.__CARDS__ = cards; renderCards(cards); })
     .catch(err => {
       console.error('CSV load error', err);
