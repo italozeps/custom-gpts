@@ -60,53 +60,61 @@ it,Itāļu,italiano standard,"Rispondi esclusivamente in italiano standard, con 
 </script>
 
 <script>
-  // === CONFIG ===
   const CSV_URL = 'languages.csv';
   const PPLX_BASE = 'https://www.perplexity.ai/search?q=';
 
-  // UI refs
   const grid = document.querySelector('.grid');
   const qEl = document.getElementById('userQuestion');
   const sameTabEl = document.getElementById('openSameTab');
   document.getElementById('clearBtn').addEventListener('click', () => { qEl.value = ''; qEl.focus(); });
 
-  // --- CSV parser (handles quotes, commas, newlines) ---
+  // Vienkāršs CSV parseris + BOM noņemšana
   function parseCSV(text) {
+    // noņem BOM, ja tāds ir
+    if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+
     const rows = [];
-    let cur = '', row = [], q = false;
+    let cur = '', row = [], quoted = false;
     for (let i = 0; i < text.length; i++) {
       const c = text[i], n = text[i+1];
-      if (q) {
+      if (quoted) {
         if (c === '"' && n === '"') { cur += '"'; i++; }
-        else if (c === '"') { q = false; }
+        else if (c === '"') { quoted = false; }
         else { cur += c; }
       } else {
-        if (c === '"') q = true;
+        if (c === '"') quoted = true;
         else if (c === ',') { row.push(cur); cur = ''; }
-        else if (c === '
-' || c === '
-') {
+        else if (c === '\n' || c === '\r') {
           if (cur.length || row.length) { row.push(cur); rows.push(row); row = []; cur = ''; }
         } else { cur += c; }
       }
     }
     if (cur.length || row.length) { row.push(cur); rows.push(row); }
-    // headers
-    const [hdr, ...data] = rows.filter(r => r.length && r.join('').trim().length);
-    const idx = Object.fromEntries(hdr.map((h, i) => [h.trim(), i]));
-    return data.map(r => ({
-      id: r[idx.id]?.trim() || '',
-      title: r[idx.title]?.trim() || '',
-      subtitle: r[idx.subtitle]?.trim() || '',
-      instruction: r[idx.instruction]?.trim() || ''
+
+    const cleaned = rows.filter(r => r && r.join('').trim().length);
+    if (!cleaned.length) return [];
+
+    const header = cleaned[0].map(h => h.trim().replace(/^\uFEFF/, '')); // drošs BOM noņemšana
+    const idx = Object.fromEntries(header.map((h, i) => [h, i]));
+
+    const need = ['id','title','subtitle','instruction'];
+    const ok = need.every(k => typeof idx[k] === 'number');
+    if (!ok) {
+      console.error('CSV headers mismatch. Got:', header);
+      return [];
+    }
+
+    return cleaned.slice(1).map(r => ({
+      id: (r[idx.id]||'').trim(),
+      title: (r[idx.title]||'').trim(),
+      subtitle: (r[idx.subtitle]||'').trim(),
+      instruction: (r[idx.instruction]||'').trim(),
     })).filter(x => x.id && x.instruction);
   }
 
   function buildPerplexityURL(instruction, userQ) {
     const trimmed = (userQ || '').trim();
-    const payload = instruction + (trimmed ? "
-
-" + trimmed : '');
+    const payload = instruction + (trimmed ? "\n\n" + trimmed : '');
     return PPLX_BASE + encodeURIComponent(payload);
   }
 
@@ -131,35 +139,48 @@ it,Itāļu,italiano standard,"Rispondi esclusivamente in italiano standard, con 
     const btn = e.target.closest('.startBtn');
     if (!btn) return;
     const id = btn.getAttribute('data-id');
-    const cfg = window.__CARDS__.find(c => c.id === id);
+    const cfg = (window.__CARDS__ || []).find(c => c.id === id);
     if (!cfg) return;
     const url = buildPerplexityURL(cfg.instruction, qEl.value);
-    if (sameTabEl.checked) window.location.href = url; else window.open(url, '_blank', 'noopener');
+    sameTabEl.checked ? (window.location.href = url) : window.open(url, '_blank', 'noopener');
   });
 
   async function loadCards() {
-    // Try external CSV first; fall back to inline CSV for preview/sandboxes
     try {
       const resp = await fetch(CSV_URL, { cache: 'no-store' });
       if (!resp.ok) throw new Error('HTTP ' + resp.status);
       const txt = await resp.text();
-      return parseCSV(txt);
+      const cards = parseCSV(txt);
+      if (cards.length) return cards;
+      throw new Error('Parsed 0 cards from external CSV');
     } catch (e) {
+      console.warn('Using inline CSV fallback:', e.message || e);
       const inline = document.getElementById('languages-csv');
-      if (inline) {
-        console.warn('Using inline CSV fallback:', e?.message || e);
-        return parseCSV(inline.textContent);
-      }
-      throw e;
+      const txt = (inline && inline.textContent) ? inline.textContent : '';
+      return parseCSV(txt);
     }
   }
 
-  loadCards()
-    .then(cards => { window.__CARDS__ = cards; renderCards(cards); })
-    .catch(err => {
-      console.error('CSV load error', err);
-      grid.innerHTML = '<div class="text-sm text-red-700">Neizdevās ielādēt languages.csv</div>';
-    });
+  loadCards().then(cards => {
+    window.__CARDS__ = cards;
+    if (!cards.length) {
+      grid.innerHTML = `
+        <div class="text-sm text-red-700">
+          Kartītes neizdevās ielādēt. Pārbaudi:
+          <ul class="list-disc ml-5 mt-2">
+            <li><code>languages.csv</code> ceļu (tam jābūt tajā pašā mapē)</li>
+            <li>CSV galvenes: <code>id,title,subtitle,instruction</code></li>
+            <li>BOM (saglabā kā UTF-8 bez BOM)</li>
+          </ul>
+          <div class="mt-2"><a class="underline" href="languages.csv" target="_blank">Atvērt languages.csv</a></div>
+        </div>`;
+      return;
+    }
+    renderCards(cards);
+  }).catch(err => {
+    console.error(err);
+    grid.innerHTML = '<div class="text-sm text-red-700">Neizdevās ielādēt languages.csv</div>';
+  });
 </script>
 </body>
 </html>
