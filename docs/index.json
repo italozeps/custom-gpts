@@ -35,13 +35,13 @@
   {
     "slug": "public",
     "name": "Dainis Zeps/Publications",
-    "purpose": "\"Daiņa Zepa publikāciju saraksti pa grupām. We want to present this repo as Prompt for am agent Alex for reading texts\"",
+    "purpose": "\"Daiņa Zepa publikāciju saraksti pa grupām. We want to present this repo as Prompt for a agent Alex for reading texts\"",
     "status": "draft",
     "owner": "DZ",
     "last_edit": "2025-10-04",
     "openai_link": "https://chatgpt.com/g/g-674880853710819188c523dcca016442-dainis-zeps-publications",
     "dataset_link": "",
-    "notes": "Alex initially initiated as agent for reading text may be made for more active communicator between repo[D.Z.] and LLMs"
+    "notes": "Alex was initially conceived as an agent for reading texts, but it may evolve into a more active communicator between the repository (D.Z.) and the LLMs."
   },
   {
     "slug": "ukraina",
