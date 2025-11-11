@@ -1,34 +1,37 @@
+
 <!DOCTYPE html>
 <html lang="lv">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Axel — lingua.id.lv</title>
+  <title>Alex — lingua.id.lv</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-900">
   <header class="max-w-5xl mx-auto px-4 pt-10 pb-6">
-    <h1 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight">Axel — lingua.id.lv</h1>
+    <h1 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight">Alex — lingua.id.lv</h1>
     <p class="mt-3 text-lg sm:text-xl text-slate-600">
       Converse in your natural language; Perplexity will respond in your chosen language.
+    </p>
+    <p class="mt-1 text-sm text-amber-700">
+      Piezīme: Te saraksts ievietotais var tikt mainīts. Lūdzu, ierosiniet, kas ievietojams, vai precizējams konfigurējot
     </p>
   </header>
 
   <main class="max-w-5xl mx-auto px-4 pb-16">
-    <!-- CEFR līmeņa kontrole (A1–C2 čipi) -->
-    <section class="mb-4">
-      <div class="mt-3 sticky top-0 z-10 bg-slate-50/80 backdrop-blur px-2 py-2 rounded-xl border border-slate-200">
-        <div class="flex flex-wrap items-center gap-3">
-          <div class="text-xs font-semibold text-slate-600">Valodas prasmes līmenis (CEFR)</div>
-          <div id="cefrChips" class="flex flex-wrap gap-2"></div>
-          <div class="ml-auto text-xs text-slate-500"><span id="cefrActive"></span></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Ievades zona -->
+    <!-- Input area -->
     <section class="mb-6">
       <label for="userQuestion" class="block text-sm font-medium text-slate-700 mb-1">Jūsu jautājums / tēma</label>
+
+<!-- CEFR līmeņa kontrole (A1–C2 čipi) -->
+<div class="mt-3 sticky top-0 z-10 bg-slate-50/80 backdrop-blur px-2 py-2 rounded-xl border border-slate-200">
+  <div class="flex flex-wrap items-center gap-3">
+    <div class="text-xs font-semibold text-slate-600">Valodas prasmes līmenis (CEFR)</div>
+    <div id="cefrChips" class="flex flex-wrap gap-2"></div>
+    <div class="ml-auto text-xs text-slate-500"><span id="cefrActive"></span></div>
+  </div>
+</div>
+
       <textarea id="userQuestion" class="w-full rounded-xl border border-slate-300 px-3 py-2 focus:outline-none focus:ring focus:ring-slate-300" placeholder="Ierakstiet šeit brīvā valodā; atbilde būs izvēlētajā valodā."></textarea>
       <div class="mt-2 flex items-center gap-3 text-sm text-slate-600">
         <label class="inline-flex items-center gap-2">
@@ -52,18 +55,14 @@
   </main>
 
   <footer class="max-w-5xl mx-auto px-4 pb-10 text-xs text-slate-500">
-    <p>Šī lapa ģenerē Perplexity meklēšanas saiti ar CEFR norādi (Council of Europe) un atbildes valodu. Jautājums paliek tāds, kā ierakstīts.</p>
+    <p>Šī lapa ģenerē Perplexity meklēšanas saiti ar iepriekšpievienotu norādi par atbilžu valodu un CEFR, lai atbildes tiktu veidotas atbilstošā līmenī un izvēlētajā valodā. Jautājums paliek tieši tāds, kā ievadīts augstāk.</p>
   </footer>
 
-  <!-- Rezerves inline CSV (ja ārējais kādreiz neielādējas) -->
   <script id="languages-csv" type="text/csv">
-id,title,subtitle,instruction
-t1,English (A1 demo),Simple greeting,"Say hello and ask a very basic question (A1)."
-t2,Latviešu (A1 demo),Vienkāršs sveiciens,"Pasaki sveicienu un uzdod pavisam vienkāršu jautājumu (A1)."
-  </script>
+</script>
 
-  <script>
-  const CSV_URL = 'languages.csv'; // bez ?v=…
+<script>
+  const CSV_URL = 'languages.csv?v=20251110b';
   const PPLX_BASE = 'https://www.perplexity.ai/search?q=';
 
   const grid = document.querySelector('.grid');
@@ -73,8 +72,9 @@ t2,Latviešu (A1 demo),Vienkāršs sveiciens,"Pasaki sveicienu un uzdod pavisam 
 
   // Vienkāršs CSV parseris + BOM noņemšana
   function parseCSV(text) {
-    if (!text) return [];
-    if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1); // noņem BOM
+    // noņem BOM, ja tāds ir
+    if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+
     const rows = [];
     let cur = '', row = [], quoted = false;
     for (let i = 0; i < text.length; i++) {
@@ -82,9 +82,9 @@ t2,Latviešu (A1 demo),Vienkāršs sveiciens,"Pasaki sveicienu un uzdod pavisam 
       if (c === '"') {
         if (quoted && text[i + 1] === '"') { cur += '"'; i++; }
         else quoted = !quoted;
-      } else if (!quoted && (c === ',' || c === '\\n' || c === '\\r')) {
+      } else if (!quoted && (c === ',' || c === '\n' || c === '\r')) {
         row.push(cur); cur = '';
-        if (c === '\\n' || c === '\\r') { if (row.length) rows.push(row); row = []; }
+        if (c === '\n' || c === '\r') { if (row.length) rows.push(row); row = []; }
       } else {
         cur += c;
       }
@@ -102,12 +102,12 @@ t2,Latviešu (A1 demo),Vienkāršs sveiciens,"Pasaki sveicienu un uzdod pavisam 
     const out = [];
     for (let i = 1; i < rows.length; i++) {
       const r = rows[i];
-      if (!r || !r.length) continue;
+      if (!r.length) continue;
       out.push({
-        id: (idx.id >= 0 ? r[idx.id] : '') || String(i),
-        title: (idx.title >= 0 ? r[idx.title] : '') || '',
-        subtitle: (idx.subtitle >= 0 ? r[idx.subtitle] : '') || '',
-        instruction: (idx.instruction >= 0 ? r[idx.instruction] : '') || '',
+        id: r[idx.id] || String(i),
+        title: r[idx.title] || '',
+        subtitle: r[idx.subtitle] || '',
+        instruction: r[idx.instruction] || '',
       });
     }
     return out;
@@ -127,7 +127,7 @@ t2,Latviešu (A1 demo),Vienkāršs sveiciens,"Pasaki sveicienu un uzdod pavisam 
           <pre class="whitespace-pre-wrap text-xs text-slate-700 bg-slate-50 border border-slate-200 rounded p-2">${escapeHtml(card.instruction || '')}</pre>
         </div>
         <div class="mt-3 flex items-center gap-2">
-          <a class="px-3 py-1.5 rounded-lg border border-slate-300 text-sm hover:bg-slate-50 start-link"
+          <a class="px-3 py-1.5 rounded-lg border border-slate-300 text-sm hover:bg-slate-50"
              href="${buildPerplexityURL(card.instruction || '', qEl.value || '')}"
              target="${sameTabEl.checked ? '_self' : '_blank'}">
             Start
@@ -140,29 +140,23 @@ t2,Latviešu (A1 demo),Vienkāršs sveiciens,"Pasaki sveicienu un uzdod pavisam 
       </article>`;
   }
 
-  function escapeHtml(s){ return (s || '').replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
+  function escapeHtml(s){
+    return (s || '').replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
+  }
   function escapeAttr(s){
-  return (s || '').replace(/["'`\\]/g, m => (
-    m === '"' ? '&quot;' :
-    m === "'" ? '&#39;'  :
-    m === '`' ? '&#96;'  :
-    m === '\\' ? '\\\\' : m
-  ));
-}
+    return (s || '').replace(/["'`\\]/g, m => ({'"':'&quot;', "'":'&#39;', '`':'&#96;','\\':'\\\\'}[m]).toString());
+  }
 
-
-  function renderCards(cards) { grid.innerHTML = cards.map(cardHTML).join(''); }
+  function renderCards(cards) {
+    grid.innerHTML = cards.map(cardHTML).join('');
+  }
 
   async function loadCards() {
     try {
-      const csvAbs = new URL(CSV_URL, location.href).href;
-      console.log('Loading CSV from:', csvAbs);
-      const resp = await fetch(CSV_URL, { cache: 'no-store' });
+      // vispirms mēģinām ielādēt ārējo CSV (parasti tas pats katalogs)
+      const resp = await fetch(CSV_URL, { cache: 'no-cache' });
       if (!resp.ok) throw new Error('HTTP ' + resp.status);
       const txt = await resp.text();
-      if (txt.trim().startsWith('<')) {
-        throw new Error('Got HTML instead of CSV (likely 404 page) from: ' + csvAbs);
-      }
       const cards = parseCSV(txt);
       if (cards.length) return cards;
       throw new Error('Parsed 0 cards from external CSV');
@@ -174,15 +168,6 @@ t2,Latviešu (A1 demo),Vienkāršs sveiciens,"Pasaki sveicienu un uzdod pavisam 
     }
   }
 
-  function rebuildStartLinks(){
-    const userQ = qEl.value || '';
-    document.querySelectorAll('article .start-link').forEach(a => {
-      const pre = a.closest('article')?.querySelector('pre');
-      const instr = pre ? pre.textContent : '';
-      a.href = buildPerplexityURL(instr, userQ);
-    });
-  }
-
   loadCards().then(cards => {
     window.__CARDS__ = cards;
     if (!cards.length) {
@@ -192,127 +177,85 @@ t2,Latviešu (A1 demo),Vienkāršs sveiciens,"Pasaki sveicienu un uzdod pavisam 
           <ul class="list-disc ml-5 mt-2">
             <li><code>languages.csv</code> ceļu (tam jābūt tajā pašā mapē)</li>
             <li>CSV galvenes: <code>id,title,subtitle,instruction</code></li>
-            <li>UTF-8 bez BOM</li>
+            <li>BOM (saglabā kā UTF-8 bez BOM)</li>
           </ul>
           <div class="mt-2"><a class="underline" href="languages.csv" target="_blank">Atvērt languages.csv</a></div>
         </div>`;
       return;
     }
     renderCards(cards);
-    rebuildStartLinks();
   }).catch(err => {
     console.error(err);
     grid.innerHTML = '<div class="text-sm text-red-700">Neizdevās ielādēt languages.csv</div>';
   });
+</script>
 
+<script>
   // ——— CEFR helperi ———
   const CEFR_LEVELS = ["A1","A2","B1","B2","C1","C2"];
 
-  function getCEFR() { return sessionStorage.getItem('cefrLevel') || ''; }
-  function setCEFR(val) { sessionStorage.setItem('cefrLevel', val || ''); renderCEFRIndicator(); rebuildStartLinks(); }
+  function getCEFR() {
+    return sessionStorage.getItem('cefrLevel') || '';
+  }
+  function setCEFR(val) {
+    sessionStorage.setItem('cefrLevel', val || '');
+    renderCEFRIndicator();
+  }
   function renderCEFRIndicator() {
     const span = document.getElementById('cefrActive');
-    if (!span) return; const c = getCEFR();
+    if (!span) return;
+    const c = getCEFR();
     span.textContent = c ? `Aktīvs: ${c}` : '';
   }
   function renderCEFRChips() {
-    const box = document.getElementById('cefrChips'); if (!box) return;
-    box.innerHTML = ''; const active = getCEFR();
+    const box = document.getElementById('cefrChips');
+    if (!box) return;
+    box.innerHTML = '';
+    const active = getCEFR();
     CEFR_LEVELS.forEach(lv => {
-      const btn = document.createElement('button'); btn.type = 'button';
-      btn.className = 'px-3 py-1.5 rounded-full border text-sm ' + (active === lv ? 'bg-slate-900 text-white border-slate-900' : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100');
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className =
+        'px-3 py-1.5 rounded-full border text-sm ' +
+        (active === lv
+          ? 'bg-slate-900 text-white border-slate-900'
+          : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100');
       btn.textContent = lv;
-      btn.addEventListener('click', () => { const cur = getCEFR(); setCEFR(cur === lv ? '' : lv); renderCEFRChips(); });
+      btn.addEventListener('click', () => {
+        const cur = getCEFR();
+        setCEFR(cur === lv ? '' : lv);  // atkārtoti nospiežot – noņem izvēli
+        renderCEFRChips();
+      });
       box.appendChild(btn);
     });
   }
 
-  renderCEFRChips(); renderCEFRIndicator();
-  qEl.addEventListener('input', rebuildStartLinks);
+  // inicializācija
+  renderCEFRChips();
+  renderCEFRIndicator();
 
-  // ——— CEFR-injekcija Perplexity URLā ar oficiālajiem deskriptoriem ———
+  // ——— “uzlīmējam” CEFR klāt esošajam URL veidotājam ———
   (function attachCEFR() {
-    const orig = window.buildPerplexityURL;
+    const orig = window.buildPerplexityURL; // ja tev jau ir šī funkcija
     window.buildPerplexityURL = function(instruction, userQ) {
       const cefr = getCEFR();
       let instr = instruction || '';
-      if (cefr) { instr += "\\n\\n" + getInstructionForCEFR(cefr); }
-      if (typeof orig === 'function') return orig(instr, userQ);
+      if (cefr) {
+        instr += `\n\nRespond at CEFR level ${cefr}. Use vocabulary and grammar appropriate to this level.`;
+      }
+      if (typeof orig === 'function') {
+        return orig(instr, userQ);
+      }
+      // Ja kādreiz mainīsies iekšējie nosaukumi, drošības nets:
       const base = (window.PPLX_BASE || 'https://www.perplexity.ai/search?q=');
       const trimmed = (userQ || '').trim();
-      const payload = instr + (trimmed ? '\\n\\n' + trimmed : '');
+      const payload = instr + (trimmed ? '\n\n' + trimmed : '');
       return base + encodeURIComponent(payload);
     };
   })();
-
-  // Oficiālie CEFR deskriptori (Council of Europe, 2018)
-  function getInstructionForCEFR(level){
-    const D = {
-      A1: {
-        overall: "Can use familiar everyday expressions and very basic phrases aimed at the satisfaction of needs of a concrete type.",
-        range: "Has a basic repertoire of isolated words and phrases related to particular concrete situations.",
-        accuracy: "Shows only limited control of a few simple grammatical structures and sentence patterns.",
-        fluency: "Can manage very short, isolated utterances, with much pausing to search for expressions.",
-        coherence: "Can link words or groups of words with very basic linear connectors like 'and' or 'then'.",
-        sociolinguistic: "Can establish basic social contact using simple polite forms of greeting and address."
-      },
-      A2: {
-        overall: "Can understand sentences and frequently used expressions related to areas of most immediate relevance.",
-        range: "Has sufficient vocabulary to conduct routine, everyday transactions involving familiar situations.",
-        accuracy: "Uses some simple structures correctly but still systematically makes basic mistakes.",
-        fluency: "Can make him/herself understood in very short utterances, even though pauses and reformulations are very evident.",
-        coherence: "Can link groups of words with simple connectors like 'and', 'but', and 'because'.",
-        sociolinguistic: "Can handle very short social exchanges using everyday polite forms."
-      },
-      B1: {
-        overall: "Can produce simple connected text on topics which are familiar or of personal interest.",
-        range: "Has a sufficient vocabulary to express himself/herself with some circumlocutions on most topics relevant to everyday life.",
-        accuracy: "Uses reasonably accurately a repertoire of frequently used ‘routines’ and patterns.",
-        fluency: "Can keep going comprehensibly, though pausing for grammatical and lexical planning is very evident.",
-        coherence: "Can link a series of shorter, discrete simple elements into a connected, linear sequence of points.",
-        sociolinguistic: "Can perform and respond to a wide range of language functions using their most common exponents."
-      },
-      B2: {
-        overall: "Can produce clear, detailed text on a wide range of subjects and explain a viewpoint on a topical issue.",
-        range: "Has a sufficient range of language to give clear descriptions, express viewpoints and develop arguments.",
-        accuracy: "Shows a relatively high degree of grammatical control; does not make errors which cause misunderstanding.",
-        fluency: "Can interact with a degree of fluency and spontaneity that makes regular interaction possible.",
-        coherence: "Can produce clear, smoothly flowing, well-structured speech or writing.",
-        sociolinguistic: "Can adjust to changes of style and register; generally maintains a consistent level of politeness."
-      },
-      C1: {
-        overall: "Can produce clear, well-structured, detailed text on complex subjects, showing controlled use of organisational patterns.",
-        range: "Has a good command of a broad lexical repertoire allowing gaps to be readily overcome.",
-        accuracy: "Consistently maintains a high degree of grammatical accuracy; errors are rare.",
-        fluency: "Can express him/herself fluently and spontaneously, almost effortlessly.",
-        coherence: "Can produce coherent, cohesive text making full and appropriate use of a variety of organisational patterns.",
-        sociolinguistic: "Can use language flexibly and effectively for social and professional purposes."
-      },
-      C2: {
-        overall: "Can express him/herself spontaneously, very fluently and precisely, differentiating finer shades of meaning even in more complex situations.",
-        range: "Has a very broad lexical repertoire including idiomatic expressions and colloquialisms.",
-        accuracy: "Maintains consistent grammatical control of complex language, even while attention is otherwise engaged.",
-        fluency: "Can express him/herself fluently with a natural flow, pausing only to reflect on precisely appropriate wording.",
-        coherence: "Can create coherent and cohesive text making full and appropriate use of a variety of organisational patterns.",
-        sociolinguistic: "Can handle delicate, complex, or hostile exchanges with tact and confidence."
-      }
-    };
-    const d = D[level] || D.B1;
-    return [
-      'Always respond in the requested language.',
-      `Target CEFR level: ${level} — Council of Europe, CEFR Companion Volume (2018).`,
-      'Apply these CEFR descriptor areas:',
-      `• Overall production: ${d.overall}`,
-      `• Range (vocabulary/structures): ${d.range}`,
-      `• Accuracy: ${d.accuracy}`,
-      `• Fluency: ${d.fluency}`,
-      `• Coherence & cohesion: ${d.coherence}`,
-      `• Sociolinguistic appropriateness: ${d.sociolinguistic}`,
-      `Ensure your output corresponds to the descriptors above for ${level}.`
-    ].join('\\n');
-  }
-  </script>
-
-  <script data-goatcounter="https://dainize.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</script>
+  
+<script data-goatcounter="https://dainize.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
