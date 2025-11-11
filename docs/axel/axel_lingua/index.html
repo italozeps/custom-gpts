@@ -141,7 +141,15 @@ t2,Latviešu (A1 demo),Vienkāršs sveiciens,"Pasaki sveicienu un uzdod pavisam 
   }
 
   function escapeHtml(s){ return (s || '').replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
-  function escapeAttr(s){ return (s || '').replace(/["'`\\\\]/g, m => ({'\"':'&quot;', \"'\":'&#39;', '`':'&#96;','\\\\':'\\\\\\\\'}[m]).toString()); }
+  function escapeAttr(s){
+  return (s || '').replace(/["'`\\]/g, m => (
+    m === '"' ? '&quot;' :
+    m === "'" ? '&#39;'  :
+    m === '`' ? '&#96;'  :
+    m === '\\' ? '\\\\' : m
+  ));
+}
+
 
   function renderCards(cards) { grid.innerHTML = cards.map(cardHTML).join(''); }
 
