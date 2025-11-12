@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Alex — lingua.id.lv</title>
+  <title>Alex — lingua.id.lv (safe)</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-900">
@@ -12,17 +12,12 @@
     <p class="mt-3 text-lg sm:text-xl text-slate-600">
       Converse in your natural language; Perplexity will respond in your chosen language level.
     </p>
-    <p class="mt-1 text-sm text-amber-700">
-      Piezīme: Te saraksts ievietotais var tikt mainīts. Lūdzu, ierosiniet, kas ievietojams, vai precizējams konfigurējot
-    </p>
   </header>
 
   <main class="max-w-5xl mx-auto px-4 pb-16">
-    <!-- Input area -->
     <section class="mb-6">
       <label for="userQuestion" class="block text-sm font-medium text-slate-700 mb-1">Jūsu jautājums / tēma</label>
 
-      <!-- CEFR līmeņa izvēle (vienkāršie radio) -->
       <div id="cefrLevels" class="mb-2 flex flex-wrap gap-3">
         <label class="inline-flex items-center gap-1"><input type="radio" name="cefrLevel" value="A1" checked> A1</label>
         <label class="inline-flex items-center gap-1"><input type="radio" name="cefrLevel" value="A2"> A2</label>
@@ -42,14 +37,12 @@
       </div>
     </section>
 
-    <!-- Kartīšu saraksts -->
     <section class="space-y-3">
       <div class="flex items-center justify-between">
         <h2 class="text-lg font-semibold">Kartītes</h2>
         <div class="text-xs text-slate-500">languages.csv</div>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        <!-- Cards rendered by JS -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" id="cardsGrid">
       </div>
     </section>
   </main>
@@ -62,31 +55,26 @@
     <div class="mt-2" id="cefrChips"></div>
   </footer>
 
-<script>
-  // ——— Helper: fetch CSV un parse ———
-  async function fetchText(url) {
-    const r = await fetch(url, { cache: 'no-store' });
-    if (!r.ok) throw new Error('Fetch failed ' + r.status + ' for ' + url);
-    return await r.text();
+<script type="text/javascript">
+(function(){
+  function fetchText(url) {
+    return fetch(url, { cache: 'no-store' }).then(function(r){
+      if (!r.ok) throw new Error('Fetch failed ' + r.status + ' for ' + url);
+      return r.text();
+    });
   }
 
   function parseCSV(text) {
-    // Vienkāršs CSV parseris ar pēdiņām
-    const rows = [];
-    let cur = '', row = [], quoted = false;
-
-    for (let i = 0; i < text.length; i++) {
-      const c = text[i];
+    var rows = [];
+    var cur = '', row = [], quoted = false;
+    for (var i = 0; i < text.length; i++) {
+      var c = text[i];
       if (c === '"') {
         if (quoted && text[i + 1] === '"') { cur += '"'; i++; }
         else quoted = !quoted;
-      } else if (!quoted && (c === ',' || c === '
-' || c === '
-')) {
+      } else if (!quoted && (c === ',' || c === '\n' || c === '\r')) {
         row.push(cur); cur = '';
-        if (c === '
-' || c === '
-') { if (row.length) rows.push(row); row = []; }
+        if (c === '\n' || c === '\r') { if (row.length) rows.push(row); row = []; }
       } else {
         cur += c;
       }
@@ -94,180 +82,163 @@
     if (cur.length || row.length) { row.push(cur); rows.push(row); }
 
     if (!rows.length) return [];
-    const header = rows[0].map(h => h.trim().toLowerCase());
-    const idx = {
+    var header = rows[0].map(function(h){ return h.trim().toLowerCase(); });
+    var idx = {
       id: header.indexOf('id'),
       title: header.indexOf('title'),
       subtitle: header.indexOf('subtitle'),
-      instruction: header.indexOf('instruction'),
+      instruction: header.indexOf('instruction')
     };
-    const out = [];
-    for (let i = 1; i < rows.length; i++) {
-      const r = rows[i];
-      if (!r.length) continue;
+    var out = [];
+    for (var j = 1; j < rows.length; j++) {
+      var r = rows[j]; if (!r.length) continue;
       out.push({
-        id: r[idx.id] || String(i),
-        title: r[idx.title] || '',
-        subtitle: r[idx.subtitle] || '',
-        instruction: r[idx.instruction] || ''
+        id: (idx.id >= 0 ? r[idx.id] : String(j)),
+        title: (idx.title >= 0 ? r[idx.title] : ''),
+        subtitle: (idx.subtitle >= 0 ? r[idx.subtitle] : ''),
+        instruction: (idx.instruction >= 0 ? r[idx.instruction] : '')
       });
     }
-    return out.filter(x => x.title || x.subtitle || x.instruction);
+    return out.filter(function(x){ return x.title || x.subtitle || x.instruction; });
   }
 
-  // ——— Render kartītes ———
+  function esc(s){
+    return String(s || '').replace(/[&<>\"']/g, function(m){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];
+    });
+  }
+
   function cardHTML(item) {
-    // Svarīgi: saite tiek ģenerēta klikšķa brīdī, nevis te
-    return `
-      <article class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm hover:shadow-md transition">
-        <h3 class="font-semibold text-slate-800">${escapeHTML(item.title || '')}</h3>
-        <p class="text-sm text-slate-600 mt-1">${escapeHTML(item.subtitle || '')}</p>
-
-        <div class="mt-3 flex items-center gap-2">
-          <a href="#" class="pplx-link inline-flex items-center gap-2 rounded-xl border px-3 py-1.5 text-sm hover:bg-slate-50"
-             data-instr="${escapeAttr(item.instruction || '')}">
-            <span>Perplexity</span>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-          </a>
-
-          <button data-id="${escapeAttr(item.id)}"
-                  class="copy-btn inline-flex items-center gap-2 rounded-xl border px-3 py-1.5 text-sm hover:bg-slate-50"
-                  title="Iekopēt instrukciju starpliktuvē">
-            Kopēt instrukciju
-          </button>
-        </div>
-      </article>
-    `;
+    var html = '';
+    html += '<article class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm hover:shadow-md transition">';
+    html +=   '<h3 class="font-semibold text-slate-800">' + esc(item.title || '') + '</h3>';
+    html +=   '<p class="text-sm text-slate-600 mt-1">' + esc(item.subtitle || '') + '</p>';
+    html +=   '<div class="mt-3 flex items-center gap-2">';
+    html +=     '<a href="#" class="pplx-link inline-flex items-center gap-2 rounded-xl border px-3 py-1.5 text-sm hover:bg-slate-50" data-instr="' + esc(item.instruction || '') + '">';
+    html +=       '<span>Perplexity</span>';
+    html +=     '</a>';
+    html +=     '<button data-id="' + esc(item.id || '') + '" class="copy-btn inline-flex items-center gap-2 rounded-xl border px-3 py-1.5 text-sm hover:bg-slate-50" title="Iekopēt instrukciju starpliktuvē">Kopēt instrukciju</button>';
+    html +=   '</div>';
+    html += '</article>';
+    return html;
   }
 
-  function escapeHTML(s) {
-    return (s || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  function bindCopyButtons(rows) {
+    var btns = document.querySelectorAll('.copy-btn');
+    Array.prototype.forEach.call(btns, function(btn){
+      btn.addEventListener('click', function(){
+        var id = btn.getAttribute('data-id');
+        var row = rows.find(function(x){ return String(x.id) === String(id); });
+        if (!row) return;
+        navigator.clipboard.writeText(row.instruction || '').then(function(){
+          btn.textContent = 'Nokopēts!';
+          setTimeout(function(){ btn.textContent = 'Kopēt instrukciju'; }, 1200);
+        }, function(e){
+          alert('Neizdevās kopēt instrukciju: ' + e);
+        });
+      });
+    });
   }
-  function escapeAttr(s){ return escapeHTML(s).replace(/"/g,'&quot;'); }
 
-  async function renderCards() {
-    const grid = document.querySelector('main section .grid');
+  function buildURL(instruction, userQ, cefr) {
+    var instr = instruction || '';
+    if (cefr) {
+      instr += '\n\nRespond at CEFR level ' + cefr + '. Use vocabulary and grammar appropriate to this level.';
+    }
+    var base = (window.PPLX_BASE || 'https://www.perplexity.ai/search?q=');
+    var payload = instr + (userQ ? '\n\n' + userQ : '');
+    return base + encodeURIComponent(payload);
+  }
+
+  document.addEventListener('click', function(ev){
+    var link = ev.target.closest ? ev.target.closest('.pplx-link') : null;
+    if (!link) return;
+    ev.preventDefault();
+    var instruction = link.getAttribute('data-instr') || '';
+    var userQel = document.getElementById('userQuestion');
+    var userQ = userQel ? (userQel.value || '').trim() : '';
+    var r = document.querySelector('input[name="cefrLevel"]:checked');
+    var cefr = r ? r.value : '';
+    var url = buildURL(instruction, userQ, cefr);
+    var sameTabEl = document.getElementById('openSameTab');
+    var sameTab = sameTabEl && sameTabEl.checked;
+    if (sameTab) window.location.href = url;
+    else window.open(url, '_blank', 'noopener,noreferrer');
+  });
+
+  function renderCards() {
+    var grid = document.getElementById('cardsGrid');
     if (!grid) return;
     grid.innerHTML = '<div class="text-sm text-slate-500">Ielādē...</div>';
-    try {
-      const txt = await fetchText('languages.csv');
-      const rows = parseCSV(txt);
+    fetchText('languages.csv').then(function(txt){
+      var rows = parseCSV(txt);
       if (!rows.length) {
         grid.innerHTML = '<div class="text-sm text-amber-600">languages.csv ir tukšs vai bez vajadzīgajām kolonnām.</div>';
         return;
       }
-      grid.innerHTML = rows.map(cardHTML).join('');
+      var html = rows.map(cardHTML).join('');
+      grid.innerHTML = html;
       bindCopyButtons(rows);
-    } catch (e) {
-      grid.innerHTML = '<div class="text-sm text-rose-600">Neizdevās ielādēt languages.csv: ' + escapeHTML(String(e)) + '</div>';
-    }
-  }
-
-  function bindCopyButtons(rows) {
-    document.querySelectorAll('.copy-btn').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        const id = btn.getAttribute('data-id');
-        const row = rows.find(x => x.id == id);
-        if (!row) return;
-        try {
-          await navigator.clipboard.writeText(row.instruction || '');
-          btn.textContent = 'Nokopēts!';
-          setTimeout(() => { btn.textContent = 'Kopēt instrukciju'; }, 1200);
-        } catch (e) {
-          alert('Neizdevās kopēt instrukciju: ' + e);
-        }
-      });
+    }).catch(function(e){
+      grid.innerHTML = '<div class="text-sm text-rose-600">Neizdevās ielādēt languages.csv: ' + esc(String(e)) + '</div>';
     });
   }
 
-  // ——— Dinamiska Perplexity URL ģenerēšana klikšķa brīdī ———
-  document.addEventListener('click', (ev) => {
-    const link = ev.target.closest('.pplx-link');
-    if (!link) return;
-    ev.preventDefault();
-    const instruction = link.getAttribute('data-instr') || '';
-    const userQ = (document.getElementById('userQuestion')?.value || '').trim();
-    const cefr = document.querySelector('input[name="cefrLevel"]:checked')?.value || '';
-    let instr = instruction;
-    if (cefr) {
-      instr += '\n\nRespond at CEFR level ' + cefr + '. Use vocabulary and grammar appropriate to this level.';
-    }
-    const base = (window.PPLX_BASE || 'https://www.perplexity.ai/search?q=');
-    const payload = instr + (userQ ? '\n\n' + userQ : '');
-    const url = base + encodeURIComponent(payload);
-
-    const sameTab = document.getElementById('openSameTab')?.checked;
-    if (sameTab) {
-      window.location.href = url;
-    } else {
-      window.open(url, '_blank', 'noopener,noreferrer');
-    }
-  });
-
-  // Input UI
-  document.getElementById('clearBtn')?.addEventListener('click', () => {
-    const ta = document.getElementById('userQuestion');
-    if (ta) ta.value = '';
-  });
-
-  // Render sākumā
-  renderCards();
-
-  // ——— CEFR helperi ———
-  const CEFR_LEVELS = ["A1","A2","B1","B2","C1","C2"];
-
-  function getCEFR() {
-    return sessionStorage.getItem('cefrLevel') || '';
-  }
+  // CEFR indikatoru palīdzfunkcijas
+  var CEFR_LEVELS = ['A1','A2','B1','B2','C1','C2'];
   function setCEFR(val) {
-    sessionStorage.setItem('cefrLevel', val || '');
+    try { sessionStorage.setItem('cefrLevel', val || ''); } catch(e){}
     renderCEFRIndicator();
   }
-
+  function getCEFR() {
+    try { return sessionStorage.getItem('cefrLevel') || ''; } catch(e){ return ''; }
+  }
   function renderCEFRIndicator() {
-    const span = document.getElementById('cefrActive');
+    var span = document.getElementById('cefrActive');
     if (!span) return;
-    const c = document.querySelector('input[name="cefrLevel"]:checked')?.value || getCEFR();
+    var r = document.querySelector('input[name="cefrLevel"]:checked');
+    var c = r ? r.value : getCEFR();
     span.textContent = c ? ('Aktīvs: ' + c) : '';
   }
   function renderCEFRChips() {
-    const box = document.getElementById('cefrChips');
+    var box = document.getElementById('cefrChips');
     if (!box) return;
     box.innerHTML = '';
-    const active = document.querySelector('input[name="cefrLevel"]:checked')?.value || getCEFR();
-    CEFR_LEVELS.forEach(lv => {
-      const btn = document.createElement('button');
+    var active = (document.querySelector('input[name="cefrLevel"]:checked') || {}).value || getCEFR();
+    CEFR_LEVELS.forEach(function(lv){
+      var btn = document.createElement('button');
       btn.type = 'button';
-      btn.className =
-        'px-3 py-1.5 rounded-full border text-sm ' +
-        (active === lv ? 'bg-slate-800 text-white' : 'bg-white text-slate-700 hover:bg-slate-50');
+      btn.className = 'px-3 py-1.5 rounded-full border text-sm ' + (active === lv ? 'bg-slate-800 text-white' : 'bg-white text-slate-700 hover:bg-slate-50');
       btn.textContent = lv;
-      btn.addEventListener('click', () => {
-        // Atzīmējam radio un atjaunojam indikatoru
-        const r = document.querySelector('input[name="cefrLevel"][value="' + lv + '"]');
+      btn.addEventListener('click', function(){
+        var r = document.querySelector('input[name="cefrLevel"][value="' + lv + '"]');
         if (r) r.checked = true;
         setCEFR(lv);
-        renderCEFRChips(); // pārzīmējam chipus, lai atspoguļotu aktīvo
+        renderCEFRChips();
       });
       box.appendChild(btn);
     });
 
-    // sasaistām radio pogas
-    document.querySelectorAll('input[name="cefrLevel"]').forEach(r => {
-      r.addEventListener('change', (ev) => {
-        const v = ev.target.value;
-        setCEFR(v);
+    var radios = document.querySelectorAll('input[name="cefrLevel"]');
+    Array.prototype.forEach.call(radios, function(radio){
+      radio.addEventListener('change', function(ev){
+        setCEFR(ev.target.value);
         renderCEFRChips();
       });
     });
   }
 
-  // inicializācija
+  document.getElementById('clearBtn') && document.getElementById('clearBtn').addEventListener('click', function(){
+    var ta = document.getElementById('userQuestion'); if (ta) ta.value='';
+  });
+
+  // Start
+  renderCards();
   renderCEFRChips();
   renderCEFRIndicator();
+})();
 </script>
 
-<script data-goatcounter="https://dainize.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+<script data-goatcounter="https://dainize.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
