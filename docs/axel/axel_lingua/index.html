@@ -235,26 +235,18 @@
   renderCEFRChips();
   renderCEFRIndicator();
 
-  // ——— “uzlīmējam” CEFR klāt esošajam URL veidotājam ———
-  (function attachCEFR() {
-    const orig = window.buildPerplexityURL; // ja tev jau ir šī funkcija
-    window.buildPerplexityURL = function(instruction, userQ) {
-      const cefr = getCEFR();
-      let instr = instruction || '';
-      if (cefr) {
-        instr += `\n\nRespond at CEFR level ${cefr}. Use vocabulary and grammar appropriate to this level.`;
-      }
-      if (typeof orig === 'function') {
-        return orig(instr, userQ);
-      }
-      // Ja kādreiz mainīsies iekšējie nosaukumi, drošības nets:
-      const base = (window.PPLX_BASE || 'https://www.perplexity.ai/search?q=');
-      const trimmed = (userQ || '').trim();
-      const payload = instr + (trimmed ? '\n\n' + trimmed : '');
-      return base + encodeURIComponent(payload);
-    };
-  })();
-</script>
+window.buildPerplexityURL = function(instruction, userQ) {
+  // Always read CEFR from the checked radio button, not storage!
+  const cefr = document.querySelector('input[name="cefrLevel"]:checked')?.value || '';
+  let instr = instruction || '';
+  if (cefr) {
+    instr += `\n\nRespond at CEFR level ${cefr}. Use vocabulary and grammar appropriate to this level.`;
+  }
+  const base = (window.PPLX_BASE || 'https://www.perplexity.ai/search?q=');
+  const trimmed = (userQ || '').trim();
+  const payload = instr + (trimmed ? '\n\n' + trimmed : '');
+  return base + encodeURIComponent(payload);
+};
   
 <script data-goatcounter="https://dainize.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
