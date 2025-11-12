@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="lv">
 <head>
@@ -23,16 +22,17 @@
     <section class="mb-6">
       <label for="userQuestion" class="block text-sm font-medium text-slate-700 mb-1">Jūsu jautājums / tēma</label>
 
-<!-- CEFR līmeņa kontrole (A1–C2 čipi) -->
-<div class="mt-3 sticky top-0 z-10 bg-slate-50/80 backdrop-blur px-2 py-2 rounded-xl border border-slate-200">
-  <div class="flex flex-wrap items-center gap-3">
-    <div class="text-xs font-semibold text-slate-600">Valodas prasmes līmenis (CEFR)</div>
-    <div id="cefrChips" class="flex flex-wrap gap-2"></div>
-    <div class="ml-auto text-xs text-slate-500"><span id="cefrActive"></span></div>
-  </div>
-</div>
+      <!-- CEFR līmeņa izvēle (vienkāršie radio) -->
+      <div id="cefrLevels" class="mb-2">
+        <label><input type="radio" name="cefrLevel" value="A1" checked> A1</label>
+        <label><input type="radio" name="cefrLevel" value="A2"> A2</label>
+        <label><input type="radio" name="cefrLevel" value="B1"> B1</label>
+        <label><input type="radio" name="cefrLevel" value="B2"> B2</label>
+        <label><input type="radio" name="cefrLevel" value="C1"> C1</label>
+        <label><input type="radio" name="cefrLevel" value="C2"> C2</label>
+      </div>
 
-      <textarea id="userQuestion" class="w-full rounded-xl border border-slate-300 px-3 py-2 focus:outline-none focus:ring focus:ring-slate-300" placeholder="Ierakstiet šeit brīvā valodā; atbilde būs izvēlētajā valodā."></textarea>
+      <textarea id="userQuestion" class="w-full rounded-xl border border-slate-300 p-3 focus:outline-none focus:ring-2 focus:ring-sky-400" rows="3" placeholder="Ierakstiet šeit brīvā valodā; atbilde būs izvēlētajā valodā."></textarea>
       <div class="mt-2 flex items-center gap-3 text-sm text-slate-600">
         <label class="inline-flex items-center gap-2">
           <input id="openSameTab" type="checkbox" class="rounded border-slate-300" />
@@ -55,28 +55,26 @@
   </main>
 
   <footer class="max-w-5xl mx-auto px-4 pb-10 text-xs text-slate-500">
-    <p>Šī lapa ģenerē Perplexity meklēšanas saiti ar iepriekšpievienotu norādi par atbilžu valodu un CEFR, lai atbildes tiktu veidotas atbilstošā līmenī un izvēlētajā valodā. Jautājums paliek tieši tāds, kā ievadīts augstāk.</p>
+    <div id="cefrIndicator" class="flex items-center gap-2">
+      <span class="font-semibold">CEFR:</span>
+      <span id="cefrActive" class="inline-block px-2 py-0.5 rounded-full bg-slate-200"></span>
+    </div>
+    <div class="mt-2" id="cefrChips"></div>
   </footer>
 
-  <script id="languages-csv" type="text/csv">
-</script>
-
 <script>
-  const CSV_URL = 'languages.csv?v=20251110b';
-  const PPLX_BASE = 'https://www.perplexity.ai/search?q=';
+  // ——— Helper: fetch CSV un parse ———
+  async function fetchText(url) {
+    const r = await fetch(url, { cache: 'no-store' });
+    if (!r.ok) throw new Error(`Fetch failed ${r.status} for ${url}`);
+    return await r.text();
+  }
 
-  const grid = document.querySelector('.grid');
-  const qEl = document.getElementById('userQuestion');
-  const sameTabEl = document.getElementById('openSameTab');
-  document.getElementById('clearBtn').addEventListener('click', () => { qEl.value = ''; qEl.focus(); });
-
-  // Vienkāršs CSV parseris + BOM noņemšana
   function parseCSV(text) {
-    // noņem BOM, ja tāds ir
-    if (text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
-
+    // Vienkāršs CSV parseris ar pēdiņām
     const rows = [];
     let cur = '', row = [], quoted = false;
+
     for (let i = 0; i < text.length; i++) {
       const c = text[i];
       if (c === '"') {
@@ -107,90 +105,93 @@
         id: r[idx.id] || String(i),
         title: r[idx.title] || '',
         subtitle: r[idx.subtitle] || '',
-        instruction: r[idx.instruction] || '',
+        instruction: r[idx.instruction] || ''
       });
     }
-    return out;
+    return out.filter(x => x.title || x.subtitle || x.instruction);
   }
 
-  function cardHTML(card) {
+  // ——— Render kartītes ———
+  function cardHTML(item) {
+    const q = document.getElementById('userQuestion')?.value || '';
+    const href = buildPerplexityURL(item.instruction, q);
+    const sameTab = document.getElementById('openSameTab')?.checked;
+    const target = sameTab ? '_self' : '_blank';
+    const rel = sameTab ? '' : 'noopener noreferrer';
+
     return `
-      <article class="rounded-xl border border-slate-200 bg-white p-3 shadow-sm hover:shadow">
-        <div class="flex items-start justify-between gap-3">
-          <div>
-            <h3 class="font-semibold">${escapeHtml(card.title || '')}</h3>
-            <p class="text-xs text-slate-500">${escapeHtml(card.subtitle || '')}</p>
-          </div>
-          <div class="text-[10px] text-slate-400">${escapeHtml(card.id || '')}</div>
-        </div>
-        <div class="mt-2">
-          <pre class="whitespace-pre-wrap text-xs text-slate-700 bg-slate-50 border border-slate-200 rounded p-2">${escapeHtml(card.instruction || '')}</pre>
-        </div>
+      <article class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm hover:shadow-md transition">
+        <h3 class="font-semibold text-slate-800">${escapeHTML(item.title || '')}</h3>
+        <p class="text-sm text-slate-600 mt-1">${escapeHTML(item.subtitle || '')}</p>
+
         <div class="mt-3 flex items-center gap-2">
-          <a class="px-3 py-1.5 rounded-lg border border-slate-300 text-sm hover:bg-slate-50"
-             href="${buildPerplexityURL(card.instruction || '', qEl.value || '')}"
-             target="${sameTabEl.checked ? '_self' : '_blank'}">
-            Start
+          <a href="${href}" target="${target}" rel="${rel}"
+             class="inline-flex items-center gap-2 rounded-xl border px-3 py-1.5 text-sm hover:bg-slate-50">
+            <span>Perplexity</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
           </a>
-          <button class="px-3 py-1.5 rounded-lg border border-slate-300 text-sm hover:bg-slate-50"
-                  onclick="navigator.clipboard.writeText('${escapeAttr(card.instruction || '')}')">
-            Copy
+
+          <button data-id="${escapeAttr(item.id)}"
+                  class="copy-btn inline-flex items-center gap-2 rounded-xl border px-3 py-1.5 text-sm hover:bg-slate-50"
+                  title="Iekopēt instrukciju starpliktuvē">
+            Kopēt instrukciju
           </button>
         </div>
-      </article>`;
+      </article>
+    `;
   }
 
-  function escapeHtml(s){
-    return (s || '').replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
+  function escapeHTML(s) {
+    return (s || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   }
-  function escapeAttr(s){
-    return (s || '').replace(/["'`\\]/g, m => ({'"':'&quot;', "'":'&#39;', '`':'&#96;','\\':'\\\\'}[m]).toString());
-  }
+  function escapeAttr(s){ return escapeHTML(s).replace(/"/g,'&quot;'); }
 
-  function renderCards(cards) {
-    grid.innerHTML = cards.map(cardHTML).join('');
-  }
-
-  async function loadCards() {
+  async function renderCards() {
+    const grid = document.querySelector('main section .grid');
+    if (!grid) return;
+    grid.innerHTML = '<div class="text-sm text-slate-500">Ielādē...</div>';
     try {
-      // vispirms mēģinām ielādēt ārējo CSV (parasti tas pats katalogs)
-      const resp = await fetch(CSV_URL, { cache: 'no-cache' });
-      if (!resp.ok) throw new Error('HTTP ' + resp.status);
-      const txt = await resp.text();
-      const cards = parseCSV(txt);
-      if (cards.length) return cards;
-      throw new Error('Parsed 0 cards from external CSV');
+      const txt = await fetchText('languages.csv');
+      const rows = parseCSV(txt);
+      if (!rows.length) {
+        grid.innerHTML = '<div class="text-sm text-amber-600">languages.csv ir tukšs vai bez vajadzīgajām kolonnām.</div>';
+        return;
+      }
+      grid.innerHTML = rows.map(cardHTML).join('');
+      bindCopyButtons(rows);
     } catch (e) {
-      console.warn('Using inline CSV fallback:', e.message || e);
-      const inline = document.getElementById('languages-csv');
-      const txt = (inline && inline.textContent) ? inline.textContent : '';
-      return parseCSV(txt);
+      grid.innerHTML = `<div class="text-sm text-rose-600">Neizdevās ielādēt languages.csv: ${escapeHTML(String(e))}</div>`;
     }
   }
 
-  loadCards().then(cards => {
-    window.__CARDS__ = cards;
-    if (!cards.length) {
-      grid.innerHTML = `
-        <div class="text-sm text-red-700">
-          Kartītes neizdevās ielādēt. Pārbaudi:
-          <ul class="list-disc ml-5 mt-2">
-            <li><code>languages.csv</code> ceļu (tam jābūt tajā pašā mapē)</li>
-            <li>CSV galvenes: <code>id,title,subtitle,instruction</code></li>
-            <li>BOM (saglabā kā UTF-8 bez BOM)</li>
-          </ul>
-          <div class="mt-2"><a class="underline" href="languages.csv" target="_blank">Atvērt languages.csv</a></div>
-        </div>`;
-      return;
-    }
-    renderCards(cards);
-  }).catch(err => {
-    console.error(err);
-    grid.innerHTML = '<div class="text-sm text-red-700">Neizdevās ielādēt languages.csv</div>';
-  });
-</script>
+  function bindCopyButtons(rows) {
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const id = btn.getAttribute('data-id');
+        const row = rows.find(x => x.id == id);
+        if (!row) return;
+        try {
+          await navigator.clipboard.writeText(row.instruction || '');
+          btn.textContent = 'Nokopēts!';
+          setTimeout(() => { btn.textContent = 'Kopēt instrukciju'; }, 1200);
+        } catch (e) {
+          alert('Neizdevās kopēt instrukciju: ' + e);
+        }
+      });
+    });
+  }
 
-<script>
+  // Input UI
+  document.getElementById('clearBtn')?.addEventListener('click', () => {
+    const ta = document.getElementById('userQuestion');
+    if (ta) ta.value = '';
+  });
+
+  // Render sākumā
+  renderCards();
+
+  // Ja mainās checkbox vai teksts, nepārzīmējam; Perplexity URL top dinamiski pie click/atvēršanas
+
   // ——— CEFR helperi ———
   const CEFR_LEVELS = ["A1","A2","B1","B2","C1","C2"];
 
@@ -201,6 +202,7 @@
     sessionStorage.setItem('cefrLevel', val || '');
     renderCEFRIndicator();
   }
+
   function renderCEFRIndicator() {
     const span = document.getElementById('cefrActive');
     if (!span) return;
@@ -217,16 +219,23 @@
       btn.type = 'button';
       btn.className =
         'px-3 py-1.5 rounded-full border text-sm ' +
-        (active === lv
-          ? 'bg-slate-900 text-white border-slate-900'
-          : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100');
+        (active === lv ? 'bg-slate-800 text-white' : 'bg-white text-slate-700 hover:bg-slate-50');
       btn.textContent = lv;
       btn.addEventListener('click', () => {
-        const cur = getCEFR();
-        setCEFR(cur === lv ? '' : lv);  // atkārtoti nospiežot – noņem izvēli
-        renderCEFRChips();
+        setCEFR(lv);
+        // arī atjauninām radio
+        const r = document.querySelector(`input[name="cefrLevel"][value="${lv}"]`);
+        if (r) r.checked = true;
       });
       box.appendChild(btn);
+    });
+
+    // sasaistām radio pogas
+    document.querySelectorAll('input[name="cefrLevel"]').forEach(r => {
+      r.addEventListener('change', (ev) => {
+        const v = ev.target.value;
+        setCEFR(v);
+      });
     });
   }
 
@@ -234,27 +243,20 @@
   renderCEFRChips();
   renderCEFRIndicator();
 
-  // ——— “uzlīmējam” CEFR klāt esošajam URL veidotājam ———
-  (function attachCEFR() {
-    const orig = window.buildPerplexityURL; // ja tev jau ir šī funkcija
-    window.buildPerplexityURL = function(instruction, userQ) {
-      const cefr = getCEFR();
-      let instr = instruction || '';
-      if (cefr) {
-        instr += `\n\nRespond at CEFR level ${cefr}. Use vocabulary and grammar appropriate to this level.`;
-      }
-      if (typeof orig === 'function') {
-        return orig(instr, userQ);
-      }
-      // Ja kādreiz mainīsies iekšējie nosaukumi, drošības nets:
-      const base = (window.PPLX_BASE || 'https://www.perplexity.ai/search?q=');
-      const trimmed = (userQ || '').trim();
-      const payload = instr + (trimmed ? '\n\n' + trimmed : '');
-      return base + encodeURIComponent(payload);
-    };
-  })();
+  window.buildPerplexityURL = function(instruction, userQ) {
+    // Always read CEFR from the checked radio button, not storage!
+    const cefr = document.querySelector('input[name="cefrLevel"]:checked')?.value || '';
+    let instr = instruction || '';
+    if (cefr) {
+      instr += `\n\nRespond at CEFR level ${cefr}. Use vocabulary and grammar appropriate to this level.`;
+    }
+    const base = (window.PPLX_BASE || 'https://www.perplexity.ai/search?q=');
+    const trimmed = (userQ || '').trim();
+    const payload = instr + (trimmed ? '\n\n' + trimmed : '');
+    return base + encodeURIComponent(payload);
+  };
 </script>
-  
+
 <script data-goatcounter="https://dainize.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
 </body>
