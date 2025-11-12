@@ -124,21 +124,24 @@
   }
 
   function bindCopyButtons(rows) {
-    var btns = document.querySelectorAll('.copy-btn');
-    Array.prototype.forEach.call(btns, function(btn){
-      btn.addEventListener('click', function(){
-        var id = btn.getAttribute('data-id');
-        var row = rows.find(function(x){ return String(x.id) === String(id); });
-        if (!row) return;
-        navigator.clipboard.writeText(row.instruction || '').then(function(){
-          btn.textContent = 'Nokopēts!';
-          setTimeout(function(){ btn.textContent = 'Kopēt instrukciju'; }, 1200);
-        }, function(e){
-          alert('Neizdevās kopēt instrukciju: ' + e);
-        });
-      });
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.textContent = 'Copy conversation';  // vai “Atskaņot sarunu”, ja gribi latviski
+    btn.addEventListener('click', async () => {
+      const id = btn.getAttribute('data-id');
+      const row = rows.find(x => x.id == id);
+      if (!row) return;
+
+      // Šeit ievieto savu saiti uz sarunu — pagaidām piemērs:
+      const convoUrl = row.subtitle || ''; // vai cita kolonna CSV
+      if (convoUrl) {
+        window.open(convoUrl, '_blank', 'noopener,noreferrer');
+      } else {
+        alert('Sarunas saite nav norādīta.');
+      }
     });
-  }
+  });
+}
+
 
   function buildURL(instruction, userQ, cefr) {
     var instr = instruction || '';
