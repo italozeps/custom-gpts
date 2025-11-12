@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lingua CEFR pieredze</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900">
+  <main class="max-w-3xl mx-auto px-4 pt-12">
+    <h1 class="text-3xl font-bold">CEFR valodas līmenis</h1>
+    <p class="mt-3 text-lg text-slate-600">
+      Raksti jautājumu, izvēlies valodu un CEFR līmeni. Atbilde ģenerēsies norādītajā grūtības pakāpē.
+    </p>
+
+    <!-- Jautājuma ievade -->
+    <section class="mb-4">
+      <label for="userQuestion" class="block text-slate-700 mb-1">Jautājums:</label>
+      <textarea id="userQuestion" rows="3"
+        class="w-full rounded-xl border border-slate-300 px-3 py-2"
+        placeholder="Raksti šeit savā valodā, atbilde būs izvēlētajā līmenī."></textarea>
+    </section>
+
+    <!-- Valodas izvēle -->
+    <section class="mb-3">
+      <label class="block text-slate-700 mb-1">Valoda:</label>
+      <select id="languageSelect" class="border rounded px-2 py-1">
+        <option value="German">Vācu</option>
+        <option value="English">Angļu</option>
+        <option value="Latvian">Latviešu</option>
+      </select>
+    </section>
+
+    <!-- CEFR līmenis (radio pogas) -->
+    <section class="mb-4">
+      <span class="block text-slate-700 mb-1">CEFR līmenis:</span>
+      <label><input type="radio" name="cefrLevel" value="A1" checked /> A1</label>
+      <label><input type="radio" name="cefrLevel" value="A2" /> A2</label>
+      <label><input type="radio" name="cefrLevel" value="B1" /> B1</label>
+      <label><input type="radio" name="cefrLevel" value="B2" /> B2</label>
+      <label><input type="radio" name="cefrLevel" value="C1" /> C1</label>
+      <label><input type="radio" name="cefrLevel" value="C2" /> C2</label>
+    </section>
+
+    <button id="sendBtn" class="bg-blue-800 text-white px-6 py-2 rounded-full hover:bg-blue-700">Jautāt</button>
+
+    <!-- Atbilde -->
+    <section class="mt-6">
+      <div id="response" class="whitespace-pre-line text-slate-800"></div>
+    </section>
+  </main>
+
+  <script>
+    // Ģenerē instrukciju katram līmenim
+    function getCEFRInstruction(lang, level) {
+      const instr = {
+        A1: `
+Always respond in ${lang}.
+Use only very simple sentences (max 6 words each) in present tense.
+Strictly basic, everyday vocabulary only.
+No subordinate clauses, no idioms.
+Each sentence is a clear statement or question.
+Ex: Ich bin Anna. Das ist mein Hund.
+        `,
+        A2: `
+Always respond in ${lang}.
+Simple sentences, occasionally joined with 'und', 'oder', 'aber'.
+Slightly broader everyday vocabulary.
+Max 8 words per sentence. Still avoid subordinate clauses.
+Ex: Ich habe einen Hund und eine Katze.
+        `,
+        B1: `
+Always respond in ${lang}.
+Sentences may have up to 12 words, sometimes with subordinate clauses.
+Vocabulary covers familiar topics (school, work, leisure).
+Simple opinions allowed.
+Ex: Ich denke, dass Hunde nett sind.
+        `,
+        B2: `
+Always respond in ${lang}.
+Sentences may be up to 18 words, mixed structure.
+Regular use of subordinate clauses allowed.
+Professional, technical or abstract terms suitable.
+Ex: Obwohl ich müde war, bin ich zur Schule gegangen.
+        `,
+        C1: `
+Always respond in ${lang}.
+Flexible, nuanced use of complex structures and vocabulary.
+Idioms, passive, and indirect speech allowed.
+Ex: Es ist keineswegs offensichtlich, dass jeder denselben Standpunkt vertritt.
+        `,
+        C2: `
+Always respond in ${lang}.
+Natural, fluent, native speaker-level usage. Full complexity and idiomatic nuance allowed.
+Ex: Nichtsdestotrotz erachtete sie es als ihre Pflicht, die Angelegenheit detailliert zu erörtern.
+        `,
+      }[level];
+      return instr || "";
+    }
+
+    // Perplexity vaicājuma ģenerēšana (pielāgot vajadzīgajam endpoint)
+    const PPLXBASE = "https://www.perplexity.ai/search?q=";
+
+    document.getElementById("sendBtn").addEventListener("click", function () {
+      const userQ = document.getElementById("userQuestion").value.trim();
+      const lang = document.getElementById("languageSelect").value;
+      const level = document.querySelector('input[name="cefrLevel"]:checked').value;
+      const instruction = getCEFRInstruction(lang, level);
+
+      // Veido vaicājuma tekstu ar instrukciju
+      const payload = instruction + "\n" + userQ;
+      const url = PPLXBASE + encodeURIComponent(payload);
+
+      // Palaiž meklēšanu jaunā tabā (demo, nav atbilde lapā)
+      window.open(url, "_blank", "noopener");
+    });
+  </script>
+</body>
+</html>
