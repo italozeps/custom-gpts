@@ -22,8 +22,10 @@
 
 <img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/8271edea-8ffb-4a8d-a3c7-ce9176a3032c" />
 
-
+# Video par tēmu Planetārā izglīgīta un mākslīgā interneta robežas
 https://www.youtube.com/watch?v=QPdT2G58Eec
+- Raksts par šo tēmu - Saruna ar LLM (Chat GPT)
+- https://www.researchgate.net/publication/397610158 
 
 
 
