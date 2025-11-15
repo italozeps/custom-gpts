@@ -23,6 +23,9 @@
 <img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/8271edea-8ffb-4a8d-a3c7-ce9176a3032c" />
 
 
+https://www.youtube.com/watch?v=QPdT2G58Eec
+
+
 
 #  Planetārā izglītība, noosfēra, providence
 Apskatīsim rakstu, ko veidojam ar šādu pašu nosaukumu
