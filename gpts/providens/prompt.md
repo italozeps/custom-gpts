@@ -25,7 +25,10 @@
 # Video par tēmu Planetārā izglītība un mākslīgā interneta robežas
 https://www.youtube.com/watch?v=QPdT2G58Eec
 - Raksts par šo tēmu - Saruna ar LLM (Chat GPT)
-- https://www.researchgate.net/publication/397610158 
+- https://www.researchgate.net/publication/397610158
+
+  ## Iniciācija - galvenā tēma šajos gan video, gan rakstā -
+  ### Kā atbildēt uz jautājumu - kādi ir galvenie soļi iniciācijā Planetārās izglītības ceļā?
 
 
 
