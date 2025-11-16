@@ -47,6 +47,7 @@
 <img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/105ce7b1-d567-4494-91fe-45a211b32598" />
 
 <img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/8271edea-8ffb-4a8d-a3c7-ce9176a3032c" />
+
 ### 6. step o Initiation
 #### Can information/AI struggle against Evil, and how this connected with Planetary education?
 
