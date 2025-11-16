@@ -12,7 +12,9 @@
 
 ##  Planetary Education and Steps on Intiation
 
-### First law of Finance
+### What is the main financial law?
+
+#### No, the main financial law is not to take what is not yours, i.e. not to take up what does not belong you. I f you see bilion laying on road, dont take it up if you dont know whether it belongs you or not.
 
 
 
