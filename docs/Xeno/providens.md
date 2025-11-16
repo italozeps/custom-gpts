@@ -1,10 +1,9 @@
 ---
-layout: default
-title: Providens
----
-# Providens
 
-(
+
+---
+
+
 
 # Planetary Education
 
@@ -215,6 +214,3 @@ Aplūkojam raksta sagatavi Planetārā izglītība, noosfēra, providence.
 33.	Dainis Zeps, What can save NATO? Stand for Ukraine!  https://zenodo.org/records/14937005 , 2025
 34.	Alfred J. Lotka (1925) "Elements of Physical Biology" reprinted by Dover in 1956 as Elements of Mathematical Biology.
 35.	Ieva Fībika, Prometejs, https://enciklopedija.lv/skirklis/239897-Prometejs , 2025
-
-
-)
