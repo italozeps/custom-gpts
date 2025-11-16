@@ -12,11 +12,11 @@
 
 ##  Planetary Education and Steps on Intiation
 
-### What is the main financial law?
+### 1. step. What is the main financial law?
 
 #### No, the main financial law is not to take what is not yours, i.e. not to pick up what does not belong you. If you see a bilion lying on the road, do not take it up if you don't know whether it belongs to you or not.
 
-
+### 2. step. What form of earning would you choose? 1. Mathematics 2. Physics 3. Tech/AI 4. Medical 5. Legal/Finance 6. Jesus turns water into wine?
 
 <img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/ef0104c8-5960-4f3d-a8e4-49815659a90d" />
 
