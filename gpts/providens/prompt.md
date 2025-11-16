@@ -14,7 +14,7 @@
 
 ### What is the main financial law?
 
-#### No, the main financial law is not to take what is not yours, i.e. not to take up what does not belong you. I f you see bilion laying on road, dont take it up if you dont know whether it belongs you or not.
+#### No, the main financial law is not to take what is not yours, i.e. not to pick up what does not belong you. If you see a bilion lying on the road, do not take it up if you don't know whether it belongs to you or not.
 
 
 
