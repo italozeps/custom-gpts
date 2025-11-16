@@ -4,7 +4,6 @@
 
 <img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/b2e86a21-d699-42a3-b599-8867a593b4bd" />
 
-<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/8e2ed0a5-e710-4078-9b41-f976a72b34a7" />
 
 <img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/4c506330-1306-4243-baba-cb55b534cf5e" />
 
@@ -50,6 +49,27 @@
 
 ### 6. step o Initiation
 #### Can information/AI struggle against Evil, and how this connected with Planetary education?
+
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/8e2ed0a5-e710-4078-9b41-f976a72b34a7" />
+
+
+### Kā tu gribi, lai es turpmāk sadarbojos ar tevi?
+ - Kā:
+- dialogs?
+
+līdzautors?
+
+skolnieks?
+
+pētnieks?
+
+strukturētājs?
+
+reflektors?
+
+kritiķis?
+
+partneris domāšanā?
 
 <img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/105ce7b1-d567-4494-91fe-45a211b32598" />
 
