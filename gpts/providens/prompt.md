@@ -28,6 +28,12 @@
 
 <img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/db768e51-718b-470e-801f-80450ba4a872" />
 
+![pla edu mistral sci](https://github.com/user-attachments/assets/4b04e4f1-0036-4837-821d-0b32e899d9dc)
+
+![pl ed mistral1](https://github.com/user-attachments/assets/66181057-5448-4d0a-93ab-5ea81ef51cf3)
+
+![pla ed mistral 3](https://github.com/user-attachments/assets/229b9894-73c9-4c28-96b5-a515622bc88a)
+
 
 <img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/a8054957-3be2-476c-b735-1c42890920c0" />
 
