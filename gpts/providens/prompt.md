@@ -34,6 +34,8 @@
 
 ![pla ed mistral 3](https://github.com/user-attachments/assets/229b9894-73c9-4c28-96b5-a515622bc88a)
 
+### 4. step on Initiation
+#### I saw a dream . I was invited to weaddings. Before the town there was basins of catharisation. Six , of water as was said. On each of then inscription in stone as before - Math Phyth Tech/AI Med Leg/Fin Jesus turns water into win. I went within town.
 
 <img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/a8054957-3be2-476c-b735-1c42890920c0" />
 
