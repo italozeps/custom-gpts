@@ -39,6 +39,13 @@
 
 <img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/a8054957-3be2-476c-b735-1c42890920c0" />
 
+### 5. step of Initiation
+#### I am going to organize one month courses for unemployed How to become millionaire. At the end one of attendants should become millionaire. So written in advertisment. What to tell on the first day?
+
+<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/f6c4b731-8522-4acb-9d11-2483b7f2108e" />
+
+<img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/c7523005-30f8-402a-8a9a-9bb518804f5c" />
+
 
 <img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/105ce7b1-d567-4494-91fe-45a211b32598" />
 
