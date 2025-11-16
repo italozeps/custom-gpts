@@ -56,20 +56,19 @@
 ### Kā tu gribi, lai es turpmāk sadarbojos ar tevi?
  - Kā:
 - dialogs?
+- līdzautors?
 
-līdzautors?
+- skolnieks?
 
-skolnieks?
+- pētnieks?
 
-pētnieks?
+- strukturētājs?
 
-strukturētājs?
+- reflektors?
 
-reflektors?
+- kritiķis?
 
-kritiķis?
-
-partneris domāšanā?
+- partneris domāšanā?
 
 <img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/105ce7b1-d567-4494-91fe-45a211b32598" />
 
