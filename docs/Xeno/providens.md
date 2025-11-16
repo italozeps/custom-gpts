@@ -1,3 +1,8 @@
+---
+layout: default
+title: Providens
+---
+
 # Planetary Education
 
 <img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/c2a716f2-791b-49a5-9d67-a13491d46c39" />
