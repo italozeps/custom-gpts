@@ -44,13 +44,13 @@
 
 <img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/f6c4b731-8522-4acb-9d11-2483b7f2108e" />
 
-<img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/c7523005-30f8-402a-8a9a-9bb518804f5c" />
-
-
 <img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/105ce7b1-d567-4494-91fe-45a211b32598" />
 
 <img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/8271edea-8ffb-4a8d-a3c7-ce9176a3032c" />
+### 6. step o Initiation
+#### Can information/AI struggle against Evil, and how this connected with Planetary education?
 
+<img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/c7523005-30f8-402a-8a9a-9bb518804f5c" />
 # Video par tēmu Planetārā izglītība un mākslīgā interneta robežas
 https://www.youtube.com/watch?v=QPdT2G58Eec
 - Raksts par šo tēmu - Saruna ar LLM (Chat GPT)
