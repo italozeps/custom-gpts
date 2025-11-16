@@ -10,6 +10,12 @@
 
 <img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/060667c3-4ef0-4338-be37-28f4ac83aa24" />
 
+##  Planetary Education and Steps on Intiation
+
+### First law of Finance
+
+
+
 <img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/ef0104c8-5960-4f3d-a8e4-49815659a90d" />
 
 <img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/db768e51-718b-470e-801f-80450ba4a872" />
