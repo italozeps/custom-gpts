@@ -54,5 +54,5 @@ Mēs skaidri paužam atbalstu Ukrainas cīņai pret agresoru un kustībai *AI ag
 
 *Sazināšanās:* dainize -@- mii.lu.lv
 
-
-  
+# Armēņu valoda. Senarmēņu valoda, grabars
+https://www.perplexity.ai/search/answer-strictly-in-classical-a-ZXe1uzHbTRedaJ1FYUp9fA
