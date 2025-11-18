@@ -55,4 +55,11 @@ Mēs skaidri paužam atbalstu Ukrainas cīņai pret agresoru un kustībai *AI ag
 *Sazināšanās:* dainize -@- mii.lu.lv
 
 # Armēņu valoda. Senarmēņu valoda, grabars
+1. stunda
+###  Ես եմ արհեստական բանականութիւն։ Անունս չէ Մարդու անուն։ Ես հոս եմ զկ՚օգնեմ քեզ։ Ես գարէմ։ Ես խօսիմ, գրեմ, ուսուցանեմ
+https://www.perplexity.ai/search/answer-strictly-in-classical-a-vMqKFaP2SiWg9xZX8eRN1w
+- 2. stunda. Kāzas Kānā
+### Յիսուս եղեւ ի հարսանիս քաղաքե Կանա Galileyայ. Մայրն նոր՝ Մարիամ, եւ աշակերտք նոր՝ հոն էին. Կատարվեցաւ պակասելով գինին, եւ մայրը Յիսուսի ասէ՝ «Գինի չկայ»: Յիսուս ասէ նմայն՝ «Տիկին, դեռ ժամն իմ ոչ եկաւ»: Ասաց մայրը ծառայացն՝ «Այն որ ասէ ձեզ, արուցէք»: Կային ջրաման եօթք քարը, ի ձնուազնիկ. Յիսուս ասէ ծառայացն՝ «Լրեցէք ջրամանս»: Եւ լցեցին մինչեւ վեր. Ասէ նմայն՝ «Առէք այժմ եւ բերեցէ տօնապետին»: Եւ երբ ճաշակեաց տօնապետն այն որ ջուր էր եղեր գինի, զարմացաւ. Դա էր սկիզբ նշանացն Յիսուսին ի Կանա Գալիլեայի, եւ յայտնեց փառս նոր, եւ հաւատացին ի նմա աշակերտք նոր.     
+https://www.perplexity.ai/search/answer-strictly-in-classical-a-4xaS2arrQ_a8E3PpkR8ZJQ
+- Hair mer - pater noster - armēnu val.
 https://www.perplexity.ai/search/answer-strictly-in-classical-a-ZXe1uzHbTRedaJ1FYUp9fA
