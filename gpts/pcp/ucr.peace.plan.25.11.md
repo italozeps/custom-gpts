@@ -21,7 +21,7 @@ But this about the place where these discussions and arrangements might possibly
   
     - 3. Trump – loses the Republican race in the election campaign, the release of the Epstein files is already inevitable, MAGA is beginning to split, the search for victories for Trump’s peacekeeping campaign has run out of steam, where to find another won “peace” in the world?
 
-## But this is only visible part of relations between these two dictators. Let recall picture - Trump have set to path to divide the world, to divide Europe, and annection of Ukraine should be only the first step in this plan. Putin gives to Trump Venecuela, pars of Latin America - they are of no interest for Russia being too far from Russia.
+## But this is only visible part of relations between these two dictators. Let recall picture - Trump, with Putin, have set to path to divide the world, to divide Europe, and annection of Ukraine should be only the first step in this plan. Putin gives to Trump Venecuela, part of Latin America, Mexico maybe too - they are of no interest for Russia being too far from Russia.
 
 
   
