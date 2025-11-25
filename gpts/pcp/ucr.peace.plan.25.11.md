@@ -52,6 +52,45 @@ Security: uniformed Cossacks in golf shirts, earpieces, and Kalashnikovs slung l
 <img width="1280" height="720" alt="image" src="https://github.com/user-attachments/assets/d6159e15-3bcb-4db9-8e92-6fae29c3a6af" />
 
 
+## second version - Version 2 – “The Bunker Beneath the 7th Green”
+
+Version 2 – “The Bunker Beneath the 7th Green”
+An underground chamber accessed by a golden elevator hidden behind the pro shop.
+
+Mood lighting from chandeliers made of repurposed ICBM nose cones.
+A massive oval table carved from one piece of Crimean oak.
+Name cards in Cyrillic and English.
+Centerpiece: a crystal model of Trump Tower Kyiv (never built) next to a smaller model of Trump Tower Moscow (also never built, but the dream lives).
+A huge red button labeled “VETO – use freely”.
+No American flags at all. Only the presidential standard and a discreet Romanov eagle in the corner.
+
+<img width="784" height="1168" alt="image" src="https://github.com/user-attachments/assets/eb39169c-e679-4673-9f55-72e18136056a" />
+
+## Third version - one more vesion
+
+<img width="784" height="1168" alt="image" src="https://github.com/user-attachments/assets/9d270b80-d20b-4fb1-b968-c29882de0202" />
+
+## Up to now pictures of future what Trump is hoping to make America - as great as his corrupt imagination would help him to create - but with help of Putin. 
+
+Both versions carry the same caption in gold letters:
+“The Golf Court House of Representatives
+Where the real votes are counted in birdies and rubles.
+Admission: one soul or one oblast. No press, no FBI, no subpoenas, no problem.”**
+As of November 2025, this is still satire… but only just.
+The Witkoff-Dmitriev “golf-cart talks,” the Thanksgiving deadline at Mar-a-Lago, the purge of dissenting MAGA voices (Greene exiled, Massie threatened), the sidelining of State/CIA, the Russian-language clauses in the draft – everything is already happening above ground.
+All that’s missing is the official brass plaque on the clubhouse door.
+Want me to generate the actual poster of either version (or a third, even darker one)? Just say the word.
+
+# Would America let him fullfill his illy imagination? Or he should receive this - ?
+
+<img width="358" height="360" alt="image" src="https://github.com/user-attachments/assets/f3482850-4032-49fb-9305-8bd9b92db5fa" />
+
+
+
+
+
+
+
 
 
 
