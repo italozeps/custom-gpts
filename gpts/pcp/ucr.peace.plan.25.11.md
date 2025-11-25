@@ -23,5 +23,10 @@ But this about the place where these discussions and arrangements might possibly
 
 ## But this is only visible part of relations between these two dictators. Let recall picture - Trump, with Putin, have set to path to divide the world, to divide Europe, and annection of Ukraine should be only the first step in this plan. Putin gives to Trump Venecuela, part of Latin America, Mexico maybe too - they are of no interest for Russia being too far from Russia.
 
+### But a picture is looming over Trump - that is not scaring him ?
+
+<img width="358" height="360" alt="image" src="https://github.com/user-attachments/assets/59a2f182-3e6e-42cb-83a6-a8df33beb820" />
+
+
 
   
