@@ -5,6 +5,8 @@
 
 But this about the place where these discussions and arrangements might possibly take place.
 
+# Golf Court House of Representatives 
+
 - But then questions - about the real aggreement if the 28 points are only in Russian 'dimovaja zavesa', 'dūmu aizsegs', smokescreen?
 - 
 - But let to illustrate with picture first and thenafter with words -
