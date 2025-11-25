@@ -13,4 +13,13 @@ But this about the place where these discussions and arrangements might possibly
 
   <img width="456" height="679" alt="image" src="https://github.com/user-attachments/assets/f32cd2c5-3c39-4969-bb02-19e3da857916" />
 
+  # Trump Peace plan for to end the war in Ukraine - pushed to subscribe it by Zelensky till 28. November.
+
+  Both Trump and Putin are in hopeless situations, each in their own way, - right now:
+  
+    - 1. Putin - loses in his autumn military campaign, does not achieve the military victories he needs and the conditions for financing the war are deteriorating, becoming critical, - it is difficult to continue the war, - there is a looming danger that the war could lead to the collapse of Russia.
+  
+    - 3. Trump – loses the Republican race in the election campaign, the release of the Epstein files is already inevitable, MAGA is beginning to split, the search for victories for Trump’s peacekeeping campaign has run out of steam, where to find another won “peace” in the world?
+
+
   
