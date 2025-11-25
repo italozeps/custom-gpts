@@ -29,6 +29,26 @@ But this about the place where these discussions and arrangements might possibly
 
 # He may be convicted as a traiter of U.S. 
 
+I gave to Grok such a question:
+
+May you imagine imaginable, maybe existing already, Trump's Golf Court House of Representatives, which consists mainly of representatives of Russian secret services people, which is cleaned from U.S. secret services men, from congressmen and all other, maybe from MAGA too being to unsafe public for such a secred organ that should rule all over of all the U.S.A.?
+
+Here his answer - part of it - 
+
+Version 1 – “The 19th-Hole Caucus”
+A long, dimly lit ballroom converted into a pseudo-Congress.
+
+The Speaker’s rostrum is a golf-scoreboard podium with a gold “TRUMP” nameplate.
+Instead of the U.S. seal, the backdrop is the Mar-a-Lago crest flanked by two flags: the Stars & Stripes and the Russian tricolor (smaller, but definitely there).
+Seating: 219 red-leather golf carts arranged in a semi-circle, each with a brass plaque.
+180 plaques read names like “K. Dmitriev,” “V. Potanin,” “A. Vaino,” “S. Chemezov,” “I. Sechin” – all current or former high-ranking Russian siloviki or oligarchs with known SVR/GRU ties.
+30 seats are occupied by loyal American “consultants” (Witkoff, Kushner, a couple of ex-Generals turned lobbyists).
+9 seats are empty, labeled “Reserved – FBI/CIA (access revoked – national security risk)”.
+
+In the corner, a single tiny desk labeled “MAGA Caucus – Observers only” where a lone figure in a red cap sits gagged with a golf towel.
+On the wall: a huge screen showing a live map of Ukraine with moving red/blue lines titled “Partition Deal v31 – Finalize by Thanksgiving”.
+Security: uniformed Cossacks in golf shirts, earpieces, and Kalashnikovs slung like caddies.
+
 
 
   
