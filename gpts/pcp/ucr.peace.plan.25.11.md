@@ -49,6 +49,11 @@ In the corner, a single tiny desk labeled “MAGA Caucus – Observers only” w
 On the wall: a huge screen showing a live map of Ukraine with moving red/blue lines titled “Partition Deal v31 – Finalize by Thanksgiving”.
 Security: uniformed Cossacks in golf shirts, earpieces, and Kalashnikovs slung like caddies.
 
+<img width="1280" height="720" alt="image" src="https://github.com/user-attachments/assets/d6159e15-3bcb-4db9-8e92-6fae29c3a6af" />
+
+
+
+
 
 
   
