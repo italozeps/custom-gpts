@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="lv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Armēņu teksta atskaņošana (TTS)</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; max-width: 900px; }
+    textarea { width: 100%; height: 260px; font-size: 16px; line-height: 1.4; padding: 12px; }
+    button, select { font-size: 16px; padding: 10px 12px; margin: 8px 8px 8px 0; }
+    .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .hint { color: #444; margin-top: 10px; }
+    code { background: #f3f3f3; padding: 2px 6px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <h1>Armēņu teksta atskaņošana (TTS)</h1>
+
+  <div class="row">
+    <button id="speak">▶️ Lasīt</button>
+    <button id="pause">⏸ Pauze</button>
+    <button id="resume">⏯ Turpināt</button>
+    <button id="stop">⏹ Stop</button>
+
+    <label>
+      Balss:
+      <select id="voice"></select>
+    </label>
+
+    <label>
+      Ātrums:
+      <select id="rate">
+        <option value="0.8">0.8</option>
+        <option value="0.9">0.9</option>
+        <option value="1" selected>1.0</option>
+        <option value="1.1">1.1</option>
+        <option value="1.2">1.2</option>
+      </select>
+    </label>
+  </div>
+
+  <textarea id="text" lang="hy" spellcheck="false">
+Լատվիայի Ակադեմիական հրատարակչությունը լույս է ընծայել «Լատվիացիները Հայաստանի մասին եւ հայերը Լատվիայի մասին. հոդվածներ, հիշողություններ, ճամփորդական նոթեր» հատորը (258 էջ)։
+Այն կազմել եւ խմբագրել է հայազգի լատվիական կրոնագետ, Լատվիայի համալսարանի դոցենտ Էլիզաբեթե Տաիվանեն (նրա հետ «Ազգի» հարցազրույցը տե՛ս 2023 թ., սեպտեմբերի 29)։
+
+Գիրքը կազմված է երկու մասից։ Առաջին բաժինը («Հայերը Լատվիայում եւ լատվիական գրականության մեջ») բացում է տնտեսագետ Ռուզաննա Գրիգորյանի «Հայերը Լատվիայում եւ լատվիական միջավայրը» հոդվածը։
+Այն ամփոփում է տեղեկություններ 19-րդ դարի կեսից Ռիգայում ապրող հայերի՝ Պոլիտեխնիկական դպրոցի ուսանողների, ռիգաբնակ առեւտրականների, տեղի հայկական եկեղեցու եւ այնտեղ ապրած ու ստեղծագործած նշանավոր հայրենակիցների մասին։
+  </textarea>
+
+  <p class="hint">
+    Ja armēņu balss neparādās sarakstā: atver šo lapu <b>Microsoft Edge</b> un pārbaudi, vai sistēmā ir pieejamas armēņu balsis.
+    (Dažos pārlūkos armēņu TTS var nebūt.)
+  </p>
+
+<script>
+(() => {
+  const synth = window.speechSynthesis;
+  const voiceSel = document.getElementById('voice');
+  const textEl = document.getElementById('text');
+  const rateEl = document.getElementById('rate');
+
+  function loadVoices() {
+    const voices = synth.getVoices() || [];
+    voiceSel.innerHTML = "";
+
+    // Armēņu (hy) balsis pirmajā vietā, tad pārējās
+    const hy = voices.filter(v => (v.lang || "").toLowerCase().startsWith("hy"));
+    const rest = voices.filter(v => !(v.lang || "").toLowerCase().startsWith("hy"));
+
+    const ordered = [...hy, ...rest];
+
+    for (const v of ordered) {
+      const opt = document.createElement('option');
+      opt.value = v.name;
+      opt.textContent = `${v.name} — ${v.lang}${v.default ? " (default)" : ""}`;
+      voiceSel.appendChild(opt);
+    }
+
+    // Ja ir armēņu balss, izvēlamies pirmo automātiski
+    if (hy.length > 0) {
+      voiceSel.value = hy[0].name;
+    }
+  }
+
+  function getSelectedVoice() {
+    const voices = synth.getVoices() || [];
+    const name = voiceSel.value;
+    return voices.find(v => v.name === name) || null;
+  }
+
+  function speak() {
+    if (!('speechSynthesis' in window)) {
+      alert("Šis pārlūks neatbalsta Web Speech API.");
+      return;
+    }
+
+    synth.cancel();
+
+    const u = new SpeechSynthesisUtterance(textEl.value.trim());
+    u.lang = "hy-AM";              // austrumarmēņu mērķis
+    u.rate = parseFloat(rateEl.value) || 1.0;
+
+    const v = getSelectedVoice();
+    if (v) u.voice = v;
+
+    synth.speak(u);
+  }
+
+  document.getElementById('speak').onclick = speak;
+  document.getElementById('pause').onclick = () => synth.pause();
+  document.getElementById('resume').onclick = () => synth.resume();
+  document.getElementById('stop').onclick = () => synth.cancel();
+
+  // Dažos pārlūkos voices ielādējas asinhroni
+  loadVoices();
+  if (typeof synth.onvoiceschanged !== "undefined") {
+    synth.onvoiceschanged = loadVoices;
+  }
+})();
+</script>
+</body>
+</html>
