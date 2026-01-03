@@ -35,13 +35,13 @@
   {
     "slug": "public",
     "name": "Dainis Zeps/Publications",
-    "purpose": "\"Daiņa Zepa publikāciju saraksti pa grupām. We want to present this repo as Prompt for a agent Alex for reading texts\"",
-    "status": "draft",
-    "owner": "DZ",
-    "last_edit": "2025-10-04",
-    "openai_link": "https://chatgpt.com/g/g-674880853710819188c523dcca016442-dainis-zeps-publications",
-    "dataset_link": "",
-    "notes": "Alex was initially conceived as an agent for reading texts, but it may evolve into a more active communicator between the repository (D.Z.) and the LLMs."
+    "purpose": "\"Daiņa Zepa publikāciju saraksti pa grupām. We want to present this repo as Prompt for an agent Alex for reading texts",
+    "status": "publikāciju liste - war.xx\"",
+    "owner": "draft",
+    "last_edit": "DZ",
+    "openai_link": "2025-10-04",
+    "dataset_link": "https://chatgpt.com/g/g-674880853710819188c523dcca016442-dainis-zeps-publications",
+    "notes": ""
   },
   {
     "slug": "ukraina",
@@ -79,13 +79,13 @@
   {
     "slug": "person",
     "name": "Dainis Zeps — CV / Profils",
-    "purpose": "Daiņa Zepa dzīves gājums n CV, publikāciju liste - war.*",
+    "purpose": "Daiņa Zepa dzīves gājums n CV",
     "status": "draft",
     "owner": "DZ",
     "last_edit": "2025-10-05",
     "openai_link": "https://chatgpt.com/g/g-677aab67c6988191a239c1d6e4b05eb0-dainis-zeps-cv-profils-mana-dzive?model=gpt-4o",
     "dataset_link": "",
-    "notes": "Šeit ir visu rakstu saraksts, kas ir ar vārdu war.*, kopskaitā jau virs 80"
+    "notes": ""
   },
   {
     "slug": "difgeo",
