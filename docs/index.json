@@ -35,13 +35,13 @@
   {
     "slug": "public",
     "name": "Dainis Zeps/Publications",
-    "purpose": "\"Daiņa Zepa publikāciju saraksti pa grupām. We want to present this repo as Prompt for an agent Alex for reading texts",
-    "status": "publikāciju liste - war.xx\"",
-    "owner": "draft",
-    "last_edit": "DZ",
-    "openai_link": "2025-10-04",
-    "dataset_link": "https://chatgpt.com/g/g-674880853710819188c523dcca016442-dainis-zeps-publications",
-    "notes": ""
+    "purpose": "Daiņa Zepa publikāciju saraksti pa grupām. We want to present this repo as Prompt for an agent Alex for reading texts, publikāciju liste .. war.xx",
+    "status": "draft",
+    "owner": "DZ",
+    "last_edit": "2025-10-04",
+    "openai_link": "https://chatgpt.com/g/g-674880853710819188c523dcca016442-dainis-zeps-publications",
+    "dataset_link": "",
+    "notes": "Alex was initially conceived as an agent for reading texts, but it may evolve into a more active communicator between the repository (D.Z.); and the LLMs; Šeit ir visu rakstu saraksts, kas ir ar vārdu war.xx, kopskaitā jau virs 80"
   },
   {
     "slug": "ukraina",
@@ -79,7 +79,7 @@
   {
     "slug": "person",
     "name": "Dainis Zeps — CV / Profils",
-    "purpose": "Daiņa Zepa dzīves gājums n CV",
+    "purpose": "Daiņa Zepa dzīves gājums un CV",
     "status": "draft",
     "owner": "DZ",
     "last_edit": "2025-10-05",
